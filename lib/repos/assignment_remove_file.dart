@@ -1,0 +1,27 @@
+import 'package:get_storage/get_storage.dart';
+import 'package:school/models/AssignmentRemoveAttachmentDB.dart';
+import 'package:school/server/Server.dart';
+import 'package:dio/dio.dart';
+import '../screens/widgets/exceptions.dart';
+
+final storage = GetStorage();
+
+Future assignmentRemoveFiles({required String attachmentId}) async {
+  Map<String, String> parameters = {
+    'attachment_id': attachmentId,
+  };
+
+  try {
+    String fullUrl = baseUrl_school + assignmentRemoveFile;
+    var response = await Dio(BaseOptions(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${storage.read('user_token')}"
+    })).post(fullUrl, queryParameters: parameters);
+    AssignmentRemoveAttachmentDb assignmentRemoveFiles =
+        AssignmentRemoveAttachmentDb.fromMap(response.data);
+    return assignmentRemoveFiles;
+  } on DioError catch (e) {
+    final errorMessage = DioExceptions.fromDioError(e).toString();
+    return errorMessage;
+  }
+}
