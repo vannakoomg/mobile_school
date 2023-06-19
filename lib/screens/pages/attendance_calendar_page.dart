@@ -8,7 +8,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../models/CalendarAttendanceDB.dart';
 import '../../repos/attendancedetail.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 final today = DateUtils.dateOnly(DateTime.now());
 
@@ -57,151 +57,150 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   }
 
   Widget _buildTableCalendar() {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.end,
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: SizerUtil.deviceType == DeviceType.tablet ? 90.w : null,
-          child: Card(
-            margin: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: SizerUtil.deviceType == DeviceType.tablet ? 10 : 30),
-            elevation: 20,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: HeatMapCalendar(
-                showColorTip: false,
-                flexible: true,
-                weekTextColor: Colors.cyan,
-                textColor: Colors.black,
-                weekFontSize: size,
-                monthFontSize: size,
-                fontSize: size,
-                borderRadius: 150,
-                datasets: datasets,
-                colorMode: ColorMode.color,
-                colorsets: colorSets,
-                onMonthChange: (value) {
-                  totalPresent = totalExcused = totalUnexcused = 0;
-                  // print("value.month=${value.month}");
-                  // print("value.year=${value.year}");
-                  _fetchCalendarAttendance(
-                      month: '${value.month}', year: '${value.year}');
-                },
-                onClick: (value) {
-                  _fetchAttendanceDetail(
-                      dateString: '${_formatPopup.format(value)}');
-                },
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            width: SizerUtil.deviceType == DeviceType.tablet ? 90.w : null,
+            child: Card(
+              margin: EdgeInsets.only(
+                  top: SizerUtil.deviceType == DeviceType.tablet ? 10 : 20),
+              elevation: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  child: HeatMapCalendar(
+                    showColorTip: false,
+                    flexible: true,
+                    weekTextColor: Colors.cyan,
+                    textColor: Colors.black,
+                    weekFontSize: size,
+                    monthFontSize: size,
+                    fontSize: size,
+                    borderRadius: 150,
+                    datasets: datasets,
+                    colorMode: ColorMode.color,
+                    colorsets: colorSets,
+                    onMonthChange: (value) {
+                      totalPresent = totalExcused = totalUnexcused = 0;
+                      _fetchCalendarAttendance(
+                          month: '${value.month}', year: '${value.year}');
+                    },
+                    onClick: (value) {
+                      _fetchAttendanceDetail(
+                          dateString: '${_formatPopup.format(value)}');
+                    },
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(
-                left: 1.5.h,
-                right: 1.5.h,
-                top: SizerUtil.deviceType == DeviceType.tablet ? 2.h : 5.h),
-            // color: Colors.grey.shade200,
-            // height: 5.h,
-            child: GridView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Card(
-                  color: Colors.blueAccent,
-                  elevation: 10,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Total\nPresent Days',
-                        style: myTextStyleHeaderWhite[phoneSize],
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        height: 7.h,
-                        width: 7.h,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(
+                  left: 1.5.h,
+                  right: 1.5.h,
+                  top: SizerUtil.deviceType == DeviceType.tablet ? 2.h : 5.h),
+              // color: Colors.grey.shade200,
+              // height: 5.h,
+              child: GridView(
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Card(
+                    color: Colors.blueAccent,
+                    elevation: 10,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Total\nPresent Days',
+                          style: myTextStyleHeaderWhite[phoneSize],
+                          textAlign: TextAlign.center,
                         ),
-                        child: Text('$totalPresent',
-                            style: myTextStyleHeaderBlue[phoneSize]),
-                      ),
-                    ],
-                  ),
-                ),
-                Card(
-                  color: Colors.green,
-                  elevation: 10,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Center(
-                          child: Text(
-                        'Total Excused Absent Days',
-                        style: myTextStyleHeaderWhite[phoneSize],
-                        textAlign: TextAlign.center,
-                      )),
-                      Container(
-                        height: 7.h,
-                        width: 7.h,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+                        Container(
+                          height: 7.h,
+                          width: 7.h,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Text('$totalPresent',
+                              style: myTextStyleHeaderBlue[phoneSize]),
                         ),
-                        child: Text('$totalExcused',
-                            style: myTextStyleHeaderGreen[phoneSize]),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Card(
-                  color: Colors.blueGrey,
-                  elevation: 10,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Center(
-                          child: AutoSizeText(
-                        'Total Unexcused Absent Days',
-                        style: TextStyle(
-                            fontSize: SizerUtil.deviceType == DeviceType.tablet
-                                ? 18
-                                : 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                      )),
-                      Container(
-                        height: 7.h,
-                        width: 7.h,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+                  Card(
+                    color: Colors.green,
+                    elevation: 10,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                            child: Text(
+                          'Total Excused Absent Days',
+                          style: myTextStyleHeaderWhite[phoneSize],
+                          textAlign: TextAlign.center,
+                        )),
+                        Container(
+                          height: 7.h,
+                          width: 7.h,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Text('$totalExcused',
+                              style: myTextStyleHeaderGreen[phoneSize]),
                         ),
-                        child: Text('$totalUnexcused',
-                            style: myTextStyleHeaderYellow[phoneSize]),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 0.5.h,
-                  mainAxisSpacing: 1.h),
+                  Card(
+                    color: Colors.blueGrey,
+                    elevation: 10,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                            child: AutoSizeText(
+                          'Total Unexcused Absent Days',
+                          style: TextStyle(
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 18
+                                      : 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        )),
+                        Container(
+                          height: 7.h,
+                          width: 7.h,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Text('$totalUnexcused',
+                              style: myTextStyleHeaderYellow[phoneSize]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 0.5.h,
+                    mainAxisSpacing: 1.h),
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 

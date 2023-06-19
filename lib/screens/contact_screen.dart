@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:school/models/contact_list.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'theme/theme.dart';
+import '../config/theme/theme.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/models/ExamScheduleDB.dart';
 import 'package:school/repos/exam_schedule.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +27,7 @@ class _ExamSchedulePageState extends State<ExamSchedulePage> {
   final DateFormat _format = new DateFormat("yyyy-MM-dd");
   final storage = GetStorage();
   int? _empty;
-  Map<String,Color>  daysColorMap = {
+  Map<String, Color> daysColorMap = {
     "Mon": Colors.yellowAccent.shade700,
     "Tue": Colors.purple.shade300,
     "Wed": Colors.greenAccent.shade200,
@@ -156,50 +156,71 @@ class _ExamSchedulePageState extends State<ExamSchedulePage> {
               child: Row(
                 children: [
                   Container(
-                    height: SizerUtil.deviceType == DeviceType.tablet ? 10.5.h : 11.5.h,
-                    width: SizerUtil.deviceType == DeviceType.tablet ? 15.w : 20.w,
+                    height: SizerUtil.deviceType == DeviceType.tablet
+                        ? 10.5.h
+                        : 11.5.h,
+                    width:
+                        SizerUtil.deviceType == DeviceType.tablet ? 15.w : 20.w,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.0),
                         border: Border.all(color: Colors.blueAccent)),
                     child: StreamBuilder<Object>(
-                      stream: null,
-                      builder: (context, snapshot) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Container(
-                                  width: 100.w,
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Center(child: Text(DateFormat('EEE').format(_format.parse(item.date)), style: myTextStyleHeaderWhite[phoneSize],)),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(11.0),
-                                        topRight: Radius.circular(11.0)),
-                                    color: daysColorMap['${DateFormat('EEE').format(_format.parse(item.date))}'],
-                                    //Gradient
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                    width: 100.w,
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Center(
+                                        child: Text(
+                                      DateFormat('EEE')
+                                          .format(_format.parse(item.date)),
+                                      style: myTextStyleHeaderWhite[phoneSize],
+                                    )),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(11.0),
+                                          topRight: Radius.circular(11.0)),
+                                      color: daysColorMap[
+                                          '${DateFormat('EEE').format(_format.parse(item.date))}'],
+                                      //Gradient
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  // color: Colors.red,
-                                  width: 100.w,
-                                  height: 7.h,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(DateFormat('dd').format(_format.parse(item.date)), style: myTextStyleHeader[phoneSize],),
-                                      Text(DateFormat('MMM').format(_format.parse(item.date)), style: myTextStyleHeader[phoneSize],),
-                                      Text(DateFormat('yyyy').format(_format.parse(item.date)), style: myTextStyleHeader[phoneSize],),
-                                    ],
+                                  Container(
+                                    // color: Colors.red,
+                                    width: 100.w,
+                                    height: 7.h,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          DateFormat('dd')
+                                              .format(_format.parse(item.date)),
+                                          style: myTextStyleHeader[phoneSize],
+                                        ),
+                                        Text(
+                                          DateFormat('MMM')
+                                              .format(_format.parse(item.date)),
+                                          style: myTextStyleHeader[phoneSize],
+                                        ),
+                                        Text(
+                                          DateFormat('yyyy')
+                                              .format(_format.parse(item.date)),
+                                          style: myTextStyleHeader[phoneSize],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }
-                    ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
                   ),
                   SizedBox(
                     width: 8,
@@ -220,14 +241,23 @@ class _ExamSchedulePageState extends State<ExamSchedulePage> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
-                                style: TextStyle(color: Color(0xff1d1a56), fontWeight: FontWeight.bold, fontSize: SizerUtil.deviceType == DeviceType.tablet ? 12.sp : 14.sp),
+                                style: TextStyle(
+                                    color: Color(0xff1d1a56),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizerUtil.deviceType ==
+                                            DeviceType.tablet
+                                        ? 12.sp
+                                        : 14.sp),
                               )),
-                          Text('${item.course.name}', style: myTextStyleBody[phoneSize]),
+                          Text('${item.course.name}',
+                              style: myTextStyleBody[phoneSize]),
                           Row(
                             children: [
-                              Text('${item.startTime}', style: myTextStyleBody[phoneSize]),
+                              Text('${item.startTime}',
+                                  style: myTextStyleBody[phoneSize]),
                               Text(' to '),
-                              Text('${item.endTime}', style: myTextStyleBody[phoneSize]),
+                              Text('${item.endTime}',
+                                  style: myTextStyleBody[phoneSize]),
                             ],
                           ),
                         ],

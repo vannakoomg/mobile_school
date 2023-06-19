@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/models/FeedbackDB.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -31,7 +31,7 @@ Future sendFeedback(
   });
 
   try {
-    String fullUrl = baseUrl_school + addFeedback;
+    String fullUrl = baseUrlSchool + addFeedback;
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Authorization": "Bearer ${storage.read('user_token')}"

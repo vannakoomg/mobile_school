@@ -9,7 +9,7 @@ import 'package:school/models/NotificationDetailDB.dart';
 import 'package:school/repos/notification_detail.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/notification_mark_as_read_one_by_one.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sizer/sizer.dart';

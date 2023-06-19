@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:school/models/eLearningCourseDB.dart';
 import 'package:school/repos/e_learning_course.dart';
 import 'package:school/screens/widgets/pdf_api.dart';

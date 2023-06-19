@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:school/models/AnnouncementDB.dart';
 import 'package:school/repos/announcement_list.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 import 'announcement_html.dart';
 import 'blank_page.dart';

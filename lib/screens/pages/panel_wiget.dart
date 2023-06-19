@@ -23,7 +23,7 @@ import '../../models/AssignmentFilesSubmitDB.dart';
 import '../../repos/assignment_files_submit.dart';
 import '../../repos/assignment_text_submit.dart';
 import '../../repos/image_repos.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class PanelWidget extends StatefulWidget {
   final ScrollController controller;
@@ -55,7 +55,6 @@ class _PanelWidgetState extends State<PanelWidget> {
   List<Map<String, dynamic>> _mapAttachment = [];
   final storage = GetStorage();
   late final PhoneSize phoneSize;
-  String _platformVersion = 'Unknown';
 
   @override
   void initState() {
@@ -611,10 +610,6 @@ class _PanelWidgetState extends State<PanelWidget> {
       // debugPrint("ERROR: ${e.errorMessage}");
       filePath = 'Failed to get platform version.';
     }
-
-    setState(() {
-      _platformVersion = filePath;
-    });
   }
 
   Future<String> downloadFile(
@@ -626,9 +621,7 @@ class _PanelWidgetState extends State<PanelWidget> {
       filePath,
       onReceiveProgress: (count, total) {
         // debugPrint('---Download----Rec: $count, Total: $total');
-        setState(() {
-          _platformVersion = ((count / total) * 100).toStringAsFixed(0) + "%";
-        });
+        setState(() {});
       },
     );
 

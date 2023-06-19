@@ -1,5 +1,5 @@
 import 'package:get_storage/get_storage.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../models/AssignmentTextSubmitDB.dart';
 import '../screens/widgets/exceptions.dart';
@@ -13,7 +13,7 @@ Future assignmentTextSubmit(
     'remark': remark,
   };
   try {
-    String fullUrl = baseUrl_school + assignmentText;
+    String fullUrl = baseUrlSchool + assignmentText;
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Authorization": "Bearer ${storage.read('user_token')}"

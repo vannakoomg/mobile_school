@@ -9,7 +9,7 @@ import 'package:school/repos/notification_mark_as_read.dart';
 import 'package:school/repos/notification_mark_as_read_one_by_one.dart';
 import 'package:school/screens/pages/notification_detail.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 import 'blank_page.dart';
 import 'feedback_detail.dart';
@@ -145,7 +145,6 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   _buildListView(List<Datum> items) {
-
     return ListView.builder(
         padding: EdgeInsets.all(8),
         controller: _scrollController,

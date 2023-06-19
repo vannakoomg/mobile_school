@@ -16,7 +16,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../models/AssignmentDetailDB.dart';
 import '../../repos/assignment_detail.dart';
 import 'package:html/dom.dart' as dom;
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class HomeworkDetailPage extends StatefulWidget {
   final int assignmentId;
@@ -40,7 +40,6 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage>
   late WebViewController controller;
   late final PhoneSize phoneSize;
   final storage = GetStorage();
-  String _platformVersion = 'Unknown';
 
   @override
   void initState() {
@@ -396,9 +395,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage>
       filePath = 'Failed to get platform version.';
     }
 
-    setState(() {
-      _platformVersion = filePath;
-    });
+    setState(() {});
   }
 
   Future<String> downloadFile(
@@ -410,9 +407,7 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage>
       filePath,
       onReceiveProgress: (count, total) {
         // debugPrint('---Download----Rec: $count, Total: $total');
-        setState(() {
-          _platformVersion = ((count / total) * 100).toStringAsFixed(0) + "%";
-        });
+        setState(() {});
       },
     );
 

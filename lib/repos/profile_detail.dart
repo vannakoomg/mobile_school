@@ -1,11 +1,11 @@
 import 'package:school/models/ProfileDB.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 
 Future fetchProfile({required String apiKey}) async {
   try {
-    String fullUrl = baseUrl_school + getProfile;
+    String fullUrl = baseUrlSchool + getProfile;
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Authorization": "Bearer $apiKey"

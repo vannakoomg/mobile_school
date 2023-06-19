@@ -1,7 +1,7 @@
-const String baseUrl_school = 'http://school.ics.edu.kh/';
-const String baseUrl_odoo = 'https://odoo13.ics.edu.kh/ics_canteen';
-// const String baseUrl_school = 'http://schooldemo.ics.edu.kh:88/';
-// const String baseUrl_odoo = 'http://202.62.45.129:8069/ics_canteen';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+String baseUrlSchool = dotenv.get('baseUrlSchool');
+String baseUrlOdoo = dotenv.get('baseUrlOdoo');
 
 const String registerFirebase = 'api/register_firebasetoken';
 const String login = 'api/login';
@@ -23,7 +23,6 @@ const String getCourseList = 'api/getcourselist';
 const String getVideoCourseList = 'api/getelearninglist';
 const String getTimetableList = 'api/gettimetablelist';
 const String changePassword = 'api/change-password';
-
 const String assignmentList = 'api/assignment_list';
 const String assignmentDetail = 'api/assignment_detail';
 const String assignmentText = 'api/student_submit_assignment';
@@ -35,5 +34,5 @@ const String getHomeSlide = 'api/getsetting/homeslide';
 const String getCollectionCard = 'api/collection_card';
 const String getDateTime = 'api/getdatetime';
 const String getAttendanceDetail = 'api/getattendancedetail';
-const String getAbaList  = 'api/get_abaqrcodelist';
-const String updateVersion  = 'api/update_cur_ver';
+const String getAbaList = 'api/get_abaqrcodelist';
+const String updateVersion = 'api/update_cur_ver';

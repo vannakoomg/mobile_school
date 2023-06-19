@@ -7,7 +7,7 @@ import 'package:school/repos/feedback_list.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/feedback_send.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 
 class FeedbackPage extends StatefulWidget {
@@ -58,8 +58,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           print("value.data=${value.data}");
           _categoryItem.addAll(value.data);
           isAddEnable = true;
-        } catch (err) {
-        }
+        } catch (err) {}
       });
     });
   }
@@ -167,7 +166,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   _buildItem(Datum item) {
     return InkWell(
       child: Card(
-        color: item.reply ==0 ? Colors.white : Colors.grey.shade300,
+        color: item.reply == 0 ? Colors.white : Colors.grey.shade300,
         elevation: 5,
         child: Column(
           children: [
@@ -240,7 +239,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         Text(''),
                         Icon(Icons.navigate_next),
                         Text(
-                          item.reply !=0 ?  'Replied' : '',
+                          item.reply != 0 ? 'Replied' : '',
                           style: TextStyle(
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.w300,
@@ -256,7 +255,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ),
       ),
       onTap: () {
-        Get.to(() => FeedbackDetail(item: '${item.id}',), arguments: 'fbDetail');
+        Get.to(
+            () => FeedbackDetail(
+                  item: '${item.id}',
+                ),
+            arguments: 'fbDetail');
       },
     );
   }
@@ -280,7 +283,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
             ],
           ),
         ),
-        placeholder: (context, url) => Icon(Icons.photo_library_outlined,size: SizerUtil.deviceType == DeviceType.tablet ? 40.sp : 50.sp, color: Colors.grey.shade400,),
+        placeholder: (context, url) => Icon(
+          Icons.photo_library_outlined,
+          size: SizerUtil.deviceType == DeviceType.tablet ? 40.sp : 50.sp,
+          color: Colors.grey.shade400,
+        ),
         errorWidget: (context, url, error) =>
             Image.asset("assets/icons/login_icon/logo_with_radius.png"),
       ),

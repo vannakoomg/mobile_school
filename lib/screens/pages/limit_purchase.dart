@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/pos_set_purchase_limit.dart';
 import 'package:sizer/sizer.dart';
 
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class LimitPurchase extends StatefulWidget {
   const LimitPurchase({Key? key}) : super(key: key);

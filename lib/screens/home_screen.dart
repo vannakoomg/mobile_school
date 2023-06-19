@@ -18,7 +18,7 @@ import '../models/SettingDB.dart';
 import '../repos/assignment_list.dart';
 import '../repos/login.dart';
 import '../repos/update_version.dart';
-import '../server/Server.dart';
+import '../config/url.dart';
 import 'pages/switch_account.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   DefaultCacheManager manager = new DefaultCacheManager();
   final GlobalKey<NavigatorState> key = new GlobalKey<NavigatorState>();
 
-  final List<String> _imageIphoneList = ['${baseUrl_school + 'blank.png'}'],
-      _imageIpadList = ['${baseUrl_school + 'blank.png'}'];
+  final List<String> _imageIphoneList = ['${baseUrlSchool + 'blank.png'}'],
+      _imageIpadList = ['${baseUrlSchool + 'blank.png'}'];
   late Map<String, dynamic> _mapUser;
   late List<Assigned> _recAssignedList = [], _recMissingList = [];
   late List<Slide> _recData = [];

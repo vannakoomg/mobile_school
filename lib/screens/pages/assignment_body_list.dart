@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/AssignmentListDB.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 import 'homework_detail.dart';
 
 class AssignmentBodyList extends StatefulWidget {

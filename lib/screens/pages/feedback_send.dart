@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:school/repos/feedback.dart';
 import 'package:school/repos/image_repos.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 
 class FeedbackSendPage extends StatefulWidget {

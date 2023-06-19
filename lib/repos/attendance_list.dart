@@ -1,6 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:school/models/AttendanceDB.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 
@@ -12,10 +12,11 @@ Future fetchAttendance({String pageNo = '1'}) async {
     'page': pageNo,
   };
   try {
-    String fullUrl = baseUrl_school + getAttendanceList;
-    var response = await Dio(BaseOptions(headers: {"Accept":
-    "application/json", "Authorization" : "Bearer ${storage.read('user_token')}"}))
-        .get(fullUrl, queryParameters: parameters);
+    String fullUrl = baseUrlSchool + getAttendanceList;
+    var response = await Dio(BaseOptions(headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${storage.read('user_token')}"
+    })).get(fullUrl, queryParameters: parameters);
     AttendanceDb attendanceListDb = AttendanceDb.fromMap(response.data);
     return attendanceListDb;
   } on DioError catch (e) {
@@ -23,4 +24,3 @@ Future fetchAttendance({String pageNo = '1'}) async {
     return errorMessage;
   }
 }
-

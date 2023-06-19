@@ -7,47 +7,18 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/config/route.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/register_device_token.dart';
 import 'package:school/screens/pages/announcement_html.dart';
-import 'package:school/screens/pages/canteen.dart';
-import 'package:school/screens/pages/e_learning.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
-import 'package:school/screens/pages/limit_purchase.dart';
 import 'package:school/screens/pages/notification_detail.dart';
-import 'package:school/screens/pages/notification_page.dart';
-import 'package:school/screens/pages/homeworks_portal.dart';
-import 'package:school/screens/pages/pick_up_card_page.dart';
-import 'package:school/screens/pages/pos_history.dart';
-import 'package:school/screens/pages/pos_page.dart';
-import 'package:school/screens/pages/teacher_homeworks.dart';
-import 'package:school/screens/pages/teacher_homeworks_add.dart';
-import 'package:school/screens/pages/top_up.dart';
-import 'package:school/screens/profile_screen.dart';
 import 'models/AssignmentListDB.dart';
 import 'repos/assignment_list.dart';
 import 'screens/dashboard_screen.dart';
-import 'screens/login.dart';
-import 'screens/pages/about_accreditation_page.dart';
-import 'screens/pages/about_campuses_page.dart';
-import 'screens/pages/about_core_beliefs_page.dart';
-import 'screens/pages/about_introduction_page.dart';
-import 'screens/pages/about_school_history_page.dart';
-import 'screens/pages/about_vision_page.dart';
-import 'screens/pages/attendance_calendar_page.dart';
-import 'screens/pages/e_learning_subject_page.dart';
-import 'screens/pages/feedback_send.dart';
-import 'screens/pages/announcement_page.dart';
-import 'screens/pages/attendance_page.dart';
-import 'screens/pages/class_results_page.dart';
-import 'screens/pages/exam_schedule_page.dart';
-import 'screens/pages/feedback_page.dart';
-import 'screens/pages/homeworks_page.dart';
 import 'screens/pages/switch_account.dart';
-import 'screens/pages/terms_conditions.dart';
-import 'screens/pages/timetable_page.dart';
 import 'screens/widgets/local_notications_helper.dart';
 import 'models/push_notification.dart';
 import 'package:flutter/services.dart';
@@ -94,8 +65,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // storage.remove('user_token');
-    // storage.remove('mapUser');
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -109,54 +78,13 @@ class _MyAppState extends State<MyApp> {
         theme: new ThemeData(
           appBarTheme: Theme.of(context).appBarTheme,
           primarySwatch: MaterialColor(0xff1d1a56, color),
-          // textTheme: Theme.of(context).textTheme.apply(
-          //   // bodyColor: Colors.blue,
-          //   // displayColor: Colors.red,
-          // )
         ),
         home: storage.read('user_token') == null &&
                 (storage.read('mapUser') != null &&
                     storage.read('mapUser').length != 0)
             ? _switchAccountPage
             : _dashboardScreen,
-        routes: {
-          'dashboard': (context) => DashboardScreen(),
-          'announcement': (context) => AnnouncementPage(),
-          'attendance': (context) => AttendancePage(),
-          'timetable': (context) => TimetablePage(),
-          'exam_schedule': (context) => ExamSchedulePage(),
-          'homeworks': (context) => HomeworksPage(),
-          'teacher_homeworks': (context) => TeacherHomeworks(),
-          'class_results': (context) => ClassResultsPage(),
-          'feedback': (context) => FeedbackPage(),
-          'feedback_send': (context) => FeedbackSendPage(
-                sortFilter: [],
-              ),
-          'e_learning_subject': (context) => ELearningSubjectPage(),
-          'introduction': (context) => IntroductionPage(),
-          'school_history': (context) => SchoolHistoryPage(),
-          'vision': (context) => VisionPage(),
-          'core_beliefs': (context) => CoreBeliefsPage(),
-          'accreditation': (context) => AccreditationPage(),
-          'campuses': (context) => CampusesPage(),
-          'login': (context) => LoginScreen(),
-          'profile_screen': (context) => ProfileScreen(),
-          'notification': (context) => NotificationPage(),
-          'e_learning': (context) => ELearningPage(),
-          'homeworks_portal': (context) => HomeworksPortal(),
-          'teacher_homeworks_add': (context) => TeacherHomeworksAdd(),
-          'attendance_calendar': (context) => AttendanceCalendar(),
-          'pick_up_card': (context) => PickUpCard(),
-          'canteen': (context) => CanteenScreen(),
-          'pos_order': (context) => PosOrder(),
-          'pos_history': (context) => PosHistory(),
-          'top_up': (context) => TopUp(),
-          'i_wallet': (context) => IWallet(
-                index: 0,
-              ),
-          'limit_purchase': (context) => LimitPurchase(),
-          'terms_conditions': (context) => TermsAndConditions(),
-        },
+        routes: route02,
         builder: EasyLoading.init(),
       );
     });
@@ -292,10 +220,6 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _routes(
       {required String route, String? page, String? userId}) async {
-    //print("userId=$userId");
-    //if(userId.runtimeType == String) print("classIdclassId");
-    //if(storage.read('isClassId').runtimeType == String) print("HeisClassIdisClassIdllo");
-    // print("route=${route}");
     if (route == 'ICS News') {
       Get.to(() => AnnouncementHtml(item: page!));
     } else if (userId != storage.read('isUserId').toString()) {
@@ -315,22 +239,12 @@ class _MyAppState extends State<MyApp> {
     } else if (route == 'Top up Notification') {
       Get.toNamed('i_wallet');
     } else {
-      // print("page=$page");
       var data = await Get.to(() => NotificationsDetail(
             item: page!,
           ));
-      // print('data=$data');
       if (data == null) _fetchNotificationCount();
     }
   }
-
-  // Widget reloadBtn() {
-  //   return ElevatedButton(
-  //       onPressed: () {
-  //         Get.back();
-  //       },
-  //       child: Text("OK"));
-  // }
 
   Future<void> initPlatformState() async {
     Map<String, dynamic> deviceData = <String, dynamic>{};

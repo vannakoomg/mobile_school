@@ -21,7 +21,7 @@ import '../../models/ABAQRDB.dart';
 import '../../repos/aba.dart';
 import '../../repos/image_repos.dart';
 import '../../repos/pos_create_order.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class TopUp extends StatefulWidget {
   const TopUp({Key? key}) : super(key: key);
@@ -68,19 +68,19 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
     // menu = [
     //   {
     //     'amount': 20,
-    //     'image': "${baseUrl_school + 'ABA_20.jpg'}",
+    //     'image': "${baseUrlSchool + 'ABA_20.jpg'}",
     //     'link':
     //         "https://link.payway.com.kh/aba?id=0B399F9E2E59&code=887909&acc=000223222&amount=20.0"
     //   },
     //   {
     //     'amount': 50,
-    //     'image': "${baseUrl_school + 'ABA_50.jpg'}",
+    //     'image': "${baseUrlSchool + 'ABA_50.jpg'}",
     //     'link':
     //         "https://link.payway.com.kh/aba?id=0B399F9E2E59&code=080985&acc=000223222&amount=50.0"
     //   },
     //   {
     //     'amount': 100,
-    //     'image': "${baseUrl_school + 'ABA_100.jpg'}",
+    //     'image': "${baseUrlSchool + 'ABA_100.jpg'}",
     //     'link':
     //         "https://link.payway.com.kh/aba?id=0B399F9E2E59&code=039859&acc=000223222&amount=100.0"
     //   }

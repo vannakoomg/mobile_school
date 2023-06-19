@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future fetchMultipleImagesNetwork({required List<Asset> listImage}) async {
   if (listImage.isNotEmpty) {
@@ -20,10 +19,8 @@ Future fetchMultipleImagesNetwork({required List<Asset> listImage}) async {
     // String? fileName = file != null ? file.path.split("/").last : null;
 
     //get path to the temporaryDirector
-    final Directory directory = await getTemporaryDirectory();
 
     //get the path to the chosen directory
-    String directoryPath = directory.path;
 
     //create a temporary file to the specified path
     //you can use the path to this file for the API

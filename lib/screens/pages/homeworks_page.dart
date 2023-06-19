@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/AssignmentListDB.dart';
 import '../../repos/assignment_list.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 import 'blank_page.dart';
 import 'homework_detail.dart';
 

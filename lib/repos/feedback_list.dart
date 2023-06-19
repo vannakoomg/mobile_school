@@ -1,6 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:school/models/FeedbackListDB.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 
@@ -11,8 +11,8 @@ Future fetchFeedback({String pageNo = '1'}) async {
     'page': pageNo,
   };
 
-  try{
-    String fullUrl = baseUrl_school + getFeedback;
+  try {
+    String fullUrl = baseUrlSchool + getFeedback;
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Authorization": "Bearer ${storage.read('user_token')}"

@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:url_launcher/url_launcher.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class TermsAndConditions extends StatefulWidget {
   const TermsAndConditions({Key? key}) : super(key: key);

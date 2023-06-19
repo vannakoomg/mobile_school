@@ -14,7 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../models/PosUserDB.dart';
 import '../../models/menu_icon_list.dart';
 import '../../repos/pos_data.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class CanteenScreen extends StatefulWidget {
   const CanteenScreen({Key? key}) : super(key: key);

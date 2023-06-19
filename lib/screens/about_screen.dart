@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/models/about_list.dart';
 import 'package:sizer/sizer.dart';
-import 'theme/theme.dart';
+import '../config/theme/theme.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);

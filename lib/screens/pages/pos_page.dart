@@ -15,7 +15,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/posDB.dart';
 import '../../repos/pos_data.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class PosOrder extends StatefulWidget {
   const PosOrder({Key? key}) : super(key: key);

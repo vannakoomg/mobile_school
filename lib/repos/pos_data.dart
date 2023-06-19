@@ -5,7 +5,7 @@ import '../models/PosOrderHistoryDB.dart';
 import '../models/PosUserDB.dart';
 import '../models/TopUpHistoryDB.dart';
 import '../screens/widgets/exceptions.dart';
-import '../server/Server.dart';
+import '../config/url.dart';
 
 final storage = GetStorage();
 late PosDb posDb;
@@ -44,7 +44,7 @@ Future fetchPos({String route = "products"}) async {
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
-    })).post(baseUrl_odoo, data: data);
+    })).post(baseUrlOdoo, data: data);
     // print("response.data=${response.data}");
 
     if (route == "products") {

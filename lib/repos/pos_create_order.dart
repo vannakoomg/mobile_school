@@ -2,7 +2,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 import '../models/PosCreateOrderDB.dart';
 import '../screens/widgets/exceptions.dart';
-import '../server/Server.dart';
+import '../config/url.dart';
 
 final storage = GetStorage();
 late PosCreateOrderDb posCreateOrderDb;
@@ -38,7 +38,7 @@ Future posCreateOrder(
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
-    })).post(baseUrl_odoo, data: data);
+    })).post(baseUrlOdoo, data: data);
     // print("response.data=${response.data}");
     posCreateOrderDb = PosCreateOrderDb.fromMap(response.data);
     return posCreateOrderDb;

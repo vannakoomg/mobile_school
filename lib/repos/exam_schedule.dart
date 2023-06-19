@@ -1,6 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:school/models/ExamScheduleDB.dart';
-import 'package:school/server/Server.dart';
+import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 
@@ -11,7 +11,7 @@ Future fetchExamSchedule({String pageNo = '1'}) async {
     'page': pageNo,
   };
   try {
-    String fullUrl = baseUrl_school + getExamSchedule;
+    String fullUrl = baseUrlSchool + getExamSchedule;
     var response = await Dio(BaseOptions(
             headers: {
           "Accept": "application/json",

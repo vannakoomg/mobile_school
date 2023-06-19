@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../models/PosOrderHistoryDB.dart';
 import '../../repos/pos_data.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class PosHistory extends StatefulWidget {
   const PosHistory({Key? key}) : super(key: key);

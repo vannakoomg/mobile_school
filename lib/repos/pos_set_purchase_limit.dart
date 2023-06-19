@@ -2,7 +2,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 import '../models/PurchaseLimitDB.dart';
 import '../screens/widgets/exceptions.dart';
-import '../server/Server.dart';
+import '../config/url.dart';
 
 final storage = GetStorage();
 late PurchaseLimitDb purchaseLimitDb;
@@ -23,7 +23,7 @@ Future posPurchaseLimit({required double purchaseLimit}) async {
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
-    })).post(baseUrl_odoo, data: data);
+    })).post(baseUrlOdoo, data: data);
     // print("response.data=${response.data}");
     purchaseLimitDb = PurchaseLimitDb.fromMap(response.data);
     return purchaseLimitDb;

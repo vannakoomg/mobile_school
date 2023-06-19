@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/models/AttendanceDB.dart';
 import 'package:school/repos/attendance_list.dart';
 import 'package:get/get.dart';
-import 'package:school/screens/theme/theme.dart';
+import 'package:school/config/theme/theme.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 

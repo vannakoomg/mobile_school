@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/AssignmentListDB.dart';
 import '../../repos/assignment_list.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 import 'blank_page.dart';
 
 class ClassResultsPage extends StatefulWidget {

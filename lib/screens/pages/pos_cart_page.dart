@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 import '../../repos/pos_create_order.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class PosCart extends StatefulWidget {
   final List<Map<String, dynamic>> elements;
@@ -33,7 +33,6 @@ class _PosCartState extends State<PosCart> {
   late bool _isDisableButton = false;
   double amountPaid = 0;
   int selectedIndex = 0;
-  List<String> _strDate = [];
   String pickUpTime = '';
 
   @override
@@ -61,7 +60,6 @@ class _PosCartState extends State<PosCart> {
           double.parse(f.format(element['amount'] * element['lst_price']));
       lines.add(value);
     });
-    _strDate = storage.read('pick_up').reversed.toList();
   }
 
   @override

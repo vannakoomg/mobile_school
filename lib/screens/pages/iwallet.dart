@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/screens/pages/top_up_history.dart';
 import 'package:sizer/sizer.dart';
 
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 import 'pos_history.dart';
 
 class IWallet extends StatefulWidget {

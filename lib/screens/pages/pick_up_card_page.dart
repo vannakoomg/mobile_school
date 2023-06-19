@@ -16,7 +16,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../models/CollectionCardDB.dart';
 import '../../repos/datetime.dart';
-import '../theme/theme.dart';
+import '../../config/theme/theme.dart';
 
 class PickUpCard extends StatefulWidget {
   const PickUpCard({Key? key}) : super(key: key);
