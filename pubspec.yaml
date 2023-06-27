@@ -71,7 +71,6 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   html: ^0.15.1
   collection: ^1.16.0
-  table_calendar: ^3.0.8
   flutter_heatmap_calendar: ^1.0.5
   qr_flutter: ^4.0.0
   auto_size_text: ^3.0.0
@@ -84,6 +83,9 @@ dependencies:
   draggable_home: ^1.0.4
   sliver_header_delegate: ^0.0.5
   file: ^6.1.4
+  table_calendar: ^3.0.9
+  image_downloader: ^0.31.0
+
   
 
 

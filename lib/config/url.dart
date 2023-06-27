@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// # dotenv for protect the base url
 String baseUrlSchool = dotenv.get('baseUrlSchool');
 String baseUrlOdoo = dotenv.get('baseUrlOdoo');
 

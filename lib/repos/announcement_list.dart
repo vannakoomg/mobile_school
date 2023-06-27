@@ -1,5 +1,4 @@
 import 'package:school/models/AnnouncementDB.dart';
-import 'package:school/config/url.dart';
 import 'package:dio/dio.dart';
 import '../screens/widgets/exceptions.dart';
 
@@ -8,7 +7,7 @@ Future fetchAnnouncement({String pageNo = '1'}) async {
     'page': pageNo,
   };
   try {
-    String fullUrl = baseUrlSchool + getAnnouncementList;
+    String fullUrl = 'http://school.ics.edu.kh/api/getannouncementlist';
     var response = await Dio(BaseOptions(
             receiveDataWhenStatusError: true,
             connectTimeout: 15000,

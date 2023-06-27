@@ -1,5 +1,8 @@
+import 'package:school/modules/gallary/screen/gallary_screen.dart';
+import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
+import '../modules/events/screen/events_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login.dart';
 import '../screens/pages/about_accreditation_page.dart';
@@ -64,6 +67,9 @@ var route02 = {
   'pos_order': (context) => PosOrder(),
   'pos_history': (context) => PosHistory(),
   'top_up': (context) => TopUp(),
+  'events': (context) => EventScreen(),
+  'gallary': (context) => GallaryScreen(),
+  'gallary_datail': (context) => GallaryDetail(),
   'i_wallet': (context) => IWallet(
         index: 0,
       ),

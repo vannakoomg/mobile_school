@@ -39,9 +39,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Map<String, dynamic> _mapUser;
   late List<Assigned> _recAssignedList = [], _recMissingList = [];
   late List<Slide> _recData = [];
-  // late List<PosData> _recPosData = [];
-  // late int posSessionId;
-  // late bool posMessage;
 
   @override
   void initState() {
@@ -52,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _fetchExamScheduleCount();
     _fetchAssignment();
     _login();
-    // _fetchPos();
 
     if (storage.read('user_token') != null && storage.read('mapUser') != null)
       _fetchProfile();
@@ -90,12 +86,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ],
             ),
           ),
-          InkWell(
+          GestureDetector(
             child: storage.read('notification_badge') != 0 &&
                     storage.read('notification_badge') != null
                 ? badges.Badge(
-                    // badgeAnimation: badges.BadgeAnimationType.scale,
-                    // toAnimate: false,
                     badgeContent: Text('${storage.read('notification_badge')}',
                         style: TextStyle(color: Colors.white)),
                     child: Icon(Icons.notifications),
@@ -199,17 +193,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         child: GridView.builder(
           itemCount: menuIconList.length,
           itemBuilder: (context, index) {
-            return InkWell(
+            return GestureDetector(
               onTap: () async {
+                debugPrint("route : ${menuIconList[index].route}");
                 if (storage.read('user_token') != null ||
                     menuIconList[index].isAuthorize) {
                   var data = await Get.toNamed(menuIconList[index].route);
-                  // print("data=$data");
                   if (data == 'Assignment') {
                     setState(() {
                       storage.read('assignment_badge');
                     });
-                    // _fetchAssignment();
                   }
                 } else {
                   var data = await Get.toNamed('login',
@@ -233,8 +226,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             (storage.read('exam_schedule_badge') != 0 &&
                                 storage.read('exam_schedule_badge') != null)
                         ? badges.Badge(
-                            // animationType: BadgeAnimationType.scale,
-                            // toAnimate: false,
                             badgeContent: Text(
                                 '${storage.read('exam_schedule_badge')}',
                                 style: TextStyle(color: Colors.white)),
@@ -245,8 +236,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 (storage.read('assignment_badge') != 0 &&
                                     storage.read('assignment_badge') != null)
                             ? badges.Badge(
-                                // animationType: BadgeAnimationType.scale,
-                                // toAnimate: false,
                                 badgeContent: Text(
                                     '${storage.read('assignment_badge')}',
                                     style: TextStyle(color: Colors.white)),
@@ -475,7 +464,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     storage.remove('isActive');
     storage.remove('assignment_badge');
     storage.remove('isPhoto');
-    // print("_mapUser.length=${_mapUser.length}");
   }
 
   void _login() {
@@ -518,24 +506,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     });
   }
-
-  // Future<void> _fetchPos() async {
-  //   await fetchPos().then((value) {
-  //     setState(() {
-  //       try {
-  //         posSessionId = value.sessionId;
-  //         posMessage = value.message;
-  //         _recPosData.addAll(value.response);
-  //         print("_recPosData=${_recPosData.length}");
-  //         _recPosData.forEach((element) {
-  //           print("element=${element.group.length}");
-  //         });
-  //       } catch (err) {
-  //         print("err=$err");
-  //       }
-  //     });
-  //   });
-  // }
 
   @override
   void dispose() {

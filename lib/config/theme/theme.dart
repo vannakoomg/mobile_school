@@ -72,7 +72,6 @@ const Map<PhoneSize, MyTextStyle> myTextStyleBodyBlueGray = {
   PhoneSize.iphone: MyTextStyle(
       color: Color(0xff778ba3), fontWeight: FontWeight.bold, size: 14),
 };
-
 const Map<PhoneSize, MyTextStyle> myTextStyleHeaderAmberAccent = {
   PhoneSize.ipad: MyTextStyle(
       color: Colors.amberAccent, fontWeight: FontWeight.bold, size: 18),

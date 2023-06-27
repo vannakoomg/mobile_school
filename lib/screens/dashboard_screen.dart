@@ -52,17 +52,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     storage.write('isVersion', version);
     _fetchVersion();
 
-    // Future.delayed(Duration.zero, () {
-    //   PopupNewVersion().dialogBuilder(context);
-    // });
-    // DatabaseManager().maintenanceMode();
-    // DatabaseManager().showDialogMode(context);
-
     _screenList.add(_homeScreen);
     _screenList.add(_contactUsScreen);
     _screenList.add(_aboutUsScreen);
     _screenList.add(_profileScreen);
-    // fetchDatabaseList();
   }
 
   int _currentIndex = 0;
