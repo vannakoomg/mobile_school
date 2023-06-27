@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_downloader/image_downloader.dart';
 
 class GallaryController extends GetxController {
   final islist = false.obs;
@@ -15,9 +16,15 @@ class GallaryController extends GetxController {
   ].obs;
   final oldColor = 0.obs;
   final tagId = ''.obs;
-  final isMoveDone = false.obs;
+  final urlImage = ''.obs;
   int getflex() {
     return Random().nextInt(3) + 1;
+  }
+
+  void downloadImage({required String url}) async {
+    var imageId = await ImageDownloader.downloadImage(url).then((value) {
+      debugPrint("value $value");
+    });
   }
 
   double getHigh() {
