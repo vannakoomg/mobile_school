@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 
+import '../../../utils/function/function.dart';
+
 class Viewimage extends StatefulWidget {
   const Viewimage({Key? key}) : super(key: key);
 
@@ -44,7 +46,7 @@ class _ViewimageState extends State<Viewimage> {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    controller.downloadImage(url: controller.urlImage.value);
+                    downloadImage(url: controller.urlImage.value);
                   },
                   child: Container(
                     padding: EdgeInsets.all(5),
@@ -70,12 +72,15 @@ class _ViewimageState extends State<Viewimage> {
                 height: 500,
                 child: PageView(
                   onPageChanged: (value) {
-                    debugPrint("index $value");
-                    controller.urlImage.value = controller.listOfImage[value];
+                    controller.urlImage.value =
+                        controller.gallaryDetail.value.data![value].image!;
                     controller.tagId.value = "$value";
                   },
                   controller: pageViewController,
-                  children: controller.listOfImage.asMap().entries.map((e) {
+                  children: controller.gallaryDetail.value.data!
+                      .asMap()
+                      .entries
+                      .map((e) {
                     return Container(
                       height: 500,
                       width: double.infinity,

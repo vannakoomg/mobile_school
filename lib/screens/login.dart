@@ -197,6 +197,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     EasyLoading.show(status: 'Loading');
+    debugPrint(
+        "data 01 : ${emailController.text.trim()} , ${passwordController.text.trim()} , ${storage.read('device_token')}");
     userLogin(emailController.text.trim(), passwordController.text.trim(),
             storage.read('device_token'))
         .then((value) {

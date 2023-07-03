@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class GallaryCard extends StatelessWidget {
-  final bool islist;
   final String title;
   final String image;
   final Function? ontapp;
   const GallaryCard(
       {Key? key,
-      required this.islist,
       required this.title,
       required this.image,
       required this.ontapp})
@@ -37,6 +35,7 @@ class GallaryCard extends StatelessWidget {
               left: 10,
               top: 15,
               child: Container(
+                margin: EdgeInsets.only(),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black.withOpacity(0.5)),
@@ -46,7 +45,9 @@ class GallaryCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

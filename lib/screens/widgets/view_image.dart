@@ -44,9 +44,6 @@ class _ViewImageState extends State<ViewImage> {
         onTap: _toggle,
         child: Stack(
           children: [
-            // PhotoView(
-            //   imageProvider: CachedNetworkImageProvider(_imageProvider),
-            // ),
             PhotoViewGallery.builder(
               pageController: PageController(initialPage: _index),
               scrollDirection: Axis.horizontal,

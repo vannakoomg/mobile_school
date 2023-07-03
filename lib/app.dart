@@ -116,12 +116,6 @@ class _MyAppState extends State<MyApp> {
         print('Success=${value.status}');
       } catch (err) {
         print("err=$err");
-        // Get.defaultDialog(
-        //   title: "Error",
-        //   middleText: "$value",
-        //   barrierDismissible: false,
-        //   confirm: reloadBtn(),
-        // );
       }
     });
 

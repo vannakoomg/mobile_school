@@ -12,7 +12,6 @@ import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-
 import '../models/AssignmentListDB.dart';
 import '../models/SettingDB.dart';
 import '../repos/assignment_list.dart';

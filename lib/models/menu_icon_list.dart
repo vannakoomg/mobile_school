@@ -63,13 +63,13 @@ List<Menu> menuIconList = [
     img: "assets/icons/home_screen_icon_one_color/feedback.png",
     title: "Events",
     route: 'events',
-    isAuthorize: false,
+    isAuthorize: true,
   ),
   Menu(
     img: "assets/icons/home_screen_icon_one_color/feedback.png",
     title: "Gallary",
     route: 'gallary',
-    isAuthorize: false,
+    isAuthorize: true,
   ),
 ];
 
