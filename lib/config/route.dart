@@ -1,5 +1,8 @@
+import 'package:school/models/about_list.dart';
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
+import 'package:school/screens/about_screen.dart';
+import 'package:school/screens/contact_screen.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
@@ -33,7 +36,7 @@ import '../screens/pages/teacher_homeworks.dart';
 import '../screens/pages/terms_conditions.dart';
 import '../screens/pages/timetable_page.dart';
 import '../screens/pages/top_up.dart';
-import '../screens/profile_screen.dart';
+import '../screens/student_info.dart';
 
 var route02 = {
   'dashboard': (context) => DashboardScreen(),
@@ -56,7 +59,7 @@ var route02 = {
   'accreditation': (context) => AccreditationPage(),
   'campuses': (context) => CampusesPage(),
   'login': (context) => LoginScreen(),
-  'profile_screen': (context) => ProfileScreen(),
+  'student_info': (context) => StudentInfo(),
   'notification': (context) => NotificationPage(),
   'e_learning': (context) => ELearningPage(),
   'homeworks_portal': (context) => HomeworksPortal(),
@@ -70,6 +73,8 @@ var route02 = {
   'events': (context) => EventScreen(),
   'gallary': (context) => GallaryScreen(),
   'gallary_datail': (context) => GallaryDetail(),
+  'contact_us': (context) => ContactScreen(),
+  'about_us': (context) => AboutScreen(),
   'i_wallet': (context) => IWallet(
         index: 0,
       ),

@@ -13,14 +13,14 @@ import 'package:sizer/sizer.dart';
 import '../repos/change_password.dart';
 import 'widgets/pdf_viewer_page.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class StudentInfo extends StatefulWidget {
+  const StudentInfo({Key? key}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _StudentInfoState createState() => _StudentInfoState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _StudentInfoState extends State<StudentInfo> {
   double _fontSize = SizerUtil.deviceType == DeviceType.tablet ? 18 : 14;
   bool _hide = true,
       _hideOldPWD = true,

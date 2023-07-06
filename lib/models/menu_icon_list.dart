@@ -10,10 +10,10 @@ class Menu {
 
 List<Menu> menuIconList = [
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/announcement.png",
-      title: "News",
-      route: 'announcement',
-      isAuthorize: true),
+      img: "assets/icons/home_screen_icon_one_color/pickup_card.png",
+      title: "Pick Up\nVirtual Card",
+      route: 'pick_up_card',
+      isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/attendance.png",
       title: "Attendance",
@@ -30,29 +30,27 @@ List<Menu> menuIconList = [
       route: 'exam_schedule',
       isAuthorize: false),
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/assignment.png",
-      title: "Assignments",
-      route: 'homeworks',
+      img: "assets/icons/home_screen_icon_one_color/canteen.png",
+      title: "Canteen",
+      route: 'canteen',
       isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/assignment_result.png",
       title: "Assignment Results",
       route: 'class_results',
       isAuthorize: false),
+];
+List<Menu> menuSubIconList = [
+  Menu(
+    img: "assets/icons/home_screen_icon_one_color/feedback.png",
+    title: "Events",
+    route: 'events',
+    isAuthorize: true,
+  ),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/e_learning.png",
       title: "E-Learning",
       route: 'e_learning',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/canteen.png",
-      title: "Canteen",
-      route: 'canteen',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/pickup_card.png",
-      title: "Pick Up\nVirtual Card",
-      route: 'pick_up_card',
       isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/feedback.png",
@@ -61,16 +59,20 @@ List<Menu> menuIconList = [
       isAuthorize: false),
   Menu(
     img: "assets/icons/home_screen_icon_one_color/feedback.png",
-    title: "Events",
-    route: 'events',
-    isAuthorize: true,
-  ),
-  Menu(
-    img: "assets/icons/home_screen_icon_one_color/feedback.png",
     title: "Gallary",
     route: 'gallary',
     isAuthorize: true,
   ),
+  Menu(
+      img: "assets/icons/home_screen_icon_one_color/announcement.png",
+      title: "News",
+      route: 'announcement',
+      isAuthorize: true),
+  Menu(
+      img: "assets/icons/home_screen_icon_one_color/assignment.png",
+      title: "Assignments",
+      route: 'homeworks',
+      isAuthorize: false),
 ];
 
 class Canteen {

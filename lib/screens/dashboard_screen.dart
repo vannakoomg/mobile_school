@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/screens/about_screen.dart';
 import 'package:school/screens/contact_screen.dart';
 import 'package:school/screens/home_screen.dart';
-import 'package:school/screens/profile_screen.dart';
+import 'package:school/screens/student_info.dart';
 import '../main_drawer.dart';
 import '../repos/version.dart';
 import '../translations/locale_keys.g.dart';
@@ -21,7 +21,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   HomeScreen _homeScreen = HomeScreen();
   ContactScreen _contactUsScreen = ContactScreen();
   AboutScreen _aboutUsScreen = AboutScreen();
-  ProfileScreen _profileScreen = ProfileScreen();
+  // ProfileScreen _profileScreen = ProfileScreen();
   PageController _pageController = PageController();
   final storage = GetStorage();
 
@@ -55,7 +55,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _screenList.add(_homeScreen);
     _screenList.add(_contactUsScreen);
     _screenList.add(_aboutUsScreen);
-    _screenList.add(_profileScreen);
+    // _screenList.add(_profileScreen);
   }
 
   int _currentIndex = 0;

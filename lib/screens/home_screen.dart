@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:school/models/menu_icon_list.dart';
+import 'package:school/modules/profile/controllers/profile_controller.dart';
 import 'package:school/repos/exam_schedule.dart';
 import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
@@ -12,8 +13,10 @@ import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import '../config/app_colors.dart';
 import '../models/AssignmentListDB.dart';
 import '../models/SettingDB.dart';
+import '../modules/profile/screens/profile_screen.dart';
 import '../repos/assignment_list.dart';
 import '../repos/login.dart';
 import '../repos/update_version.dart';
@@ -28,6 +31,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  final controller = Get.put(ProfileController());
   final storage = GetStorage();
   int activeIndex = 0;
   DefaultCacheManager manager = new DefaultCacheManager();
@@ -56,73 +60,139 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: key,
-      appBar: _buildAppBar,
-      body: _buildBody,
-    );
+    return Obx(() => Scaffold(
+          backgroundColor: Colors.grey.shade300,
+          key: key,
+          body: _buildBody,
+        ));
   }
 
-  get _buildAppBar {
-    return AppBar(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  get _buildBody {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
         children: [
-          InkWell(
-            child: Icon(Icons.menu),
-            onTap: () => Scaffold.of(context).openDrawer(),
+          Positioned(
+            top: 60,
+            left: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        controller.isShowProfile.value = true;
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        child: Row(children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white, shape: BoxShape.circle),
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.yellow),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text("Vannak"),
+                        ]),
+                      ),
+                    ),
+                    _buildGridMenu,
+                    _buildImageSlider,
+                    SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          Expanded(
-            child: Column(
+          Container(
+            height: 60,
+            color: AppColor.primaryColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/icons/home_screen_icon_one_color/ICS_International_School.png',
-                  width:
-                      SizerUtil.deviceType == DeviceType.tablet ? 16.w : 33.w,
-                  color: Colors.white,
+                // InkWell(
+                //   child: Icon(Icons.menu),
+                //   onTap: () => Scaffold.of(context).openDrawer(),
+                // ),
+                Spacer(),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "ICS",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                GestureDetector(
+                  child: storage.read('notification_badge') != 0 &&
+                          storage.read('notification_badge') != null
+                      ? badges.Badge(
+                          badgeContent: Text(
+                              '${storage.read('notification_badge')}',
+                              style: TextStyle(color: Colors.white)),
+                          child: Icon(Icons.notifications),
+                        )
+                      : Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                        ),
+                  onTap: () async {
+                    if (storage.read('user_token') != null) {
+                      Get.toNamed('notification');
+                    } else {
+                      var data =
+                          await Get.toNamed('login', arguments: 'notification');
+                      if (data == true) {
+                        setState(() {
+                          _fetchNotificationCount();
+                          _fetchExamScheduleCount();
+                          _fetchAssignment();
+                          _fetchProfile();
+                        });
+                      }
+                    }
+                  },
+                ),
+                SizedBox(
+                  width: 10,
                 ),
               ],
             ),
           ),
-          GestureDetector(
-            child: storage.read('notification_badge') != 0 &&
-                    storage.read('notification_badge') != null
-                ? badges.Badge(
-                    badgeContent: Text('${storage.read('notification_badge')}',
-                        style: TextStyle(color: Colors.white)),
-                    child: Icon(Icons.notifications),
-                  )
-                : Icon(Icons.notifications),
-            onTap: () async {
-              if (storage.read('user_token') != null) {
-                Get.toNamed('notification');
-              } else {
-                var data =
-                    await Get.toNamed('login', arguments: 'notification');
-                if (data == true) {
-                  setState(() {
-                    _fetchNotificationCount();
-                    _fetchExamScheduleCount();
-                    _fetchAssignment();
-                    _fetchProfile();
-                  });
-                }
-              }
-            },
-          ),
+          AnimatedPositioned(
+              top: controller.isShowProfile.value == false ? 100.h : 0.h,
+              left: 0,
+              duration: Duration(milliseconds: 350),
+              child: AnimatedOpacity(
+                  duration: Duration(milliseconds: 350),
+                  opacity: controller.isShowProfile.value == false ? 0 : 1,
+                  child: ProfileScreen()))
         ],
       ),
-      centerTitle: true,
-    );
-  }
-
-  get _buildBody {
-    return Column(
-      children: [
-        _buildImageSlider,
-        _buildGridMenu,
-      ],
     );
   }
 
@@ -131,28 +201,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 20),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
           child: CarouselSlider.builder(
               itemCount: _imageIphoneList.length,
               itemBuilder: (context, index, realIndex) {
                 final urlImage = SizerUtil.deviceType == DeviceType.tablet
                     ? _imageIpadList[index]
                     : _imageIphoneList[index];
-                // DefaultCacheManager().removeFile(urlImage);
                 return _buildUrlImages(urlImage);
               },
               options: CarouselOptions(
+                  aspectRatio: 10 / 9,
                   height: SizerUtil.deviceType == DeviceType.tablet
-                      ? 130.sp
-                      : 180.sp,
+                      ? 120.sp
+                      : 170.sp,
                   viewportFraction: 1,
                   autoPlay: true,
                   onPageChanged: (index, reason) {
                     setState(() {
                       activeIndex = index;
                     });
-                  }
-                  // reverse: true,
-                  )),
+                  })),
         ),
         Positioned(
           child: buildIndicator(),
@@ -163,7 +234,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   _buildUrlImages(urlImage) {
-    // DefaultCacheManager().removeFile(urlImage);
     return CachedNetworkImage(
       width: double.infinity,
       imageUrl: urlImage,
@@ -183,89 +253,165 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
 
   get _buildGridMenu {
-    return Expanded(
-      child: Container(
-        // alignment: Alignment.center,
-        padding: EdgeInsets.only(left: 2.h, right: 2.h, top: 2.h),
-        color: Colors.grey.shade200,
-        height: 70.h,
-        child: GridView.builder(
-          itemCount: menuIconList.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () async {
-                debugPrint("route : ${menuIconList[index].route}");
-                if (storage.read('user_token') != null ||
-                    menuIconList[index].isAuthorize) {
-                  var data = await Get.toNamed(menuIconList[index].route);
-                  if (data == 'Assignment') {
-                    setState(() {
-                      storage.read('assignment_badge');
-                    });
-                  }
-                } else {
-                  var data = await Get.toNamed('login',
-                      arguments: menuIconList[index].route);
-                  if (data == true) {
-                    setState(() {
-                      _fetchNotificationCount();
-                      _fetchExamScheduleCount();
-                      _fetchAssignment();
-                      _fetchProfile();
-                    });
-                  }
-                }
-              },
-              child: Card(
-                elevation: 10,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    menuIconList[index].title == 'Exam Schedules' &&
-                            (storage.read('exam_schedule_badge') != 0 &&
-                                storage.read('exam_schedule_badge') != null)
-                        ? badges.Badge(
-                            badgeContent: Text(
-                                '${storage.read('exam_schedule_badge')}',
-                                style: TextStyle(color: Colors.white)),
-                            child: Image.asset(menuIconList[index].img,
-                                height: 8.h, width: 8.h),
-                          )
-                        : menuIconList[index].title == 'Assignments' &&
-                                (storage.read('assignment_badge') != 0 &&
-                                    storage.read('assignment_badge') != null)
+    return Column(
+      children: [
+        Container(
+            margin: EdgeInsets.only(top: 0, right: 5, left: 5),
+            child: Wrap(
+              children: menuIconList.asMap().entries.map((e) {
+                return GestureDetector(
+                  onTap: () async {
+                    debugPrint("route : ${menuIconList[e.key].route}");
+                    if (storage.read('user_token') != null ||
+                        menuIconList[e.key].isAuthorize) {
+                      var data = await Get.toNamed(menuIconList[e.key].route);
+                      if (data == 'Assignment') {
+                        setState(() {
+                          storage.read('assignment_badge');
+                        });
+                      }
+                    } else {
+                      var data = await Get.toNamed('login',
+                          arguments: menuIconList[e.key].route);
+                      if (data == true) {
+                        setState(() {
+                          _fetchNotificationCount();
+                          _fetchExamScheduleCount();
+                          _fetchAssignment();
+                          _fetchProfile();
+                        });
+                      }
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3 - 15,
+                    height: MediaQuery.of(context).size.width / 3 -
+                        15 +
+                        (MediaQuery.of(context).size.width / 3 - 15) / 10,
+                    margin: EdgeInsets.only(left: 5, right: 5, top: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        menuIconList[e.key].title == 'Exam Schedules' &&
+                                (storage.read('exam_schedule_badge') != 0 &&
+                                    storage.read('exam_schedule_badge') != null)
                             ? badges.Badge(
                                 badgeContent: Text(
-                                    '${storage.read('assignment_badge')}',
+                                    '${storage.read('exam_schedule_badge')}',
                                     style: TextStyle(color: Colors.white)),
-                                child: Image.asset(menuIconList[index].img,
+                                child: Image.asset(menuIconList[e.key].img,
                                     height: 8.h, width: 8.h),
                               )
-                            : Image.asset(menuIconList[index].img,
-                                height: 8.h, width: 8.h),
-                    SizedBox(
-                      height: 5.sp,
+                            : menuIconList[e.key].title == 'Assignments' &&
+                                    (storage.read('assignment_badge') != 0 &&
+                                        storage.read('assignment_badge') !=
+                                            null)
+                                ? badges.Badge(
+                                    badgeContent: Text(
+                                        '${storage.read('assignment_badge')}',
+                                        style: TextStyle(color: Colors.white)),
+                                    child: Image.asset(menuIconList[e.key].img,
+                                        height: 8.h, width: 8.h),
+                                  )
+                                : Image.asset(menuIconList[e.key].img,
+                                    height: 6.5.h, width: 6.5.h),
+                        SizedBox(
+                          height: 5.sp,
+                        ),
+                        Text(
+                          menuIconList[e.key].title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 8.sp
+                                      : 10.sp),
+                        ),
+                      ],
                     ),
-                    Text(
-                      menuIconList[index].title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 7.sp
-                              : 9.sp),
+                  ),
+                );
+              }).toList(),
+            )),
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+          // padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+                children: menuSubIconList.asMap().entries.map(
+              (e) {
+                return GestureDetector(
+                  onTap: () async {
+                    debugPrint("route : ${menuIconList[e.key].route}");
+                    if (storage.read('user_token') != null ||
+                        menuSubIconList[e.key].isAuthorize) {
+                      var data =
+                          await Get.toNamed(menuSubIconList[e.key].route);
+                      if (data == 'Assignment') {
+                        setState(() {
+                          storage.read('assignment_badge');
+                        });
+                      }
+                    } else {
+                      var data = await Get.toNamed('login',
+                          arguments: menuSubIconList[e.key].route);
+                      if (data == true) {
+                        setState(() {
+                          _fetchNotificationCount();
+                          _fetchExamScheduleCount();
+                          _fetchAssignment();
+                          _fetchProfile();
+                        });
+                      }
+                    }
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    margin: EdgeInsets.only(right: 5),
+                    height: 5.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                  ],
-                ),
-              ),
-            );
-          },
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: SizerUtil.deviceType == DeviceType.tablet ? 4 : 3,
-              crossAxisSpacing: 1.h,
-              mainAxisSpacing: 1.h),
-        ),
-      ),
+                    child: Center(
+                        child: Row(
+                      children: [
+                        Image.asset(
+                          "${menuSubIconList[e.key].img}",
+                          width: 20,
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "${menuSubIconList[e.key].title}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 8.sp
+                                      : 10.sp),
+                        ),
+                      ],
+                    )),
+                  ),
+                );
+              },
+            ).toList()),
+          ),
+        )
+      ],
     );
   }
 
@@ -288,7 +434,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     fetchExamSchedule().then((value) {
       try {
         setState(() {
-          // print("value.data.total=${value.data.total}");
           storage.write('exam_schedule_badge', value.data.total);
         });
       } catch (err) {
@@ -298,7 +443,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _fetchProfile() {
-    // print("_fetchProfile");
     fetchProfile(apiKey: storage.read('user_token')).then((value) {
       setState(() {
         try {
@@ -323,7 +467,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             storage.write('isGradeLevel', value.data.data[0].className);
           } else {
             _mapUser = storage.read('mapUser');
-            // storage.write('isGradeLevel', value.data.data[0].className);
             for (dynamic type in _mapUser.keys) {
               if (type == storage.read('isActive')) {
                 _mapUser[type]['name'] = value.data.data[0].name;
@@ -438,7 +581,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   get _removeUser {
     _mapUser = storage.read('mapUser');
-    // print("_mapUser.length=${_mapUser.length}");
     if (_mapUser.length >= 1) {
       for (dynamic type in _mapUser.keys) {
         if (type == storage.read('isActive')) {
@@ -472,7 +614,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             storage.read('device_token'))
         .then((value) {
       try {
-        // print(value.status);
         if (value == 'Unauthorized') {
           Get.defaultDialog(
             title: "Login",
