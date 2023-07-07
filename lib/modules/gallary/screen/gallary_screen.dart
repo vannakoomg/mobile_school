@@ -42,26 +42,16 @@ class _GallaryScreenState extends State<GallaryScreen> {
         ),
         body: controller.isloading.value
             ? CircularProgressIndicator()
-            : Container(
-                margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                child: GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: controller.islist.value ? 3 : 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      mainAxisExtent: controller.islist.value ? 150 : 180,
-                    ),
-                    children: controller.gallary.value.data!.map((data) {
-                      return GallaryCard(
-                          title: data.title!,
-                          image: data.image!,
-                          ontapp: () {
-                            Get.toNamed(
-                              'gallary_datail',
-                              arguments: {"id": data.id, "title": data.title},
-                            );
-                          });
-                    }).toList()),
+            : SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                  child: Column(
+                      children: controller.gallary.value.data!.map((data) {
+                    return GallaryCard(
+                        listOfGallary: data.gallary!,
+                        yearMonth: data.yearMonth!);
+                  }).toList()),
+                ),
               ),
       ),
     );

@@ -29,7 +29,7 @@ class GallaryController extends GetxController {
       })).get('http://10.0.2.2:8000/api/gallary');
       gallary.value = GallaryModel.fromJson(response.data);
       isloading.value = false;
-      debugPrint("value ${gallary.value.data![0].id}");
+      debugPrint("value ${gallary.value.data![0].yearMonth}");
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       isloading.value = false;
