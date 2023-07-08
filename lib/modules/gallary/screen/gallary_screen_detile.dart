@@ -34,6 +34,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
             ? CircularProgressIndicator()
             : Container(
                 child: ListView.builder(
+                  controller: controller.scrllcontroller.value,
                   itemCount: controller.gallaryDetail.value.data!.length ~/ 2,
                   itemBuilder: (context, i) {
                     return GestureDetector(
