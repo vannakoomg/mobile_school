@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:school/modules/gallary/models/gallary_model.dart';
@@ -10,8 +9,18 @@ import 'package:school/modules/gallary/models/gallary_model.dart';
 import '../../../screens/widgets/exceptions.dart';
 
 class GallaryController extends GetxController {
+  final listImage = [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg/1200px-Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg",
+    "https://cdn.outsideonline.com/wp-content/uploads/2021/06/15/camping_fun_s.jpg",
+    "https://media.timeout.com/images/105658195/image.jpg",
+    "https://v8v7e2w9.stackpathcdn.com/getmedia/f2b92ba3-169b-4816-b055-84f3272d2040/Hero_379.jpg",
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/925dac00-20b0-4202-a371-1334fc785846/d9zgg8y-1b2c8265-a498-4549-8d0b-28a2f6e94fdb.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzkyNWRhYzAwLTIwYjAtNDIwMi1hMzcxLTEzMzRmYzc4NTg0NlwvZDl6Z2c4eS0xYjJjODI2NS1hNDk4LTQ1NDktOGQwYi0yOGEyZjZlOTRmZGIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.NbeRd3vPCUtBKI6k1QqDbbhH9_luhkWmvRK6UFk3ZlE",
+    "https://cdn-icons-png.flaticon.com/512/909/909119.png",
+    "https://stickershop.line-scdn.net/stickershop/v1/product/4178848/LINEStorePC/main.png",
+    "https://www.silhouette.pics/images/quotes/english/general/my-talking-tom-silhouette-52650-172941.jpg",
+  ].obs;
+  final scrllcontroller = ScrollController().obs;
   final islist = false.obs;
-
   final oldColor = 0.obs;
   final tagId = ''.obs;
   final urlImage = ''.obs;
@@ -19,7 +28,8 @@ class GallaryController extends GetxController {
   final gallaryDetail = GallaryDetailModel().obs;
   final isloading = true.obs;
   final isloadingGallaryDetail = true.obs;
-
+  final isTapImage = false.obs;
+  final isTapSave = false.obs;
   void getGallary() async {
     try {
       isloading.value = true;
