@@ -24,9 +24,9 @@ double getHigh() {
 }
 
 Future downloadImage({required String url}) async {
-  await ImageDownloader.downloadImage(url,
-          destination: AndroidDestinationType.custom(directory: "adsfasd"))
-      .then((value) {
+  await ImageDownloader.downloadImage(
+    url,
+  ).then((value) {
     debugPrint("value $value");
   });
 }
@@ -36,9 +36,10 @@ Future<void> downloadImage02() async {
 
   try {
     var pathInStorage = await getApplicationDocumentsDirectory();
+    // var time = Time()
     await dio.download(
       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg/1200px-Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg",
-      '${pathInStorage.path}/sampleimage.jpg',
+      '${pathInStorage.path}/${DateTime.now()}/sampleimage.jpg',
       onReceiveProgress: (count, total) {
         // it'll get the current and total progress value
         var progressValue =
