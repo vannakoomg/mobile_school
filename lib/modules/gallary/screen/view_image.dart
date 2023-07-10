@@ -71,7 +71,6 @@ class _ViewimageState extends State<Viewimage> {
                         child: InteractiveViewer(
                           transformationController: _transformationController,
                           child: Container(
-                            // height: 500,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: AppColor.primaryColor,
@@ -105,6 +104,7 @@ class _ViewimageState extends State<Viewimage> {
                   child: Row(children: [
                     IconButton(
                         onPressed: () {
+                          controller.isTapSave.value = false;
                           Get.back();
                         },
                         icon: Icon(
@@ -115,7 +115,9 @@ class _ViewimageState extends State<Viewimage> {
                     Text(
                       "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDetail.value.data!.length}",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Spacer(),
                     GestureDetector(
@@ -146,10 +148,10 @@ class _ViewimageState extends State<Viewimage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          downloadImage02(
-                              // url:
-                              //     "https://images.lifestyleasia.com/wp-content/uploads/sites/5/2022/08/01134813/BLACKPINK-1-1600x898.jpeg");
-                              );
+                          downloadImage(
+                            url:
+                                "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}",
+                          );
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
@@ -172,11 +174,13 @@ class _ViewimageState extends State<Viewimage> {
                         height: 10,
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           for (int i = 0;
-                              i < controller.listImage.length;
+                              i < controller.gallaryDetail.value.data!.length;
                               ++i) {
-                            downloadImage(url: "${controller.listImage[i]}");
+                            downloadImage(
+                                url:
+                                    "${controller.gallaryDetail.value.data![i].image}");
                           }
                         },
                         child: Container(
