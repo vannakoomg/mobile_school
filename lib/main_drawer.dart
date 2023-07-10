@@ -465,10 +465,8 @@ class _MainDrawerState extends State<MainDrawer> {
   void _userLogout() {
     _mapUser = storage.read('mapUser');
     bool isValue = false;
-    // print("_mapUser=${_mapUser}");
     userLogout().then((value) {
       try {
-        print("value.status=${value.status}");
         storage.remove('exam_schedule_badge');
         storage.remove('notification_badge');
         storage.remove('assignment_badge');

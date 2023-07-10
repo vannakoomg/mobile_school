@@ -9,128 +9,148 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
-
     return Container(
       height: 100.h,
       width: 100.w,
       color: Colors.grey[300],
-      child: Column(
-        children: [
-          Container(
-            color: AppColor.primaryColor,
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 40),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          controller.isShowProfile.value = false;
-                        },
-                        child: Icon(Icons.close_rounded,
-                            color: Colors.white, size: 20.sp),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "ICS",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 20.sp
-                              : 16.sp,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              color: AppColor.primaryColor,
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 40),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 25.w,
-                  width: 25.w,
-                  decoration: BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "VANNAK",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: SizerUtil.deviceType == DeviceType.tablet
-                        ? 8.sp
-                        : 12.sp,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Student ID : IS202323",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: SizerUtil.deviceType == DeviceType.tablet
-                        ? 8.sp
-                        : 12.sp,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Column(
-              children: controller.menuProfile.asMap().entries.map((e) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('${e.value.route}');
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    height: 7.5.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                        GestureDetector(
+                          onTap: () {
+                            controller.isShowProfile.value = false;
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Icon(Icons.close_rounded,
+                                color: Colors.white, size: 20.sp),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "ICS",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 20.sp
+                                : 16.sp,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Row(children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      e.value.icon,
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        "${e.value.title}",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 18.sp
-                              : 14.sp,
-                        ),
-                      )
-                    ]),
                   ),
-                );
-              }).toList(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 25.w,
+                    width: 25.w,
+                    decoration: BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "VANNAK",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          ? 8.sp
+                          : 12.sp,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Student ID : IS202323",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          ? 8.sp
+                          : 12.sp,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
+                ],
+              ),
             ),
-          )
-        ],
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+              child: Column(
+                children: [
+                  Column(
+                    children: controller.menuProfile.asMap().entries.map((e) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('${e.value.route}');
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          height: 7.5.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            e.value.icon,
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              "${e.value.title}",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 18.sp
+                                        : 14.sp,
+                              ),
+                            )
+                          ]),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      height: 7.5.h,
+                      decoration: BoxDecoration(
+                          color: Color(
+                            0XFFf08080,
+                          ),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(child: Text("LOGOUT")),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

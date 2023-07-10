@@ -10,7 +10,6 @@ Future userLogout() async {
   FormData formData = FormData.fromMap({
     'firebasekey': storage.read('device_token'),
   });
-
   try {
     String fullUrl = baseUrlSchool + logout;
     var response = await Dio(BaseOptions(headers: {

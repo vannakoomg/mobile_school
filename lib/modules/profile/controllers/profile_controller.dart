@@ -27,13 +27,25 @@ class ProfileController extends GetxController {
       ),
     ),
     Menu(
-        title: "Setting",
-        route: 'setting',
+        title: "Switch Account",
+        route: 'switch_accountPage',
         icon: Icon(
           Icons.settings,
           color: Colors.grey,
         ))
   ];
+  String helloFromIcs() {
+    int time = DateTime.now().hour;
+    if (time > 3 && time < 12) {
+      return "Good Morning";
+    } else if (time > 12 && time < 5) {
+      return "Good Afternoon";
+    } else if (time > 5 && time < 7) {
+      return "Good Evening";
+    } else {
+      return "Good Night";
+    }
+  }
 }
 
 class Menu {

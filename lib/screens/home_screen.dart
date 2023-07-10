@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -95,29 +95,40 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           Container(
                             decoration: BoxDecoration(
                                 color: Colors.white, shape: BoxShape.circle),
-                            height: 50,
-                            width: 50,
+                            height: 7.h,
+                            width: 7.h,
                             child: Center(
                               child: Container(
-                                height: 45,
-                                width: 45,
+                                height: 7.h - 5,
+                                width: 7.h - 5,
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.yellow),
+                                  shape: BoxShape.circle,
+                                  color: Colors.yellow,
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
-                          Text("Vannak"),
+                          Text(
+                            "${controller.helloFromIcs()} ,VANNAK",
+                            style: TextStyle(
+                              color: AppColor.primaryColor.withOpacity(0.8),
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 10.sp
+                                      : 13.sp,
+                            ),
+                          ),
                         ]),
                       ),
                     ),
                     _buildGridMenu,
                     _buildImageSlider,
                     SizedBox(
-                      height: 100,
+                      height: 200,
                     ),
                   ],
                 ),
@@ -131,10 +142,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // InkWell(
-                //   child: Icon(Icons.menu),
-                //   onTap: () => Scaffold.of(context).openDrawer(),
-                // ),
                 Spacer(),
                 SizedBox(
                   width: 20,
@@ -186,9 +193,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           AnimatedPositioned(
               top: controller.isShowProfile.value == false ? 100.h : 0.h,
               left: 0,
-              duration: Duration(milliseconds: 350),
+              duration: Duration(milliseconds: 250),
               child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 350),
+                  duration: Duration(milliseconds: 250),
                   opacity: controller.isShowProfile.value == false ? 0 : 1,
                   child: ProfileScreen()))
         ],
