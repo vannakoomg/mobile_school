@@ -102,9 +102,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 height: 7.h - 5,
                                 width: 7.h - 5,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.yellow,
-                                ),
+                                    shape: BoxShape.circle,
+                                    color: AppColor.primaryColor,
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            "${storage.read('profile')}"))),
                               ),
                             ),
                           ),
@@ -112,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             width: 20,
                           ),
                           Text(
-                            "${controller.helloFromIcs()} ,VANNAK",
+                            "${controller.helloFromIcs()} , ${storage.read('isName')}",
                             style: TextStyle(
                               color: AppColor.primaryColor.withOpacity(0.8),
                               fontWeight: FontWeight.bold,
@@ -197,7 +199,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: AnimatedOpacity(
                   duration: Duration(milliseconds: 250),
                   opacity: controller.isShowProfile.value == false ? 0 : 1,
-                  child: ProfileScreen()))
+                  child: ProfileScreen(
+                    id: '${storage.read('isActive')}',
+                    profile: '${storage.read('profile')}',
+                    studentName: '${storage.read('isName')}',
+                  )))
         ],
       ),
     );
@@ -451,6 +457,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _fetchProfile() {
     fetchProfile(apiKey: storage.read('user_token')).then((value) {
+      debugPrint(
+          "khmer sl khmer ${value.data.data[0].fullImage} ${value.data.data[0].name} ${value.data.data[0].email}");
       setState(() {
         try {
           if (storage.read('mapUser') == null) {
@@ -472,6 +480,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             storage.write('isClassId', value.data.data[0].classId);
             storage.write('isUserId', value.data.data[0].id);
             storage.write('isGradeLevel', value.data.data[0].className);
+            storage.write('profile', value.data.data[0].fullImage);
           } else {
             _mapUser = storage.read('mapUser');
             for (dynamic type in _mapUser.keys) {
@@ -489,6 +498,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 storage.write('isUserId', value.data.data[0].id);
                 storage.write('isGradeLevel', value.data.data[0].className);
                 storage.write('isPassword', _mapUser[type]['password']);
+                storage.write('profile', value.data.data[0].fullImage);
               }
             }
           }

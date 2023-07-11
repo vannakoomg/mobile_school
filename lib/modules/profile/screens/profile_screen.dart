@@ -5,7 +5,15 @@ import 'package:school/modules/profile/controllers/profile_controller.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String profile;
+  final String studentName;
+  final String id;
+  const ProfileScreen(
+      {Key? key,
+      required this.profile,
+      required this.studentName,
+      required this.id})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
@@ -60,13 +68,19 @@ class ProfileScreen extends StatelessWidget {
                     height: 25.w,
                     width: 25.w,
                     decoration: BoxDecoration(
-                        color: Colors.white, shape: BoxShape.circle),
+                        color: AppColor.primaryColor,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              profile,
+                            ),
+                            fit: BoxFit.cover)),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "VANNAK",
+                    "${studentName}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -79,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "Student ID : IS202323",
+                    "Student ID : ${id}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -136,6 +150,7 @@ class ProfileScreen extends StatelessWidget {
                     }).toList(),
                   ),
                   GestureDetector(
+                    onTap: () {},
                     child: Container(
                       height: 7.5.h,
                       decoration: BoxDecoration(
