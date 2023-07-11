@@ -27,21 +27,12 @@ class _GallaryScreenState extends State<GallaryScreen> {
         backgroundColor: AppColor.primaryColor.withOpacity(1),
         appBar: AppBar(
           title: Text("Gallary"),
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: 10),
-          //     child: GestureDetector(
-          //         onTap: () {
-          //           controller.islist.value = !controller.islist.value;
-          //         },
-          //         child: controller.islist.value
-          //             ? Icon(Icons.menu)
-          //             : Icon(Icons.grid_on)),
-          //   )
-          // ],
         ),
         body: controller.isloading.value
-            ? CircularProgressIndicator()
+            ? Center(
+                child: CircularProgressIndicator(
+                color: Colors.white,
+              ))
             : SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.only(top: 20, left: 10, right: 10),
