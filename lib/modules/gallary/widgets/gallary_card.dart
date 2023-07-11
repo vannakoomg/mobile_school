@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/modules/gallary/controller/gallary_controller.dart';
+import 'package:sizer/sizer.dart';
 
 import '../models/gallary_model.dart';
 
@@ -14,13 +16,18 @@ class GallaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(GallaryController());
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "$yearMonth",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
+            ),
           ),
           SizedBox(
             height: 20,
@@ -41,15 +48,16 @@ class GallaryCard extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(left: 10, top: 10, right: 10),
                         width: double.infinity,
-                        height: 170,
+                        height: 20.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
+                          color: controller.getColor(),
                           image: DecorationImage(
-                              image: NetworkImage(
-                                "${data.image!}",
-                              ),
-                              fit: BoxFit.cover),
+                            image: NetworkImage(
+                              "${data.image!}",
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,6 +74,10 @@ class GallaryCard extends StatelessWidget {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.tablet
+                                          ? 18
+                                          : 12,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),

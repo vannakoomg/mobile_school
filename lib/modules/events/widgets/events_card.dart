@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school/modules/events/models/event_model.dart';
+import 'package:sizer/sizer.dart';
 
 class EventCard extends StatelessWidget {
   final String day;
@@ -27,7 +28,7 @@ class EventCard extends StatelessWidget {
           )),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
-              width: 30,
+              width: 5.w,
             ),
             Expanded(
               child: Column(
@@ -45,14 +46,22 @@ class EventCard extends StatelessWidget {
                               "${element.value.title}",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 15,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 8.sp
+                                        : 12,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 1),
                               child: Text(
                                 "${element.value.time}",
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: SizerUtil.deviceType ==
+                                            DeviceType.tablet
+                                        ? 6.sp
+                                        : 12),
                               ),
                             ),
                           ]),
@@ -66,8 +75,8 @@ class EventCard extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 0),
-                height: 22,
-                width: 22,
+                height: 4.w,
+                width: 4.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
@@ -76,9 +85,9 @@ class EventCard extends StatelessWidget {
                   child: Text(
                     "$day",
                     style: TextStyle(
-                      color: Color(0xff1d1a56),
-                      fontWeight: FontWeight.w500,
-                    ),
+                        color: Color(0xff1d1a56),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10),
                   ),
                 ),
               ),

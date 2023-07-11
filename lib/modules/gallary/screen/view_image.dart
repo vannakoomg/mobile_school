@@ -52,9 +52,6 @@ class _ViewimageState extends State<Viewimage> {
                       controller.urlImage.value =
                           controller.gallaryDetail.value.data![value].image!;
                       controller.tagId.value = "$value";
-                      controller.scrllcontroller.value.animateTo(200,
-                          duration: Duration(milliseconds: 100),
-                          curve: Curves.ease);
                     },
                     controller: pageViewController,
                     children: controller.gallaryDetail.value.data!
@@ -74,7 +71,6 @@ class _ViewimageState extends State<Viewimage> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: AppColor.primaryColor,
-                              borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                   image: NetworkImage(
                                     "https://images.lifestyleasia.com/wp-content/uploads/sites/5/2022/08/01134813/BLACKPINK-1-1600x898.jpeg",

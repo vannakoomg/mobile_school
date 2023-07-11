@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/modules/events/controller/events_controller.dart';
+import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../widgets/events_card.dart';
@@ -27,7 +28,13 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
         backgroundColor: Color(0xff1d1a56),
-        appBar: AppBar(title: Text("Event")),
+        appBar: AppBar(
+            title: Text(
+          "Event",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 10.sp : 16),
+        )),
         body: SingleChildScrollView(
             child: Container(
                 child: Column(
@@ -35,7 +42,14 @@ class _EventScreenState extends State<EventScreen> {
             Container(
               color: Colors.white,
               child: TableCalendar(
-                  rowHeight: 50,
+                  rowHeight: 6.h,
+                  headerStyle: HeaderStyle(
+                    titleTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize:
+                          SizerUtil.deviceType == DeviceType.tablet ? 8.sp : 16,
+                    ),
+                  ),
                   calendarBuilders: CalendarBuilders(
                     disabledBuilder: (context, day, focusedDay) {
                       return Container();
@@ -54,8 +68,8 @@ class _EventScreenState extends State<EventScreen> {
                         if (DateFormat('yyyy-MM-dd').format(timeNow) ==
                             controller.eventDate.value.data![i].date) {
                           return Container(
-                              width: 45,
-                              height: 45,
+                              width: 6.h,
+                              height: 6.h,
                               child: Stack(
                                 children: [
                                   Center(
@@ -71,8 +85,8 @@ class _EventScreenState extends State<EventScreen> {
                                                 .toString()))
                                             .withOpacity(0.8),
                                       ),
-                                      width: 35,
-                                      height: 35,
+                                      width: 5.h,
+                                      height: 5.h,
                                       child: Center(
                                         child: Text(
                                           "${timeNow.day}",
@@ -113,7 +127,7 @@ class _EventScreenState extends State<EventScreen> {
                     },
                   ),
                   firstDay: DateTime(2010, 10, 16),
-                  lastDay: DateTime(2030, 3, 14),
+                  lastDay: DateTime(2040, 3, 14),
                   focusedDay: controller.focusDate.value,
                   onPageChanged: (value) {
                     controller.focusDate.value = value;
@@ -157,7 +171,12 @@ class _EventScreenState extends State<EventScreen> {
                             controller.eventDate.value.data!.isEmpty
                                 ? "NOTHING"
                                 : "UPCOMING",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 10.sp
+                                        : 8.sp),
                           ),
                           SizedBox(
                             height: 20,

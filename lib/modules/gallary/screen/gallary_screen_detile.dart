@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:school/modules/gallary/screen/view_image.dart';
 import '../../../utils/function/function.dart';
@@ -31,47 +32,52 @@ class _GallaryDetailState extends State<GallaryDetail> {
           title: Text("${argument['title']}"),
         ),
         body: controller.isloadingGallaryDetail.value
-            ? CircularProgressIndicator()
+            ? Center(
+                child: CircularProgressIndicator(
+                color: AppColor.primaryColor,
+              ))
             : Container(
-                child: ListView.builder(
+                child: SingleChildScrollView(
                   controller: controller.scrllcontroller.value,
-                  itemCount: controller.gallaryDetail.value.data!.length ~/ 2,
-                  itemBuilder: (context, i) {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: ImageCard(
-                        tag01: "${2 * (i + 1) - 1 - 1}",
-                        tag02: "${2 * (i + 1) - 1}",
-                        image01: controller.gallaryDetail.value
-                            .data![2 * (i + 1) - 1 - 1].image!,
-                        image02: controller
-                            .gallaryDetail.value.data![2 * (i + 1) - 1].image!,
-                        colors01: controller.getColor(),
-                        colors02: controller.getColor(),
-                        flex01: Random().nextInt(3) + 1,
-                        flex02: Random().nextInt(3) + 1,
-                        high: getHigh(),
-                        ontap01: () {
-                          controller.tagId.value = "${2 * (i + 1) - 1 - 1}";
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Viewimage(),
-                            ),
-                          );
-                        },
-                        ontap02: () {
-                          controller.tagId.value = "${2 * (i + 1) - 1}";
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Viewimage(),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
+                  child: Column(
+                    children: [
+                      // use this (for loop beacuse we increase i one time 2 )
+                      for (int i = 0;
+                          i < controller.gallaryDetail.value.data!.length ~/ 2;
+                          ++i)
+                        ImageCard(
+                          tag01: "${2 * (i + 1) - 1 - 1}",
+                          tag02: "${2 * (i + 1) - 1}",
+                          image01: controller.gallaryDetail.value
+                              .data![2 * (i + 1) - 1 - 1].image!,
+                          image02: controller.gallaryDetail.value
+                              .data![2 * (i + 1) - 1].image!,
+                          colors01: controller.getColor(),
+                          colors02: controller.getColor(),
+                          flex01: Random().nextInt(3) + 1,
+                          flex02: Random().nextInt(3) + 1,
+                          high: getHigh(),
+                          ontap01: () {
+                            controller.tagId.value = "${2 * (i + 1) - 1 - 1}";
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Viewimage(),
+                              ),
+                            );
+                          },
+                          ontap02: () {
+                            controller.tagId.value = "${2 * (i + 1) - 1}";
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Viewimage(),
+                              ),
+                            );
+                          },
+                        )
+                    ],
+                  ),
                 ),
               ),
       ),
