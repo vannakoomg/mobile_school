@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     color: AppColor.primaryColor,
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                            "${storage.read('profile')}"))),
+                                            "${storage.read('isPhoto')}"))),
                               ),
                             ),
                           ),
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             width: 20,
                           ),
                           Text(
-                            "${controller.helloFromIcs()} , ${storage.read('isName')}",
+                            "${controller.helloFromIcs()}  ${storage.read('isName') ?? ''}",
                             style: TextStyle(
                               color: AppColor.primaryColor.withOpacity(0.8),
                               fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   opacity: controller.isShowProfile.value == false ? 0 : 1,
                   child: ProfileScreen(
                     id: '${storage.read('isActive')}',
-                    profile: '${storage.read('profile')}',
+                    profile: '${storage.read('isPhoto')}',
                     studentName: '${storage.read('isName')}',
                   )))
         ],
@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             storage.write('isClassId', value.data.data[0].classId);
             storage.write('isUserId', value.data.data[0].id);
             storage.write('isGradeLevel', value.data.data[0].className);
-            storage.write('profile', value.data.data[0].fullImage);
+            storage.write('isPhoto', value.data.data[0].fullImage);
           } else {
             _mapUser = storage.read('mapUser');
             for (dynamic type in _mapUser.keys) {
@@ -498,7 +498,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 storage.write('isUserId', value.data.data[0].id);
                 storage.write('isGradeLevel', value.data.data[0].className);
                 storage.write('isPassword', _mapUser[type]['password']);
-                storage.write('profile', value.data.data[0].fullImage);
+                storage.write('isPhoto', value.data.data[0].fullImage);
               }
             }
           }
@@ -626,7 +626,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _login() {
     if (storage.read('user_token') == null) return;
-
     userLogin(storage.read('isActive'), storage.read('isPassword'),
             storage.read('device_token'))
         .then((value) {
@@ -649,7 +648,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     fetchHomeSlide().then((value) {
       setState(() {
         try {
-          // print("value.link1=${value.data[0].link1}");
           _recData.addAll(value.data);
           _imageIphoneList.clear();
           _imageIpadList.clear();

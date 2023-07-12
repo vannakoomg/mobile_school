@@ -4,17 +4,22 @@ import 'package:school/config/app_colors.dart';
 import 'package:school/modules/profile/controllers/profile_controller.dart';
 import 'package:sizer/sizer.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final String profile;
   final String studentName;
   final String id;
-  const ProfileScreen(
-      {Key? key,
-      required this.profile,
-      required this.studentName,
-      required this.id})
-      : super(key: key);
+  const ProfileScreen({
+    Key? key,
+    required this.profile,
+    required this.studentName,
+    required this.id,
+  }) : super(key: key);
+
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
     return Container(
@@ -72,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
-                              profile,
+                              widget.profile,
                             ),
                             fit: BoxFit.cover)),
                   ),
@@ -80,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "${studentName}",
+                    "${widget.studentName}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -93,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "Student ID : ${id}",
+                    "Student ID : ${widget.id}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -150,7 +155,10 @@ class ProfileScreen extends StatelessWidget {
                     }).toList(),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      controller.logout();
+                      // controller.isShowProfile.value = false;
+                    },
                     child: Container(
                       height: 7.5.h,
                       decoration: BoxDecoration(

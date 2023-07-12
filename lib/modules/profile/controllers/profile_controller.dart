@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../../repos/logout.dart';
+import '../../../screens/pages/switch_account.dart';
 
 class ProfileController extends GetxController {
   final isShowProfile = false.obs;
@@ -46,6 +50,55 @@ class ProfileController extends GetxController {
     } else {
       return "Good Night";
     }
+  }
+
+  late Map<String, dynamic> _mapUser;
+  final storage = GetStorage();
+  void logout() {
+    _mapUser = storage.read('mapUser');
+    bool isValue = false;
+    userLogout().then((value) {
+      try {
+        storage.remove('exam_schedule_badge');
+        storage.remove('notification_badge');
+        storage.remove('assignment_badge');
+        if (_mapUser.length > 1) {
+          for (dynamic type in _mapUser.keys) {
+            if (type == storage.read('isActive')) {
+              _mapUser.remove(type);
+              storage.write('mapUser', _mapUser);
+              storage.remove('user_token');
+              storage.remove('isActive');
+              storage.remove('isName');
+              storage.remove('isClassId');
+              storage.remove('isUserId');
+              storage.remove('isGradeLevel');
+              storage.remove('isPassword');
+              storage.remove('isPhoto');
+              isValue = true;
+              Get.offAll(() => SwitchAccountPage());
+              break;
+            }
+          }
+        }
+        if (isValue == false) {
+          storage.remove('user_token');
+          storage.remove('isActive');
+          storage.remove('isName');
+          storage.remove('mapUser');
+          storage.remove('isPhoto');
+        }
+        isShowProfile.value = false;
+        // Get.toNamed('home_screen');
+      } catch (err) {
+        Get.defaultDialog(
+          title: "Error",
+          middleText: "$value",
+          barrierDismissible: false,
+          // confirm: reloadBtn(),
+        );
+      }
+    });
   }
 }
 
