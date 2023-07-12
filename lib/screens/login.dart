@@ -212,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
         EasyLoading.dismiss();
         // Navigator.pop(context);
         Get.back(result: true);
-        if (_route == 'no route') {
+        if (_route == 'no route' || _route == 'pick_up_card') {
           // print("no route");
         } else if (_route == 'dashboard') {
           Get.offAllNamed(_route!);
