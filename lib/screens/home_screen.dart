@@ -87,7 +87,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controller.isShowProfile.value = true;
+                        if (storage.read('user_token') == null) {
+                          // Get.toNamed('login', arguments: 'home_screen');
+                        } else {
+                          controller.isShowProfile.value = true;
+                        }
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
@@ -138,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           ),
           Container(
-            height: 60,
+            height: 10.h,
             color: AppColor.primaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,12 +152,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 SizedBox(
                   width: 20,
                 ),
-                Text(
-                  "ICS",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                Image.asset(
+                  'assets/icons/home_screen_icon_one_color/ICS_International_School.png',
+                  width:
+                      SizerUtil.deviceType == DeviceType.tablet ? 16.w : 33.w,
+                  color: Colors.white,
                 ),
                 Spacer(),
                 GestureDetector(
@@ -490,7 +493,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 _mapUser[type]['userId'] = value.data.data[0].id;
                 _mapUser[type]['gradeLevel'] = value.data.data[0].className;
                 _mapUser[type]['photo'] = value.data.data[0].fullImage;
-
                 storage.write('isActive', type);
                 storage.write('isName', value.data.data[0].name);
                 storage.write('user_token', _mapUser[type]['token']);
@@ -502,13 +504,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               }
             }
           }
-          // print("value.data.data[0].version=${value.data.data[0].version}");
           if (value.data.data[0].version != storage.read("isVersion"))
             _updateVersion(version: storage.read("isVersion"));
           storage.write('isPhoto', value.data.data[0].fullImage);
-          // print("storage.read('mapUser')=${storage.read('mapUser')}");
         } catch (err) {
-          print('Error=$err');
           Get.defaultDialog(
             title: "Error",
             middleText: "$value",
