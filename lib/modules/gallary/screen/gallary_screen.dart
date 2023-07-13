@@ -24,7 +24,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColor.primaryColor.withOpacity(1),
+        backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
           title: Text("Gallary"),
         ),

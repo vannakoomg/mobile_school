@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,7 +25,7 @@ class GallaryCard extends StatelessWidget {
           Text(
             "$yearMonth",
             style: TextStyle(
-              color: Colors.white,
+              color: AppColor.primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
             ),
