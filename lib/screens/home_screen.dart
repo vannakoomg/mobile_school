@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       child: Stack(
         children: [
           Positioned(
-            top: 60,
+            top: 10.h,
             left: 0,
             child: Container(
               height: MediaQuery.of(context).size.height,
@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           ),
           Container(
-            height: 10.h,
+            height: 11.h,
             color: AppColor.primaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
