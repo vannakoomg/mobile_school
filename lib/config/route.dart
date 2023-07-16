@@ -1,8 +1,11 @@
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
+import 'package:school/modules/student_report/screens/student_report_screen.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
+import '../screens/about_screen.dart';
+import '../screens/contact_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login.dart';
 import '../screens/pages/about_accreditation_page.dart';
@@ -29,7 +32,6 @@ import '../screens/pages/notification_page.dart';
 import '../screens/pages/pick_up_card_page.dart';
 import '../screens/pages/pos_history.dart';
 import '../screens/pages/pos_page.dart';
-import '../screens/pages/switch_account.dart';
 import '../screens/pages/teacher_homeworks.dart';
 import '../screens/pages/terms_conditions.dart';
 import '../screens/pages/timetable_page.dart';
@@ -78,4 +80,5 @@ var route02 = {
       ),
   'limit_purchase': (context) => LimitPurchase(),
   'terms_conditions': (context) => TermsAndConditions(),
+  'student_report': (context) => StudentReportScreen()
 };
