@@ -10,10 +10,22 @@ class Menu {
 
 List<Menu> menuIconList = [
   Menu(
+<<<<<<< HEAD
       img: "assets/icons/home_screen_icon_one_color/pickup_card.png",
       title: "Pick Up\nVirtual Card",
       route: 'pick_up_card',
       isAuthorize: false),
+=======
+      img: "assets/icons/home_screen_icon_one_color/attendance.png",
+      title: "Student Report",
+      route: "student_report",
+      isAuthorize: true),
+  Menu(
+      img: "assets/icons/home_screen_icon_one_color/announcement.png",
+      title: "News",
+      route: 'announcement',
+      isAuthorize: true),
+>>>>>>> 18db76b7d6031e0df608ec21e1e90b730ba6e38f
   Menu(
       img: "assets/icons/home_screen_icon_one_color/attendance.png",
       title: "Attendance",

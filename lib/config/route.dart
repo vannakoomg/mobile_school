@@ -1,7 +1,5 @@
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
-import 'package:school/screens/about_screen.dart';
-import 'package:school/screens/contact_screen.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
@@ -80,5 +78,4 @@ var route02 = {
       ),
   'limit_purchase': (context) => LimitPurchase(),
   'terms_conditions': (context) => TermsAndConditions(),
-  'switch_accountPage': (context) => SwitchAccountPage(),
 };
