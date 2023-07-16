@@ -1,5 +1,6 @@
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
+import 'package:school/modules/student_report/screens/student_report_screen.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
@@ -75,4 +76,5 @@ var route02 = {
       ),
   'limit_purchase': (context) => LimitPurchase(),
   'terms_conditions': (context) => TermsAndConditions(),
+  'student_report': (context) => StudentReportScreen()
 };
