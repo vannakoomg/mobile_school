@@ -39,17 +39,9 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-<<<<<<< HEAD
-                        child: Text(
-                          "School year : 2022-2023",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-=======
                         child: Text("School Year : 2022-2023"),
                       ),
                       Text(""),
->>>>>>> 97c454a8e6f5409928e630f1efccbc44aa3acb90
                       SizedBox(
                         height: 20,
                       ),
