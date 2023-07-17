@@ -298,7 +298,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _fetchProfile() {
-    // print("_fetchProfile");
     fetchProfile(apiKey: storage.read('user_token')).then((value) {
       setState(() {
         try {
@@ -342,11 +341,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               }
             }
           }
-          // print("value.data.data[0].version=${value.data.data[0].version}");
           if (value.data.data[0].version != storage.read("isVersion"))
             _updateVersion(version: storage.read("isVersion"));
           storage.write('isPhoto', value.data.data[0].fullImage);
-          // print("storage.read('mapUser')=${storage.read('mapUser')}");
         } catch (err) {
           print('Error=$err');
           Get.defaultDialog(

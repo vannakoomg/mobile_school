@@ -38,6 +38,13 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: Text("School Year : 2022-2023"),
+                      ),
+                      Text(""),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Flowchat(),
                       Container(
                         height: 50,
@@ -60,7 +67,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                       i > 0;
                                       --i)
                                     AnimatedPositioned(
-                                      duration: Duration(milliseconds: 250),
+                                      duration: Duration(milliseconds: 200),
                                       right: 10 +
                                           35.0 *
                                               (controller.listOfTerm.length -
@@ -192,7 +199,13 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                             FontWeight.w600,
                                                         overflow: TextOverflow
                                                             .ellipsis,
-                                                        fontSize: 13),
+                                                        fontSize: 13,
+                                                        color: controller
+                                                            .generateColorByPoint(
+                                                                double.parse(
+                                                                    element
+                                                                        .value
+                                                                        .score!))),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -249,7 +262,13 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                             FontWeight.w600,
                                                         overflow: TextOverflow
                                                             .ellipsis,
-                                                        fontSize: 13),
+                                                        fontSize: 13,
+                                                        color: controller
+                                                            .generateColorByPoint(
+                                                                double.parse(
+                                                                    element
+                                                                        .value
+                                                                        .score!))),
                                                   ),
                                                 ),
                                               ],
@@ -349,7 +368,11 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                         "A (${element.value.score}.45)",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
-                                            overflow: TextOverflow.ellipsis),
+                                            overflow: TextOverflow.ellipsis,
+                                            color:
+                                                controller.generateColorByPoint(
+                                                    double.parse(
+                                                        element.value.score!))),
                                       ),
                                     ),
                                     SizedBox(
@@ -396,8 +419,33 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
+                      Container(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        height: 11.w,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: AppColor.mainColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Row(children: [
+                          Text("Total"),
+                          Spacer(),
+                          Text(
+                            "A (232.45)",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ]),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Wrap(
+                        children: [],
+                      )
                     ],
                   ),
                 ),
