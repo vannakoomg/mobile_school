@@ -1,6 +1,7 @@
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
 import 'package:school/modules/student_report/screens/student_report_screen.dart';
+import 'package:school/screens/pages/switch_account.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
@@ -51,6 +52,7 @@ var route02 = {
   'feedback_send': (context) => FeedbackSendPage(
         sortFilter: [],
       ),
+  'switch_accountPage': (context) => SwitchAccountPage(),
   'e_learning_subject': (context) => ELearningSubjectPage(),
   'introduction': (context) => IntroductionPage(),
   'school_history': (context) => SchoolHistoryPage(),

@@ -11,8 +11,8 @@ class Menu {
 List<Menu> menuIconList = [
   Menu(
       img: "assets/icons/home_screen_icon_one_color/announcement.png",
-      title: "News",
-      route: 'announcement',
+      title: "Pick Up",
+      route: 'pick_up_card',
       isAuthorize: true),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/attendance.png",

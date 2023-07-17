@@ -38,6 +38,15 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: Text(
+                          "School year : 2022-2023",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Flowchat(),
                       Container(
                         height: 50,
@@ -396,7 +405,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                     ],
                   ),
