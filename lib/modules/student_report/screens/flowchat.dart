@@ -103,16 +103,16 @@ class FlowchatState extends State<Flowchat> {
                   ),
                   Row(
                     children: [
-                      Spacer(),
+                      // Spacer(),
                       Container(
-                        margin: EdgeInsets.only(right: 10),
+                        margin: EdgeInsets.only(right: 10, left: 10),
                         height: 4.w,
                         width: 4.w,
                         color: Color(0xff012a4a),
                       ),
                       Text("English"),
                       Container(
-                        margin: EdgeInsets.only(right: 10),
+                        margin: EdgeInsets.only(left: 10, right: 10),
                         height: 4.w,
                         width: 4.w,
                         color: Color(0xff468faf),
