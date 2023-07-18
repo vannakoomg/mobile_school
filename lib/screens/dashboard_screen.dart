@@ -4,6 +4,7 @@ import 'package:school/screens/about_screen.dart';
 import 'package:school/screens/contact_screen.dart';
 import 'package:school/screens/home_screen.dart';
 import 'package:school/screens/profile_screen.dart';
+import 'package:school/utils/function/function.dart';
 import '../main_drawer.dart';
 import '../repos/version.dart';
 import '../translations/locale_keys.g.dart';
@@ -64,10 +65,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         onTap: (int index) {
-          // print("index=$index");
-
           setState(() {
             _currentIndex = index;
+            String track = '';
+            index == 1
+                ? track = "contact us"
+                : index == 2
+                    ? track = "about us"
+                    : track = "profile";
+            tracking("$track");
             _pageController.animateToPage(
               _currentIndex,
               duration: Duration(milliseconds: 400),
@@ -77,7 +83,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         unselectedItemColor: Colors.grey,
         selectedItemColor: Color(0xff1d1a56),
-        // type: BottomNavigationBarType.fixed, // This is all you need!
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

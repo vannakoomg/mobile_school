@@ -57,12 +57,11 @@ Future<void> downloadImage02() async {
 
 void tracking(String action) async {
   try {
-    debugPrint("tos ");
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
     })).post('http://10.0.2.2:8000/api/tracking', data: {'name': action});
-    debugPrint("massage : ${response.statusCode}");
+    debugPrint("tracking statusCode : ${response.statusCode}");
   } catch (value) {
     debugPrint("you have catch $value");
   }

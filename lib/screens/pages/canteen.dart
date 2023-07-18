@@ -9,8 +9,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/utils/function/function.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../models/PosUserDB.dart';
 import '../../models/menu_icon_list.dart';
 import '../../repos/pos_data.dart';
@@ -252,15 +252,12 @@ class _CanteenScreenState extends State<CanteenScreen> {
             ],
           )),
       onTap: () {
-        // print("productCount=$productCount");
-        // _recPosUserData[0].cardId = "";
-        // posSessionId = 0;
+        tracking(menuCanteenList[index].title);
         if ((_recPosUserData[0].cardId != "" &&
             posSessionOrderId != 0 &&
             index == 0)) {
           handleReturnData(
               route: menuCanteenList[index].route, arg: productCount);
-          // Get.toNamed(route, arguments: arg);
         } else if ((_recPosUserData[0].cardId != "" &&
             posSessionTopUpId != 0 &&
             index == 1)) {
