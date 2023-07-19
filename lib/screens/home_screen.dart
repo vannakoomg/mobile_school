@@ -8,6 +8,7 @@ import 'package:school/repos/exam_schedule.dart';
 import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
+import 'package:school/utils/function/function.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -90,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         if (storage.read('user_token') == null) {
                           // Get.toNamed('login', arguments: 'home_screen');
                         } else {
+                          tracking("profile");
                           controller.isShowProfile.value = true;
                         }
                       },
@@ -173,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           color: Colors.white,
                         ),
                   onTap: () async {
+                    tracking("notification");
                     if (storage.read('user_token') != null) {
                       Get.toNamed('notification');
                     } else {
@@ -198,9 +201,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           AnimatedPositioned(
               top: controller.isShowProfile.value == false ? 100.h : 0.h,
               left: 0,
-              duration: Duration(milliseconds: 250),
+              curve: Curves.easeOutCirc,
+              duration: Duration(milliseconds: 300),
               child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 250),
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.linear,
                   opacity: controller.isShowProfile.value == false ? 0 : 1,
                   child: ProfileScreen(
                     id: '${storage.read('isActive')}',
@@ -278,6 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 return GestureDetector(
                   onTap: () async {
                     debugPrint("route : ${menuIconList[e.key].route}");
+                    tracking("${menuIconList[e.key].title}");
                     if (storage.read('user_token') != null ||
                         menuIconList[e.key].isAuthorize) {
                       var data = await Get.toNamed(menuIconList[e.key].route);
@@ -355,7 +361,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             )),
         Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-          // padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
@@ -368,6 +373,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 return GestureDetector(
                   onTap: () async {
                     debugPrint("route : ${menuIconList[e.key].route}");
+                    tracking("${menuIconList[e.key].title}");
                     if (storage.read('user_token') != null ||
                         menuSubIconList[e.key].isAuthorize) {
                       var data =
@@ -394,10 +400,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     padding:
                         EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
                     margin: EdgeInsets.only(right: 5),
-                    height: 5.h,
+                    height: 6.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     child: Center(
                         child: Row(

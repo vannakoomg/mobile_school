@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/utils/function/function.dart';
 
 import '../../../repos/logout.dart';
 import '../../../screens/pages/switch_account.dart';
 
 class ProfileController extends GetxController {
   final isShowProfile = false.obs;
+  void ontaplist({required String route, required track}) {
+    tracking(track);
+    Get.toNamed("${route}");
+  }
+
   List<Menu> menuProfile = [
     Menu(
         title: "Student Information",
@@ -55,6 +61,7 @@ class ProfileController extends GetxController {
   late Map<String, dynamic> _mapUser;
   final storage = GetStorage();
   void logout() {
+    tracking("logout");
     _mapUser = storage.read('mapUser');
     bool isValue = false;
     userLogout().then((value) {
@@ -89,13 +96,11 @@ class ProfileController extends GetxController {
           storage.remove('isPhoto');
         }
         isShowProfile.value = false;
-        // Get.toNamed('home_screen');
       } catch (err) {
         Get.defaultDialog(
           title: "Error",
           middleText: "$value",
           barrierDismissible: false,
-          // confirm: reloadBtn(),
         );
       }
     });

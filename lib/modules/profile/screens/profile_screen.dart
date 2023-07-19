@@ -121,7 +121,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: controller.menuProfile.asMap().entries.map((e) {
                       return GestureDetector(
                         onTap: () {
-                          Get.toNamed('${e.value.route}');
+                          controller.ontaplist(
+                              route: e.value.route, track: e.value.title);
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: 10),
@@ -157,7 +158,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   GestureDetector(
                     onTap: () {
                       controller.logout();
-                      // controller.isShowProfile.value = false;
                     },
                     child: Container(
                       height: 7.5.h,
