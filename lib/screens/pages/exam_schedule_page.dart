@@ -8,7 +8,7 @@ import 'package:school/config/theme/theme.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
-import 'blank_page.dart';
+import '../../utils/widgets/blank_screen.dart';
 
 class ExamSchedulePage extends StatefulWidget {
   const ExamSchedulePage({Key? key}) : super(key: key);

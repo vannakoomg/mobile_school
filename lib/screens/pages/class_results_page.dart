@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import '../../models/AssignmentListDB.dart';
 import '../../repos/assignment_list.dart';
 import '../../config/theme/theme.dart';
-import 'blank_page.dart';
+import '../../utils/widgets/blank_screen.dart';
 
 class ClassResultsPage extends StatefulWidget {
   const ClassResultsPage({Key? key}) : super(key: key);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:school/config/url.dart';
 
 double getHigh() {
   int i = Random().nextInt(4);
@@ -60,7 +61,7 @@ void tracking(String action) async {
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
-    })).post('http://10.0.2.2:8000/api/tracking', data: {'name': action});
+    })).post('$baseUrlSchool' + 'api/tracking', data: {'name': action});
     debugPrint("tracking statusCode : ${response.statusCode}");
   } catch (value) {
     debugPrint("you have catch $value");

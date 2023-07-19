@@ -10,10 +10,10 @@ class AnnouncementDb {
   Data data;
 
   factory AnnouncementDb.fromMap(Map<String, dynamic> json) => AnnouncementDb(
-    status: json["status"],
-    message: json["message"],
-    data: Data.fromMap(json["data"]),
-  );
+        status: json["status"],
+        message: json["message"],
+        data: Data.fromMap(json["data"]),
+      );
 }
 
 class Data {
@@ -30,11 +30,11 @@ class Data {
   int total;
 
   factory Data.fromMap(Map<String, dynamic> json) => Data(
-    currentPage: json["current_page"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
-    nextPageUrl: json["next_page_url"],
-    total: json["total"],
-  );
+        currentPage: json["current_page"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
+        nextPageUrl: json["next_page_url"],
+        total: json["total"],
+      );
 }
 
 class Datum {
@@ -49,6 +49,7 @@ class Datum {
     required this.fullImage,
     required this.date,
     required this.time,
+    required this.view,
   });
 
   int id;
@@ -61,18 +62,19 @@ class Datum {
   String fullImage;
   String date;
   String time;
+  int view;
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    userId: json["user_id"],
-    title: json["title"],
-    body: json["body"],
-    thumbnail: json["thumbnail"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"],
-    fullImage: json["full_image"],
-    date: json["date"],
-    time: json["time"],
-  );
+        id: json["id"],
+        userId: json["user_id"],
+        title: json["title"],
+        body: json["body"],
+        thumbnail: json["thumbnail"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"],
+        fullImage: json["full_image"],
+        date: json["date"],
+        time: json["time"],
+        view: json["view"],
+      );
 }
-
