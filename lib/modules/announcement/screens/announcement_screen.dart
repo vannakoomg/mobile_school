@@ -1,22 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school/models/AnnouncementDB.dart';
+import 'package:school/modules/announcement/models/announcment_model.dart';
 import 'package:school/repos/announcement_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
-import 'announcement_html.dart';
-import 'blank_page.dart';
+import '../../../utils/widgets/blank_screen.dart';
+import 'announcement_detail_screen.dart';
 
-class AnnouncementPage extends StatefulWidget {
-  const AnnouncementPage({Key? key}) : super(key: key);
+class AnnouncementScreen extends StatefulWidget {
+  const AnnouncementScreen({Key? key}) : super(key: key);
 
   @override
-  _AnnouncementPageState createState() => _AnnouncementPageState();
+  _AnnouncementScreenState createState() => _AnnouncementScreenState();
 }
 
-class _AnnouncementPageState extends State<AnnouncementPage> {
+class _AnnouncementScreenState extends State<AnnouncementScreen> {
   late List<Datum> _recAnnouncementList = [];
   ScrollController _scrollController = ScrollController();
   int _page = 1;
@@ -24,13 +24,11 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   bool isFirstLoading = true;
   late final PhoneSize phoneSize;
   int? _empty;
-
   void _firstLoad() {
     fetchAnnouncement().then((value) {
       _recAnnouncementList.clear();
       setState(() {
         try {
-          print("value.data.data=${value.data.nextPageUrl}");
           _empty = value.data.total;
           _recAnnouncementList.addAll(value.data.data);
           isFirstLoading = false;
@@ -63,7 +61,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     phoneSize = SizerUtil.deviceType == DeviceType.tablet
         ? PhoneSize.ipad
         : PhoneSize.iphone;
-    // initPlatformState();
     _firstLoad();
     _scrollController.addListener(() {
       if (!isFirstLoading) {
@@ -99,39 +96,34 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       appBar: AppBar(
         title: Text("News"),
       ),
-      body: _buildBody,
-    );
-  }
-
-  get _buildBody {
-    return RefreshIndicator(
-      onRefresh: () async {
-        setState(() {
-          isMoreLoading = true;
-          _page = 1;
-          _firstLoad();
-        });
-      },
-      child: Container(
-        alignment: Alignment.center,
-        child: _empty == 0 ? BlankPage() : _buildListView(_recAnnouncementList),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            isMoreLoading = true;
+            _page = 1;
+            _firstLoad();
+          });
+        },
+        child: Container(
+          alignment: Alignment.center,
+          child: _empty == 0
+              ? BlankPage()
+              : ListView.builder(
+                  padding: EdgeInsets.all(8),
+                  controller: _scrollController,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  itemCount: _recAnnouncementList.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == _recAnnouncementList.length) {
+                      return _buildProgressIndicator();
+                    } else {
+                      return _buildItem(_recAnnouncementList[index]);
+                    }
+                  },
+                ),
+        ),
       ),
     );
-  }
-
-  _buildListView(List<Datum> items) {
-    return ListView.builder(
-        padding: EdgeInsets.all(8),
-        controller: _scrollController,
-        physics: AlwaysScrollableScrollPhysics(),
-        itemCount: items.length + 1,
-        itemBuilder: (context, index) {
-          if (index == items.length) {
-            return _buildProgressIndicator();
-          } else {
-            return _buildItem(items[index]);
-          }
-        });
   }
 
   _buildItem(Datum item) {
@@ -142,7 +134,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
           children: [
             Container(
               padding: EdgeInsets.all(8),
-              // height: 120,
               child: Row(
                 children: [
                   SizedBox(
@@ -153,8 +144,6 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                   ),
                   Expanded(
                     child: Container(
-                      // width: 300,
-                      // color: Colors.red,
                       height: 12.h,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -196,15 +185,13 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                 item.time,
                                 style: myTextStyleBody[phoneSize],
                               ),
+                              Spacer(),
+                              Text("${item.view} view"),
                             ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: Icon(Icons.navigate_next),
                   ),
                 ],
               ),

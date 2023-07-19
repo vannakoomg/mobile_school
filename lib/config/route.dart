@@ -1,3 +1,4 @@
+import 'package:school/modules/announcement/screens/announcement_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
 import 'package:school/modules/student_report/screens/student_report_screen.dart';
@@ -15,7 +16,6 @@ import '../screens/pages/about_core_beliefs_page.dart';
 import '../screens/pages/about_introduction_page.dart';
 import '../screens/pages/about_school_history_page.dart';
 import '../screens/pages/about_vision_page.dart';
-import '../screens/pages/announcement_page.dart';
 import '../screens/pages/attendance_calendar_page.dart';
 import '../screens/pages/attendance_page.dart';
 import '../screens/pages/canteen.dart';
@@ -41,7 +41,7 @@ import '../screens/student_info.dart';
 
 var route02 = {
   'dashboard': (context) => DashboardScreen(),
-  'announcement': (context) => AnnouncementPage(),
+  'announcement': (context) => AnnouncementScreen(),
   'attendance': (context) => AttendancePage(),
   'timetable': (context) => TimetablePage(),
   'exam_schedule': (context) => ExamSchedulePage(),

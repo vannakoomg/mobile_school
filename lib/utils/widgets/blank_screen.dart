@@ -16,13 +16,19 @@ class _BlankPageState extends State<BlankPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/icons/home_screen_icon/no-data.png', height: 15.h,),
-          SizedBox(height: 8,),
-          Text('No Data Found', style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: SizerUtil.deviceType == DeviceType.tablet
-                  ? 9.sp
-                  : 11.sp)),
+          Image.asset(
+            'assets/icons/home_screen_icon/no-data.png',
+            height: 15.h,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text('No Data Found',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: SizerUtil.deviceType == DeviceType.tablet
+                      ? 9.sp
+                      : 11.sp)),
         ],
       ),
     );

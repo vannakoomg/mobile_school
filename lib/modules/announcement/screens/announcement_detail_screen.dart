@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/models/AnnouncementDetailDB.dart';
+import 'package:school/modules/announcement/controller/announcement_controller.dart';
 import 'package:school/repos/announcement_detail.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
@@ -17,6 +18,7 @@ class AnnouncementHtml extends StatefulWidget {
 }
 
 class _AnnouncementHtmlState extends State<AnnouncementHtml> {
+  final announceController = Get.put(AnnouncementController());
   late WebViewController controller;
   late String _item;
   late final PhoneSize phoneSize;
@@ -34,6 +36,7 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
 
   void _fetchAnnouncementDetail(String id) {
     fetchAnnouncementDetail(announcementID: '$id').then((value) {
+      announceController.countAnnouncement(int.parse("$id"));
       setState(() {
         try {
           print("value.data.data=${value.data}");
@@ -51,11 +54,6 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Widget reloadBtn() {
     return ElevatedButton(
         onPressed: () {
@@ -70,7 +68,6 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
         ? Center(child: CircularProgressIndicator())
         : WebView(
             javascriptMode: JavascriptMode.unrestricted,
-            // initialUrl: 'http://schoolapp.ics.edu.kh/login',
             onWebViewCreated: (controller) {
               this.controller = controller;
               loadLocalHtml();
@@ -99,8 +96,8 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       </head>
       <body style="margin: 0; padding: 0;">
         <img src="${_announcementDetail.fullImage}" class="img-responsive" alt="Responsive image" style="width: auto; width: 100%;">
@@ -112,7 +109,7 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
           ${_announcementDetail.body}
       </div>
       </body>
-    </html>''',
+      </html>''',
       mimeType: 'text/html',
       encoding: Encoding.getByName('utf-8'),
     ).toString();

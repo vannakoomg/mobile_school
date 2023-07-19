@@ -11,7 +11,7 @@ import 'package:school/screens/pages/notification_detail.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
-import 'blank_page.dart';
+import '../../utils/widgets/blank_screen.dart';
 import 'feedback_detail.dart';
 
 class NotificationPage extends StatefulWidget {
