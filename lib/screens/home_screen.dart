@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 20),
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
           child: CarouselSlider.builder(
@@ -482,7 +482,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 "photo": "${value.data.data[0].fullImage}",
               },
             };
-
             storage.write('mapUser', _mapUser);
             storage.write('isActive', value.data.data[0].email);
             storage.write('isName', value.data.data[0].name);

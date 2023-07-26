@@ -11,6 +11,7 @@ import 'package:school/config/route.dart';
 import 'package:school/modules/announcement/screens/announcement_detail_screen.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/register_device_token.dart';
+import 'package:school/screens/home_screen.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                 (storage.read('mapUser') != null &&
                     storage.read('mapUser').length != 0)
             ? _switchAccountPage
-            : DashboardScreen(),
+            : HomeScreen(),
         routes: route02,
         builder: EasyLoading.init(),
       );
