@@ -1,12 +1,16 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/config/url.dart';
 import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:school/modules/gallary/models/gallary_model.dart';
 
 import '../../../screens/widgets/exceptions.dart';
+import '../../../utils/function/function.dart';
 
 class GallaryController extends GetxController {
   final listImage = [
@@ -36,10 +40,11 @@ class GallaryController extends GetxController {
       var response = await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-      })).get('http://10.0.2.2:8000/api/gallary');
+      })).get('${baseUrlSchool}api/gallary');
       gallary.value = GallaryModel.fromJson(response.data);
+
       isloading.value = false;
-      debugPrint("value ${gallary.value.data![0].yearMonth}");
+      debugPrint("value ${gallary.value.data}");
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       isloading.value = false;
@@ -53,7 +58,7 @@ class GallaryController extends GetxController {
       var response = await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-      })).get('http://10.0.2.2:8000/api/gallary?id=$id');
+      })).get('${baseUrlSchool}api/gallary?id=$id');
       gallaryDetail.value = GallaryDetailModel.fromJson(response.data);
       isloadingGallaryDetail.value = false;
       debugPrint("value ${gallaryDetail.value.data![0].image}");
@@ -98,5 +103,34 @@ class GallaryController extends GetxController {
       return Color(0xff2c7da0);
     }
     return Color(0xff2c7da0);
+  }
+
+  void saveThisPhoto() {
+    isTapSave.value = !isTapSave.value;
+    downloadImage(
+      url: "${gallaryDetail.value.data![int.parse(tagId.value)].image}",
+    ).then((value) {
+      Get.snackbar(
+        '',
+        '',
+        duration: Duration(milliseconds: 1000),
+        messageText: Text(
+          "Photo Saved",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        borderRadius: 60,
+        backgroundColor: Colors.blue,
+        padding: EdgeInsets.only(bottom: 22, left: 20),
+        snackPosition: SnackPosition.TOP,
+        maxWidth: 120,
+      );
+    });
+  }
+
+  Future<void> saveAllPhoto() async {
+    isTapSave.value = isTapSave.value;
+    for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
+      downloadImage(url: "${gallaryDetail.value.data![i].image}");
+    }
   }
 }

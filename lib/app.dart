@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/config/route.dart';
+import 'package:school/modules/announcement/screens/announcement_detail_screen.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/register_device_token.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
@@ -15,7 +16,6 @@ import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
 import 'package:school/screens/pages/notification_detail.dart';
 import 'models/AssignmentListDB.dart';
-import 'modules/announcement/screens/announcement_detail_screen.dart';
 import 'repos/assignment_list.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/pages/switch_account.dart';
@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
                 (storage.read('mapUser') != null &&
                     storage.read('mapUser').length != 0)
             ? _switchAccountPage
-            : _dashboardScreen,
+            : DashboardScreen(),
         routes: route02,
         builder: EasyLoading.init(),
       );

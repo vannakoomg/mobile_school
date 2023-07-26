@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
-import 'package:school/utils/function/function.dart';
 import 'package:sizer/sizer.dart';
 
 class Viewimage extends StatefulWidget {
@@ -72,9 +71,7 @@ class _ViewimageState extends State<Viewimage> {
                             decoration: BoxDecoration(
                               color: AppColor.primaryColor,
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                    "https://images.lifestyleasia.com/wp-content/uploads/sites/5/2022/08/01134813/BLACKPINK-1-1600x898.jpeg",
-                                  ),
+                                  image: NetworkImage("${e.value.image}"),
                                   fit: BoxFit.fitWidth),
                             ),
                           ),
@@ -121,12 +118,17 @@ class _ViewimageState extends State<Viewimage> {
                         controller.isTapSave.value =
                             !controller.isTapSave.value;
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                      child: Container(
+                        color: Colors.transparent,
+                        height: 40,
+                        width: 40,
+                        child: Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     )
@@ -144,10 +146,7 @@ class _ViewimageState extends State<Viewimage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          downloadImage(
-                            url:
-                                "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}",
-                          );
+                          controller.saveThisPhoto();
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
@@ -171,13 +170,26 @@ class _ViewimageState extends State<Viewimage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          for (int i = 0;
-                              i < controller.gallaryDetail.value.data!.length;
-                              ++i) {
-                            downloadImage(
-                                url:
-                                    "${controller.gallaryDetail.value.data![i].image}");
-                          }
+                          controller.saveAllPhoto().then((value) => {
+                                Get.snackbar(
+                                  '',
+                                  '',
+                                  duration: Duration(milliseconds: 1000),
+                                  messageText: Text(
+                                    "Photo Saved",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  borderRadius: 60,
+                                  backgroundColor: Colors.blue,
+                                  padding:
+                                      EdgeInsets.only(bottom: 22, left: 20),
+                                  snackPosition: SnackPosition.TOP,
+                                  maxWidth: 120,
+                                ),
+                                debugPrint("b sl soy ")
+                              });
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
