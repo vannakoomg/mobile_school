@@ -20,7 +20,9 @@ class _GallaryDetailState extends State<GallaryDetail> {
   final argument = Get.arguments;
   @override
   void initState() {
-    controller.getGallaryDetail('${argument['id']}');
+    Future.delayed(const Duration(milliseconds: 10), () {
+      controller.getGallaryDetail('${argument['id']}');
+    });
     super.initState();
   }
 
@@ -28,6 +30,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        backgroundColor: AppColor.primaryColor,
         appBar: AppBar(
           title: Text("${argument['title']}"),
         ),
@@ -41,7 +44,8 @@ class _GallaryDetailState extends State<GallaryDetail> {
                   controller: controller.scrllcontroller.value,
                   child: Column(
                     children: [
-                      // use this (for loop beacuse we increase i one time 2 )
+                      // Text("${controller.gallaryDetail.value.data.}"),
+                      // use this (for loop beacuse we need increase i by ++2 )
                       for (int i = 0;
                           i < controller.gallaryDetail.value.data!.length ~/ 2;
                           ++i)

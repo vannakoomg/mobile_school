@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:school/config/url.dart';
 import 'package:school/modules/events/models/event_model.dart';
 import 'package:school/screens/widgets/exceptions.dart';
 
@@ -18,7 +19,7 @@ class EventsController extends GetxController {
       response = await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-      })).get('http://10.0.2.2:8000/api/events?start=$startDate');
+      })).get('$baseUrlSchool' + 'api/events?start=$startDate');
       isloading.value = false;
       eventDate.value = EventModel.fromJson(response.data);
     } on DioError catch (e) {

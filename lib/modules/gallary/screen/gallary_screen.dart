@@ -13,10 +13,11 @@ class GallaryScreen extends StatefulWidget {
 
 class _GallaryScreenState extends State<GallaryScreen> {
   final controller = Get.put(GallaryController());
-
   @override
   void initState() {
-    controller.getGallary();
+    Future.delayed(const Duration(milliseconds: 10), () {
+      controller.getGallary();
+    });
     super.initState();
   }
 
@@ -24,7 +25,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColor.backgroundColor,
+        backgroundColor: AppColor.primaryColor,
         appBar: AppBar(
           title: Text("Gallary"),
         ),
@@ -33,17 +34,22 @@ class _GallaryScreenState extends State<GallaryScreen> {
                 child: CircularProgressIndicator(
                 color: Colors.white,
               ))
-            : SingleChildScrollView(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-                  child: Column(
-                      children: controller.gallary.value.data!.map((data) {
-                    return GallaryCard(
-                        listOfGallary: data.gallary!,
-                        yearMonth: data.yearMonth!);
-                  }).toList()),
-                ),
-              ),
+            : controller.gallary.value.data!.isEmpty
+                ? Center(
+                    child: Text("No Gallary"),
+                  )
+                : SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                      child: Column(
+                        children: controller.gallary.value.data!.map((data) {
+                          return GallaryCard(
+                              listOfGallary: data.gallary!,
+                              yearMonth: data.yearMonth!);
+                        }).toList(),
+                      ),
+                    ),
+                  ),
       ),
     );
   }

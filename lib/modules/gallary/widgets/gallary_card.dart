@@ -25,7 +25,7 @@ class GallaryCard extends StatelessWidget {
           Text(
             "$yearMonth",
             style: TextStyle(
-              color: AppColor.primaryColor,
+              color: AppColor.backgroundColor,
               fontWeight: FontWeight.bold,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
             ),
@@ -37,9 +37,10 @@ class GallaryCard extends StatelessWidget {
             children: listOfGallary.map((data) {
               return GestureDetector(
                 onTap: () {
+                  debugPrint("kkkkk ${data.id}");
                   Get.toNamed(
                     'gallary_datail',
-                    arguments: {"id": data.id, "title": data.title},
+                    arguments: {"id": "${data.id}", "title": data.title},
                   );
                 },
                 child: Container(
@@ -49,7 +50,7 @@ class GallaryCard extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(left: 10, top: 10, right: 10),
                         width: double.infinity,
-                        height: 20.h,
+                        height: 30.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: controller.getColor(),
