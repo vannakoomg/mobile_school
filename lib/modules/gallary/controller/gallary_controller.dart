@@ -34,6 +34,7 @@ class GallaryController extends GetxController {
   final isloadingGallaryDetail = true.obs;
   final isTapImage = false.obs;
   final isTapSave = false.obs;
+  final isviewImageDetile = false.obs;
   void getGallary() async {
     try {
       isloading.value = true;
@@ -103,6 +104,26 @@ class GallaryController extends GetxController {
       return Color(0xff2c7da0);
     }
     return Color(0xff2c7da0);
+  }
+
+  final highList = [].obs;
+  double getHigh() {
+    int i = Random().nextInt(4);
+    double high = 0.0;
+    if (i == 0) {
+      high = 300;
+    }
+    if (i == 1) {
+      high = 150;
+    }
+    if (i == 2) {
+      high = 180;
+    }
+    if (i == 3) {
+      high = 220;
+    }
+    highList.add(high);
+    return high;
   }
 
   void saveThisPhoto() {

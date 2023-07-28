@@ -22,7 +22,7 @@ class ImageCard extends StatelessWidget {
     required this.colors01,
     required this.colors02,
     required this.image01,
-    required this.image02,
+    this.image02 = "",
     required this.ontap01,
     required this.ontap02,
   }) : super(key: key);
@@ -53,26 +53,27 @@ class ImageCard extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: flex02,
-            child: Hero(
-              tag: "$tag02",
-              child: GestureDetector(
-                onTap: () {
-                  ontap02();
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: colors02,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(image02), fit: BoxFit.cover),
+          if (image02 != '')
+            Expanded(
+              flex: flex02,
+              child: Hero(
+                tag: "$tag02",
+                child: GestureDetector(
+                  onTap: () {
+                    ontap02();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: colors02,
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          image: NetworkImage(image02), fit: BoxFit.cover),
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

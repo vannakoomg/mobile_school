@@ -46,11 +46,16 @@ class _ViewimageState extends State<Viewimage> {
                 child: Container(
                   height: 100.h,
                   child: PageView(
-                    // physics: NeverScrollableScrollPhysics(),
                     onPageChanged: (value) {
                       controller.urlImage.value =
                           controller.gallaryDetail.value.data![value].image!;
                       controller.tagId.value = "$value";
+                      double jumpScrll = 0;
+                      for (int j = 0; j < (value) ~/ 2; ++j) {
+                        jumpScrll = jumpScrll + controller.highList[j];
+                      }
+                      jumpScrll = jumpScrll + 110;
+                      controller.scrllcontroller.value.jumpTo(jumpScrll);
                     },
                     controller: pageViewController,
                     children: controller.gallaryDetail.value.data!
@@ -153,7 +158,7 @@ class _ViewimageState extends State<Viewimage> {
                           height: 7.5.h,
                           width: 100.w - 40,
                           decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.4),
+                              color: Colors.grey.withOpacity(0.7),
                               borderRadius: BorderRadius.circular(70)),
                           child: Center(
                               child: Text(
@@ -196,7 +201,7 @@ class _ViewimageState extends State<Viewimage> {
                           height: 7.5.h,
                           width: 100.w - 40,
                           decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.4),
+                              color: Colors.grey.withOpacity(0.7),
                               borderRadius: BorderRadius.circular(70)),
                           child: Center(
                               child: Text(

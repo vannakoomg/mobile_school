@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:school/modules/gallary/screen/view_image.dart';
-import '../../../utils/function/function.dart';
 import '../widgets/image_card.dart';
 
 class GallaryDetail extends StatefulWidget {
@@ -22,7 +21,9 @@ class _GallaryDetailState extends State<GallaryDetail> {
   void initState() {
     Future.delayed(const Duration(milliseconds: 10), () {
       controller.getGallaryDetail('${argument['id']}');
+      controller.highList.clear();
     });
+
     super.initState();
   }
 
@@ -43,9 +44,17 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 child: SingleChildScrollView(
                   controller: controller.scrllcontroller.value,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Text("${controller.gallaryDetail.value.data.}"),
-                      // use this (for loop beacuse we need increase i by ++2 )
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "${controller.gallaryDetail.value.description}",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.8),
+                              fontSize: 16),
+                        ),
+                      ),
                       for (int i = 0;
                           i < controller.gallaryDetail.value.data!.length ~/ 2;
                           ++i)
@@ -60,9 +69,14 @@ class _GallaryDetailState extends State<GallaryDetail> {
                           colors02: controller.getColor(),
                           flex01: Random().nextInt(3) + 1,
                           flex02: Random().nextInt(3) + 1,
-                          high: getHigh(),
+                          high: controller.getHigh(),
                           ontap01: () {
                             controller.tagId.value = "${2 * (i + 1) - 1 - 1}";
+                            if (controller
+                                    .gallaryDetail.value.data!.last.image ==
+                                '') {
+                              controller.gallaryDetail.value.data!.removeLast();
+                            }
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -72,6 +86,11 @@ class _GallaryDetailState extends State<GallaryDetail> {
                           },
                           ontap02: () {
                             controller.tagId.value = "${2 * (i + 1) - 1}";
+                            if (controller
+                                    .gallaryDetail.value.data!.last.image ==
+                                '') {
+                              controller.gallaryDetail.value.data!.removeLast();
+                            }
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -79,7 +98,10 @@ class _GallaryDetailState extends State<GallaryDetail> {
                               ),
                             );
                           },
-                        )
+                        ),
+                      SizedBox(
+                        height: 30,
+                      )
                     ],
                   ),
                 ),
