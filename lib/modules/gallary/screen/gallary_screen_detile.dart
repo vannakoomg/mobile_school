@@ -82,16 +82,15 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                 "vannak ${controller.textKey.currentContext!.size!.height}");
                             Navigator.push(
                               context,
-                              // MaterialPageRoute(
-                              //   builder: (context) => const Viewimage(),
-                              // ),
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        Viewimage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
+                              MaterialPageRoute(
+                                builder: (context) => const Viewimage(),
                               ),
+                              // PageRouteBuilder(
+                              //   pageBuilder:
+                              //       (context, animation1, animation2) =>
+                              //           Viewimage(),
+                              //     transitionsBuilder: (context, animation, secondaryAnimation, child) => ,
+                              // ),
                             );
                           },
                           ontap02: () {
@@ -103,16 +102,16 @@ class _GallaryDetailState extends State<GallaryDetail> {
                             }
                             Navigator.push(
                               context,
-                              // MaterialPageRoute(
-                              //   builder: (context) => const Viewimage(),
-                              // ),
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        Viewimage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
+                              MaterialPageRoute(
+                                builder: (context) => const Viewimage(),
                               ),
+                              // PageRouteBuilder(
+                              //   pageBuilder:
+                              //       (context, animation1, animation2) =>
+                              //           Viewimage(),
+                              //   transitionDuration: Duration.zero,
+                              //   reverseTransitionDuration: Duration.zero,
+                              // ),
                             );
                           },
                         ),
