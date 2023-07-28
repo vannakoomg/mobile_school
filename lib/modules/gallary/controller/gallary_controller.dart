@@ -35,6 +35,7 @@ class GallaryController extends GetxController {
   final isTapImage = false.obs;
   final isTapSave = false.obs;
   final isviewImageDetile = false.obs;
+  final textKey = GlobalKey();
   void getGallary() async {
     try {
       isloading.value = true;

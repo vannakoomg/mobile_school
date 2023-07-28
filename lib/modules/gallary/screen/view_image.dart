@@ -39,50 +39,54 @@ class _ViewimageState extends State<Viewimage> {
         height: 100.w,
         child: Stack(
           children: [
-            Container(
-              color: AppColor.primaryColor,
-              child: Hero(
-                tag: controller.tagId.value,
-                child: Container(
-                  height: 100.h,
-                  child: PageView(
-                    onPageChanged: (value) {
-                      controller.urlImage.value =
-                          controller.gallaryDetail.value.data![value].image!;
-                      controller.tagId.value = "$value";
-                      double jumpScrll = 0;
-                      for (int j = 0; j < (value) ~/ 2; ++j) {
-                        jumpScrll = jumpScrll + controller.highList[j];
-                      }
-                      jumpScrll = jumpScrll + 110;
-                      controller.scrllcontroller.value.jumpTo(jumpScrll);
-                    },
-                    controller: pageViewController,
-                    children: controller.gallaryDetail.value.data!
-                        .asMap()
-                        .entries
-                        .map((e) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.isTapImage.value =
-                              !controller.isTapImage.value;
-                          controller.isTapSave.value = false;
-                        },
-                        onDoubleTap: _handleDoubleTap,
-                        child: InteractiveViewer(
-                          transformationController: _transformationController,
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: AppColor.primaryColor,
-                              image: DecorationImage(
-                                  image: NetworkImage("${e.value.image}"),
-                                  fit: BoxFit.fitWidth),
+            GestureDetector(
+              child: Container(
+                color: AppColor.primaryColor,
+                child: Hero(
+                  tag: controller.tagId.value,
+                  child: Container(
+                    height: 100.h,
+                    child: PageView(
+                      onPageChanged: (value) {
+                        controller.urlImage.value =
+                            controller.gallaryDetail.value.data![value].image!;
+                        controller.tagId.value = "$value";
+                        double jumpScrll = 0;
+                        for (int j = 0; j < (value) ~/ 2; ++j) {
+                          jumpScrll = jumpScrll + controller.highList[j];
+                        }
+                        jumpScrll = jumpScrll +
+                            controller.textKey.currentContext!.size!.height +
+                            20;
+                        controller.scrllcontroller.value.jumpTo(jumpScrll);
+                      },
+                      controller: pageViewController,
+                      children: controller.gallaryDetail.value.data!
+                          .asMap()
+                          .entries
+                          .map((e) {
+                        return GestureDetector(
+                          onTap: () {
+                            controller.isTapImage.value =
+                                !controller.isTapImage.value;
+                            controller.isTapSave.value = false;
+                          },
+                          onDoubleTap: _handleDoubleTap,
+                          child: InteractiveViewer(
+                            transformationController: _transformationController,
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColor.primaryColor,
+                                image: DecorationImage(
+                                    image: NetworkImage("${e.value.image}"),
+                                    fit: BoxFit.fitWidth),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

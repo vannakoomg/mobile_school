@@ -50,6 +50,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                         padding: const EdgeInsets.all(10),
                         child: Text(
                           "${controller.gallaryDetail.value.description}",
+                          key: controller.textKey,
                           style: TextStyle(
                               color: Colors.white.withOpacity(0.8),
                               fontSize: 16),
@@ -77,10 +78,19 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                 '') {
                               controller.gallaryDetail.value.data!.removeLast();
                             }
+                            debugPrint(
+                                "vannak ${controller.textKey.currentContext!.size!.height}");
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const Viewimage(),
+                              // MaterialPageRoute(
+                              //   builder: (context) => const Viewimage(),
+                              // ),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        Viewimage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
                               ),
                             );
                           },
@@ -93,8 +103,15 @@ class _GallaryDetailState extends State<GallaryDetail> {
                             }
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const Viewimage(),
+                              // MaterialPageRoute(
+                              //   builder: (context) => const Viewimage(),
+                              // ),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        Viewimage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
                               ),
                             );
                           },
