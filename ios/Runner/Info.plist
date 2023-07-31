@@ -45,6 +45,8 @@
 	<string>Access to mic</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Download image</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

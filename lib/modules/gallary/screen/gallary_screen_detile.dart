@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:school/modules/gallary/screen/view_image.dart';
+import 'package:sizer/sizer.dart';
 import '../widgets/image_card.dart';
 
 class GallaryDetail extends StatefulWidget {
@@ -31,9 +32,14 @@ class _GallaryDetailState extends State<GallaryDetail> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColor.primaryColor,
+        backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
-          title: Text("${argument['title']}"),
+          title: Text(
+            "${argument['title']}",
+            style: TextStyle(
+              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 24 : 16,
+            ),
+          ),
         ),
         body: controller.isloadingGallaryDetail.value
             ? Center(
@@ -41,19 +47,24 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 color: AppColor.primaryColor,
               ))
             : Container(
+                margin: EdgeInsets.only(left: 5, right: 5),
                 child: SingleChildScrollView(
                   controller: controller.scrllcontroller.value,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 10, bottom: 10),
                         child: Text(
                           "${controller.gallaryDetail.value.description}",
                           key: controller.textKey,
                           style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 16),
+                            color: AppColor.primaryColor.withOpacity(0.8),
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 20
+                                : 16,
+                          ),
                         ),
                       ),
                       for (int i = 0;
@@ -68,8 +79,8 @@ class _GallaryDetailState extends State<GallaryDetail> {
                               .data![2 * (i + 1) - 1].image!,
                           colors01: controller.getColor(),
                           colors02: controller.getColor(),
-                          flex01: Random().nextInt(3) + 1,
-                          flex02: Random().nextInt(3) + 1,
+                          flex01: Random().nextInt(3) + 2,
+                          flex02: Random().nextInt(3) + 2,
                           high: controller.getHigh(),
                           ontap01: () {
                             controller.tagId.value = "${2 * (i + 1) - 1 - 1}";

@@ -47,18 +47,38 @@ class _EventScreenState extends State<EventScreen> {
                     titleTextStyle: TextStyle(
                       color: Colors.black,
                       fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 8.sp : 16,
+                          SizerUtil.deviceType == DeviceType.tablet ? 22 : 16,
                     ),
                   ),
                   calendarBuilders: CalendarBuilders(
-                    disabledBuilder: (context, day, focusedDay) {
-                      return Container();
+                    defaultBuilder: (context, day, focusedDay) {
+                      return Container(
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                            child: Text(
+                          "${day.day}",
+                          style: TextStyle(
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 20
+                                      : 16),
+                        )),
+                      );
                     },
                     todayBuilder: (context, day, focusedDay) {
                       return Container(
                         height: 50,
                         width: 50,
-                        child: Center(child: Text("${day.day}")),
+                        child: Center(
+                            child: Text(
+                          "${day.day}",
+                          style: TextStyle(
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 20
+                                      : 16),
+                        )),
                       );
                     },
                     selectedBuilder: (context, timeNow, event) {
@@ -104,8 +124,14 @@ class _EventScreenState extends State<EventScreen> {
                                     Positioned(
                                       right: 3,
                                       child: Container(
-                                        height: 15,
-                                        width: 15,
+                                        height: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 22
+                                            : 15,
+                                        width: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 22
+                                            : 15,
                                         decoration: BoxDecoration(
                                           color: Colors.red,
                                           shape: BoxShape.circle,
@@ -115,7 +141,10 @@ class _EventScreenState extends State<EventScreen> {
                                           "${controller.eventDate.value.data![i].event!.length}",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 10),
+                                              fontSize: SizerUtil.deviceType ==
+                                                      DeviceType.tablet
+                                                  ? 12
+                                                  : 10),
                                         )),
                                       ),
                                     )

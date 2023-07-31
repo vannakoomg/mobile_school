@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:school/config/url.dart';
 import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:school/modules/gallary/models/gallary_model.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../screens/widgets/exceptions.dart';
 import '../../../utils/function/function.dart';
@@ -36,7 +37,7 @@ class GallaryController extends GetxController {
   final isTapSave = false.obs;
   final isviewImageDetile = false.obs;
   final textKey = GlobalKey();
-  void getGallary() async {
+  Future getGallary() async {
     try {
       isloading.value = true;
       var response = await Dio(BaseOptions(headers: {
@@ -122,6 +123,9 @@ class GallaryController extends GetxController {
     }
     if (i == 3) {
       high = 220;
+    }
+    if (SizerUtil.deviceType == DeviceType.tablet) {
+      high = 1.5 * high;
     }
     highList.add(high);
     return high;

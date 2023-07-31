@@ -25,15 +25,15 @@ class GallaryCard extends StatelessWidget {
           Text(
             "$yearMonth",
             style: TextStyle(
-              color: AppColor.backgroundColor,
+              color: AppColor.primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
-          Column(
+          Wrap(
             children: listOfGallary.map((data) {
               return GestureDetector(
                 onTap: () {
@@ -44,7 +44,8 @@ class GallaryCard extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  // width: 100,
+                  margin: EdgeInsets.only(bottom: 10),
                   child: Stack(
                     children: [
                       Container(
