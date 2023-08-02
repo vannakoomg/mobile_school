@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +28,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
     return GetBuilder<GallaryController>(
       builder: (controller) {
         return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColor.backgroundColor,
             appBar: AppBar(
               title: Text(
                 "Gallary",
@@ -60,8 +61,8 @@ class _GallaryScreenState extends State<GallaryScreen> {
                         child: Container(
                           margin: EdgeInsets.only(
                               top: 20,
-                              left: 10,
-                              right: controller.islist.value ? 0 : 10),
+                              right: controller.islist.value ? 0 : 10,
+                              left: 10),
                           child: !controller.islist.value
                               ? Wrap(
                                   children: controller.gallary.value.data!
@@ -85,14 +86,19 @@ class _GallaryScreenState extends State<GallaryScreen> {
                                         );
                                       },
                                       child: Container(
-                                        width: (100.w - 40) / 3,
-                                        margin: EdgeInsets.only(
-                                            bottom: 20, right: 10),
-                                        child: Stack(
+                                        width: (100.w - 10) / 3,
+                                        padding: EdgeInsets.only(right: 5),
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               padding: EdgeInsets.only(
-                                                  left: 10, top: 10, right: 10),
+                                                left: 10,
+                                                top: 10,
+                                                right: 10,
+                                              ),
                                               width: double.infinity,
                                               height: 40.w,
                                               decoration: BoxDecoration(
@@ -106,45 +112,22 @@ class _GallaryScreenState extends State<GallaryScreen> {
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          color: Colors.black
-                                                              .withOpacity(
-                                                                  0.5)),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 10,
-                                                                right: 10,
-                                                                top: 5,
-                                                                bottom: 5),
-                                                        child: Text(
-                                                          data.title!,
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: SizerUtil
-                                                                        .deviceType ==
-                                                                    DeviceType
-                                                                        .tablet
-                                                                ? 18
-                                                                : 12,
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              data.title!,
+                                              style: TextStyle(
+                                                color: AppColor.primaryColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize:
+                                                    SizerUtil.deviceType ==
+                                                            DeviceType.tablet
+                                                        ? 18
+                                                        : 12,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ],
                                         ),

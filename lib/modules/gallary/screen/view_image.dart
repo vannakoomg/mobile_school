@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
@@ -14,28 +15,22 @@ class Viewimage extends StatefulWidget {
 class _ViewimageState extends State<Viewimage> {
   final controller = Get.put(GallaryController());
   final _transformationController = TransformationController();
-  TapDownDetails? _doubleTapDetails;
-  void _handleDoubleTap() {
-    setState(() {
-      debugPrint("okokok");
-      if (_transformationController.value != Matrix4.identity()) {
-        _transformationController.value = Matrix4.identity();
-      } else {
-        final position = _doubleTapDetails!.localPosition;
-        _transformationController.value = Matrix4.identity()
-          ..translate(-position.dx * 2, -position.dy * 2)
-          ..scale(3.0);
-      }
-    });
-  }
 
   @override
+  void initState() {
+    super.initState();
+    controller.urlImage.value =
+        "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}";
+    debugPrint("url ${controller.urlImage.value}");
+  }
+
   Widget build(BuildContext context) {
     PageController pageViewController =
         PageController(initialPage: int.parse(controller.tagId.value));
     return Obx(
       () => SafeArea(
         child: Container(
+          color: AppColor.primaryColor,
           width: 100.h,
           height: 100.w,
           child: Stack(
@@ -51,6 +46,7 @@ class _ViewimageState extends State<Viewimage> {
                         onPageChanged: (value) {
                           controller.urlImage.value = controller
                               .gallaryDetail.value.data![value].image!;
+                          debugPrint("ulr ${controller.urlImage.value}");
                           controller.tagId.value = "$value";
                           double jumpScrll = 0;
                           for (int j = 0; j < (value) ~/ 2; ++j) {
@@ -72,21 +68,16 @@ class _ViewimageState extends State<Viewimage> {
                                   !controller.isTapImage.value;
                               controller.isTapSave.value = false;
                             },
-                            onDoubleTapDown: (value) {
-                              controller.isTapSave.value =
-                                  !controller.isTapSave.value;
-                              controller.isTapImage.value =
-                                  !controller.isTapImage.value;
+                            onDoubleTap: () {
+                              if (controller.isTapImage.value == false &&
+                                  controller.isTapSave.value) {
+                                controller.isTapSave.value = false;
+                                controller.isTapImage.value = true;
+                              } else {
+                                controller.isTapSave.value = true;
+                                controller.isTapImage.value = false;
+                              }
                             },
-                            // onPanDown: (va) {
-                            //   debugPrint("AAAAAAAA");
-                            //   Get.back();
-                            // },
-
-                            // onLongPressMoveUpdate: (value) {
-                            //   debugPrint(value.globalPosition.dy.toString());
-                            // },
-                            onDoubleTap: _handleDoubleTap,
                             child: InteractiveViewer(
                               transformationController:
                                   _transformationController,
@@ -115,10 +106,11 @@ class _ViewimageState extends State<Viewimage> {
                   duration: Duration(milliseconds: 200),
                   opacity: controller.isTapImage.value ? 0 : 1,
                   child: Container(
-                    padding: EdgeInsets.only(top: 20, right: 10),
-                    height: 80,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(right: 10),
+                    height: 60,
                     width: 100.w,
-                    color: AppColor.primaryColor.withOpacity(1),
+                    color: AppColor.primaryColor,
                     child: Row(children: [
                       IconButton(
                           onPressed: () {
@@ -178,35 +170,10 @@ class _ViewimageState extends State<Viewimage> {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            controller.saveThisPhoto();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, right: 20),
-                            height: 7.5.h,
-                            width: 100.w - 40,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.7),
-                                borderRadius: BorderRadius.circular(70)),
-                            child: Center(
-                                child: Text(
-                              "Save This Photo",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizerUtil.deviceType == DeviceType.tablet
-                                          ? 22
-                                          : 15),
-                            )),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
                           onTap: () async {
-                            controller.saveAllPhoto().then((value) => {
+                            String path = '${controller.urlImage.value}';
+                            GallerySaver.saveImage(path).then((value) => {
+                                  controller.isTapSave.value = false,
                                   Get.snackbar(
                                     '',
                                     '',
@@ -226,23 +193,73 @@ class _ViewimageState extends State<Viewimage> {
                                     padding:
                                         EdgeInsets.only(bottom: 22, left: 20),
                                     snackPosition: SnackPosition.TOP,
-                                    maxWidth: 120,
+                                    maxWidth: 140,
+                                  ),
+                                });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 20, right: 20),
+                            height: 50,
+                            width: 100.w - 40,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(70)),
+                            child: Center(
+                                child: Text(
+                              "Save This Photo",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      SizerUtil.deviceType == DeviceType.tablet
+                                          ? 22
+                                          : 15),
+                            )),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            controller.saveAllPhoto().then((value) => {
+                                  controller.isTapSave.value = false,
+                                  Get.snackbar(
+                                    '',
+                                    '',
+                                    duration: Duration(milliseconds: 1000),
+                                    messageText: Text(
+                                      "ALL Photo Saved ",
+                                      style: TextStyle(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: SizerUtil.deviceType ==
+                                                  DeviceType.tablet
+                                              ? 20
+                                              : 15),
+                                    ),
+                                    borderRadius: 60,
+                                    backgroundColor: Colors.blue,
+                                    padding:
+                                        EdgeInsets.only(bottom: 22, left: 20),
+                                    snackPosition: SnackPosition.TOP,
+                                    maxWidth: 160,
                                   ),
                                   debugPrint("b sl soy ")
                                 });
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 20, right: 20),
-                            height: 7.5.h,
+                            height: 50,
                             width: 100.w - 40,
                             decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.7),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
                               "Save ${controller.gallaryDetail.value.data!.length} Photo",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                   fontWeight: FontWeight.bold,
                                   fontSize:
                                       SizerUtil.deviceType == DeviceType.tablet
