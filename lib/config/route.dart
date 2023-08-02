@@ -5,6 +5,7 @@ import 'package:school/modules/student_report/screens/student_report_screen.dart
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
+import '../modules/pickup/screen/pickup_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login.dart';
 import '../screens/pages/about_accreditation_page.dart';
@@ -27,7 +28,6 @@ import '../screens/pages/homeworks_portal.dart';
 import '../screens/pages/iwallet.dart';
 import '../screens/pages/limit_purchase.dart';
 import '../screens/pages/notification_page.dart';
-import '../screens/pages/pick_up_card_page.dart';
 import '../screens/pages/pos_history.dart';
 import '../screens/pages/pos_page.dart';
 import '../screens/pages/teacher_homeworks.dart';
