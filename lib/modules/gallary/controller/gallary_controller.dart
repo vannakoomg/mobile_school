@@ -121,10 +121,29 @@ class GallaryController extends GetxController {
     return high;
   }
 
+  final imageSave = 0.obs;
+  final saveDone = false.obs;
   Future<void> saveAllPhoto() async {
-    isTapSave.value = isTapSave.value;
+    isTapSave.value = false;
+    saveDone.value = false;
     for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
-      GallerySaver.saveImage("${gallaryDetail.value.data![i].image}");
+      await GallerySaver.saveImage("${gallaryDetail.value.data![i].image}");
+      imageSave.value = imageSave.value + 1;
     }
+    saveDone.value = true;
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      imageSave.value = 0;
+    });
+  }
+
+  Future<void> saveThisPhoto() async {
+    isTapSave.value = false;
+    saveDone.value = false;
+    imageSave.value = 1;
+    await GallerySaver.saveImage("${urlImage.value}");
+    saveDone.value = true;
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      imageSave.value = 0;
+    });
   }
 }

@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   PushNotification? _notificationInfo;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  DashboardScreen _dashboardScreen = DashboardScreen();
+  // DashboardScreen _dashboardScreen = DashboardScreen();
   SwitchAccountPage _switchAccountPage = SwitchAccountPage();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};

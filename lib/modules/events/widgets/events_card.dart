@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/modules/events/models/event_model.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,7 +24,7 @@ class EventCard extends StatelessWidget {
               border: Border(
             left: BorderSide(
               width: 0.55,
-              color: Colors.white,
+              color: AppColor.primaryColor,
             ),
           )),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -45,7 +46,8 @@ class EventCard extends StatelessWidget {
                             Text(
                               "${element.value.title}",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Color(int.parse(
+                                    element.value.action_color.toString())),
                                 fontSize:
                                     SizerUtil.deviceType == DeviceType.tablet
                                         ? 8.sp
@@ -75,27 +77,27 @@ class EventCard extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 0),
-                height: 4.w,
-                width: 4.w,
+                height: 20,
+                width: 20,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
+                  color: AppColor.primaryColor,
                 ),
                 child: Center(
                   child: Text(
                     "$day",
                     style: TextStyle(
-                        color: Color(0xff1d1a56),
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: 10),
                   ),
                 ),
               ),
-              Container(
-                height: 5,
-                width: 10,
-                color: Color(0xff1d1a56),
-              )
+              // Container(
+              //   height: 5,
+              //   width: 10,
+              //   color: Color(0xff1d1a56),
+              // )
             ],
           ),
         )

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
@@ -94,23 +95,17 @@ class _GallaryScreenState extends State<GallaryScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              padding: EdgeInsets.only(
-                                                left: 10,
-                                                top: 10,
-                                                right: 10,
-                                              ),
+                                              clipBehavior: Clip.antiAlias,
                                               width: double.infinity,
                                               height: 40.w,
+                                              child: CachedNetworkImage(
+                                                imageUrl: "${data.image!}",
+                                                fit: BoxFit.cover,
+                                              ),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                                 color: controller.getColor(),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    "${data.image!}",
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                ),
                                               ),
                                             ),
                                             SizedBox(
