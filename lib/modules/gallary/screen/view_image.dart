@@ -11,16 +11,24 @@ class Viewimage extends StatefulWidget {
   State<Viewimage> createState() => _ViewimageState();
 }
 
-class _ViewimageState extends State<Viewimage> {
+class _ViewimageState extends State<Viewimage>
+    with SingleTickerProviderStateMixin {
   final controller = Get.put(GallaryController());
-  final _transformationController = TransformationController();
-
+  TransformationController? transcontroller;
+  AnimationController? animatedController;
+  Animation<Matrix4>? animation;
+  final double minScale = 1;
+  final double maxScale = 4;
   @override
   void initState() {
     super.initState();
+    transcontroller = TransformationController();
     controller.urlImage.value =
         "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}";
     debugPrint("url ${controller.urlImage.value}");
+    animatedController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() => transcontroller!.value = animation!.value);
   }
 
   Widget build(BuildContext context) {
@@ -81,8 +89,11 @@ class _ViewimageState extends State<Viewimage> {
                                 }
                               },
                               child: InteractiveViewer(
-                                // transformationController:
-                                //     _transformationController,
+                                transformationController: transcontroller,
+                                onInteractionEnd: (value) {
+                                  debugPrint("b sl soy ");
+                                  reset();
+                                },
                                 maxScale: 5,
                                 child: Container(
                                   width: double.infinity,
@@ -270,5 +281,13 @@ class _ViewimageState extends State<Viewimage> {
         ),
       ),
     );
+  }
+
+  void reset() {
+    animation = Matrix4Tween(
+      begin: transcontroller!.value,
+      end: Matrix4.identity(),
+    ).animate(CurvedAnimation(parent: animatedController!, curve: Curves.ease));
+    animatedController!.forward(from: 0);
   }
 }
