@@ -4,25 +4,16 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:school/config/url.dart';
 import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:school/modules/gallary/models/gallary_model.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../screens/widgets/exceptions.dart';
-import '../../../utils/function/function.dart';
 
 class GallaryController extends GetxController {
-  final listImage = [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg/1200px-Tent_camping_along_the_Sulayr_trail_in_La_Taha%2C_Sierra_Nevada_National_Park_%28DSCF5147%29.jpg",
-    "https://cdn.outsideonline.com/wp-content/uploads/2021/06/15/camping_fun_s.jpg",
-    "https://media.timeout.com/images/105658195/image.jpg",
-    "https://v8v7e2w9.stackpathcdn.com/getmedia/f2b92ba3-169b-4816-b055-84f3272d2040/Hero_379.jpg",
-    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/925dac00-20b0-4202-a371-1334fc785846/d9zgg8y-1b2c8265-a498-4549-8d0b-28a2f6e94fdb.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzkyNWRhYzAwLTIwYjAtNDIwMi1hMzcxLTEzMzRmYzc4NTg0NlwvZDl6Z2c4eS0xYjJjODI2NS1hNDk4LTQ1NDktOGQwYi0yOGEyZjZlOTRmZGIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.NbeRd3vPCUtBKI6k1QqDbbhH9_luhkWmvRK6UFk3ZlE",
-    "https://cdn-icons-png.flaticon.com/512/909/909119.png",
-    "https://stickershop.line-scdn.net/stickershop/v1/product/4178848/LINEStorePC/main.png",
-    "https://www.silhouette.pics/images/quotes/english/general/my-talking-tom-silhouette-52650-172941.jpg",
-  ].obs;
   final scrllcontroller = ScrollController().obs;
   final islist = false.obs;
   final oldColor = 0.obs;
@@ -34,7 +25,9 @@ class GallaryController extends GetxController {
   final isloadingGallaryDetail = true.obs;
   final isTapImage = false.obs;
   final isTapSave = false.obs;
-  void getGallary() async {
+  final isviewImageDetile = false.obs;
+  final textKey = GlobalKey();
+  Future getGallary() async {
     try {
       isloading.value = true;
       var response = await Dio(BaseOptions(headers: {
@@ -105,32 +98,52 @@ class GallaryController extends GetxController {
     return Color(0xff2c7da0);
   }
 
-  void saveThisPhoto() {
-    isTapSave.value = !isTapSave.value;
-    downloadImage(
-      url: "${gallaryDetail.value.data![int.parse(tagId.value)].image}",
-    ).then((value) {
-      Get.snackbar(
-        '',
-        '',
-        duration: Duration(milliseconds: 1000),
-        messageText: Text(
-          "Photo Saved",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        borderRadius: 60,
-        backgroundColor: Colors.blue,
-        padding: EdgeInsets.only(bottom: 22, left: 20),
-        snackPosition: SnackPosition.TOP,
-        maxWidth: 120,
-      );
+  final highList = [].obs;
+  double getHigh() {
+    int i = Random().nextInt(4);
+    double high = 0.0;
+    if (i == 0) {
+      high = 300;
+    }
+    if (i == 1) {
+      high = 150;
+    }
+    if (i == 2) {
+      high = 180;
+    }
+    if (i == 3) {
+      high = 220;
+    }
+    if (SizerUtil.deviceType == DeviceType.tablet) {
+      high = 1.5 * high;
+    }
+    highList.add(high);
+    return high;
+  }
+
+  final imageSave = 0.obs;
+  final saveDone = false.obs;
+  Future<void> saveAllPhoto() async {
+    isTapSave.value = false;
+    saveDone.value = false;
+    for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
+      await GallerySaver.saveImage("${gallaryDetail.value.data![i].image}");
+      imageSave.value = imageSave.value + 1;
+    }
+    saveDone.value = true;
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      imageSave.value = 0;
     });
   }
 
-  Future<void> saveAllPhoto() async {
-    isTapSave.value = isTapSave.value;
-    for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
-      downloadImage(url: "${gallaryDetail.value.data![i].image}");
-    }
+  Future<void> saveThisPhoto() async {
+    isTapSave.value = false;
+    saveDone.value = false;
+    imageSave.value = 1;
+    await GallerySaver.saveImage("${urlImage.value}");
+    saveDone.value = true;
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      imageSave.value = 0;
+    });
   }
 }

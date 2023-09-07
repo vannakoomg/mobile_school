@@ -18,14 +18,14 @@ import '../../models/CollectionCardDB.dart';
 import '../../repos/datetime.dart';
 import '../../config/theme/theme.dart';
 
-class PickUpCard extends StatefulWidget {
-  const PickUpCard({Key? key}) : super(key: key);
+class ScanScreen extends StatefulWidget {
+  const ScanScreen({Key? key}) : super(key: key);
 
   @override
-  _PickUpCardState createState() => _PickUpCardState();
+  _ScanScreenState createState() => _ScanScreenState();
 }
 
-class _PickUpCardState extends State<PickUpCard> {
+class _ScanScreenState extends State<ScanScreen> {
   late final PhoneSize phoneSize;
   late Data _recData;
   bool isLoading = false;
@@ -67,7 +67,6 @@ class _PickUpCardState extends State<PickUpCard> {
       device = 'Android';
     else
       device = 'iOS';
-    // _dateTime = DateFormat("yyyy-MM-dd – kk:mm:ss").format(DateTime.now());
     int i = 0, k = 0;
     _mapAllUser = storage.read('mapUser');
     _mapAllUser.forEach((key, value) {
@@ -100,11 +99,6 @@ class _PickUpCardState extends State<PickUpCard> {
           try {
             _dateTime = '${value.data.date} ${value.data.time}';
             qrCode = '${_recData.rfIdCard}&$_dateTime';
-
-            // if('${value.name} ${value.value}' == storage.read('isVersion'))
-            //   Future.delayed(Duration.zero, () {
-            //     PopupNewVersion().dialogBuilder(context);
-            //   });
           } catch (err) {
             print("err=$err");
           }
@@ -118,7 +112,6 @@ class _PickUpCardState extends State<PickUpCard> {
       automaticallyImplyLeading: false,
       backgroundColor: Colors.cyan,
       title: Container(
-        // color: Colors.red,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +119,6 @@ class _PickUpCardState extends State<PickUpCard> {
             InkWell(
               onTap: () => Navigator.of(context).pop(),
               child: Container(
-                // color: Colors.blueAccent,
                 height: 100.h,
                 width: 10.w,
                 child: Icon(
@@ -137,8 +129,6 @@ class _PickUpCardState extends State<PickUpCard> {
               ),
             ),
             Container(
-              // width: 30.w,
-              // color: Colors.blueAccent,
               child: DropdownButton<Menu>(
                 value: selectedUser,
                 icon: const Icon(
@@ -156,17 +146,13 @@ class _PickUpCardState extends State<PickUpCard> {
                 onChanged: (Menu? newValue) {
                   setState(() {
                     selectedUser = newValue!;
-                    // print("dropdownValue=$dropdownValue");
                   });
                 },
                 items: _map.map<DropdownMenuItem<Menu>>((Menu value) {
                   return DropdownMenuItem<Menu>(
                     onTap: () {
-                      // print("valuevalue=${value.name}");
                       _fetchCollectionCard(userToken: value.userToken);
                       _fetchDateTime();
-                      // value.index();
-                      // print("_mapAllUser_mapAllUser=${_map[0]['name']}");
                     },
                     value: value,
                     child: Text(
@@ -183,20 +169,12 @@ class _PickUpCardState extends State<PickUpCard> {
               ),
             ),
             Container(
-                // alignment: Alignment.topRight,
-                // width: 10.w,
-                // height: 100.w,
-                // color: Colors.red,
                 child: AnimateIcon(
               key: UniqueKey(),
               onTap: () {
                 _fetchDateTime();
-                // _fetchPosUser();
-                // var _checkTime = timeCheck();
-                // print("timeCheck=$_checkTime");
               },
               iconType: IconType.animatedOnTap,
-              // height: 8.w,
               width: 8.w,
               color: Colors.white,
               animateIcon: AnimateIcons.refresh,
@@ -261,13 +239,11 @@ class _PickUpCardState extends State<PickUpCard> {
                   ),
                   height: 7.h,
                   width: 100.w,
-                  // color: Colors.grey.shade300,
                   child: Text('PICK UP VIRTUAL CARD',
                       style: myTextStyleHeaderBigSize[phoneSize]),
                   alignment: Alignment.center,
                 ),
                 Container(
-                  // width: 90.w,
                   padding: EdgeInsets.all(8.0),
                   child: Row(
                     children: [
@@ -353,36 +329,16 @@ class _PickUpCardState extends State<PickUpCard> {
                     ],
                   ),
                 ),
-                // Text(
-                //   "$_dateTime",
-                //   style: TextStyle(fontSize: 8.sp),
-                // ),
               ],
             ),
           ),
-          // right: 5,
           top: 25.h,
         ),
-        // Positioned(
-        //   child: InkWell(
-        //     child: Icon(
-        //       device == 'iOS' ? Icons.arrow_back_ios : Icons.arrow_back,
-        //       size: 30,
-        //       color: Colors.white,
-        //     ),
-        //     onTap: () {
-        //       Navigator.of(context).pop();
-        //     },
-        //   ),
-        //   left: 20,
-        //   top: 50,
-        // )
       ],
     );
   }
 
   _buildUrlImages(String urlImage) {
-    //DefaultCacheManager().removeFile(urlImage);
     return Container(
       color: Colors.white,
       child: InkWell(
@@ -392,7 +348,6 @@ class _PickUpCardState extends State<PickUpCard> {
           imageUrl: urlImage,
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
-              // shape: BoxShape.circle,
               image: DecorationImage(
                 alignment: Alignment.topCenter,
                 image: imageProvider,
@@ -415,7 +370,6 @@ class _PickUpCardState extends State<PickUpCard> {
   _buildError() {
     return Container(
         decoration: BoxDecoration(
-      // shape: BoxShape.circle,
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       boxShadow: [
         BoxShadow(blurRadius: 0, color: Colors.grey, offset: Offset(1, 3))
@@ -448,8 +402,6 @@ class _PickUpCardState extends State<PickUpCard> {
         try {
           print("value=${value.status}");
           _recData = value.data;
-          // qrCode = '${_recData.rfIdCard}&$_dateTime';
-          // _recData.fullImage = _recData.guardian1Photo = _recData.guardian2Photo = _recData.guardian3Photo = 'https://images.unsplash.com/photo-1524860769472-246b6afea403?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8aGFja3xlbnwwfHwwfHw%3D&w=1000&q=80';
           isLoading = true;
         } catch (err) {
           Get.defaultDialog(
@@ -473,12 +425,6 @@ class _PickUpCardState extends State<PickUpCard> {
         },
         child: Text("Reload"));
   }
-
-  // Future<void> disableCapture() async {
-  //   //disable screenshots and record screen in current screen
-  //   await ScreenProtector.preventScreenshotOn();
-  //   // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_KEEP_SCREEN_ON);
-  // }
 }
 
 class Menu {

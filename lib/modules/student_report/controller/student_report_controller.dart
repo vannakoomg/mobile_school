@@ -1,86 +1,74 @@
+import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/modules/student_report/models/student_model.dart';
+import 'package:school/screens/widgets/exceptions.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../config/url.dart';
+import '../models/summery_report.dart';
 
 class StudentController extends GetxController {
   final isTapOnTerm = 0.obs;
-  final listOfTerm = [1, 2, 3, 4].obs;
+  final isloading = false.obs;
+  final isloadingSummary = false.obs;
   final term = 0.obs;
   final sortEnglish = false.obs;
-  final isDoubleTapEnglish = false.obs;
-  final scrollerEnglish = ScrollController().obs;
-  final studentReport = [
-    StudentReport(
-      score: "50",
-      subject: "Mathematics",
-    ),
-    StudentReport(score: "60", subject: "Reading"),
-    StudentReport(score: "80", subject: "Information Communicaition Technolo"),
-    StudentReport(score: "90", subject: "Social Studies"),
-    StudentReport(score: "67", subject: "Khmer "),
-    StudentReport(score: "70", subject: "Pysiy"),
-    StudentReport(score: "76", subject: "English as a Second landuage"),
-  ].obs;
-  void tapTerm() {
-    isTapOnTerm.value == 0 ? isTapOnTerm.value = 1 : isTapOnTerm.value = 0;
-  }
-
+  final studentReport = StudentReportModel().obs;
+  final summayReport = SummeryReport().obs;
   final rawBarGroups = <BarChartGroupData>[].obs;
-  final showingBarGroups = <BarChartGroupData>[].obs;
   final touchedGroupIndex = 0.obs;
-  final title = ['Term1', 'Term2', 'Term3'].obs;
-  final items = [
-    makeGroupData(0, 5.5, 6),
-    makeGroupData(1, 1, 3),
-    makeGroupData(2, 8, 9),
-  ].obs;
-
-  // function
-  Color generateColorByPoint(double point) {
-    if (point < 50) {
-      return Color(0xff0d1321);
-    }
-    if (point >= 50 && point < 60) {
-      return Color(0xff778da9);
-    }
-    if (point >= 60 && point < 70) {
-      return Color(0xff2d6a4f);
-    }
-    if (point >= 70 && point < 80) {
-      return Color(0xffbc6c25);
-    }
-    if (point >= 80 && point < 90) {
-      return Color(0xffbc4749);
-    }
-    return Color(0xffff206e);
+  final items = <BarChartGroupData>[].obs;
+  void changeTerm(int index) {
+    term.value = index - 1;
+    getStudentReport(termname: 'Term $index', isreload: false);
   }
 
-  initState() {
-    term.value = listOfTerm.length;
-    scrollerEnglish.value.addListener(() {
-      if (scrollerEnglish.value.position.pixels > 100.w - 40 - 60 - 100) {
-        sortEnglish.value = true;
-      } else {
-        sortEnglish.value = false;
+  Future<void> getSummery() async {
+    var response;
+    try {
+      isloadingSummary.value = true;
+      response = await Dio(BaseOptions(headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      })).post('${baseUrlOpensis}getReportCardSummary.php?id=IS201931');
+      isloadingSummary.value = false;
+      summayReport.value = SummeryReport();
+      summayReport.value = SummeryReport.fromJson(response.data);
+      items.clear();
+      for (int i = 0; i < summayReport.value.data!.en!.length; ++i) {
+        items.add(makeGroupData(
+            i,
+            double.parse(summayReport.value.data!.en![i].total!) / 10,
+            double.parse(summayReport.value.data!.kh![i].total!) / 10));
       }
-    });
-  }
-
-  ontapEnglish() {
-    isDoubleTapEnglish.value = !isDoubleTapEnglish.value;
-    if (isDoubleTapEnglish.value) {
-      scrollerEnglish.value.animateTo(100.w - 40 - 60,
-          duration: Duration(milliseconds: 600), curve: Curves.ease);
-    } else {
-      scrollerEnglish.value.animateTo(0,
-          duration: Duration(milliseconds: 600), curve: Curves.ease);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      isloadingSummary.value = false;
+      debugPrint("you have been catched $errorMessage");
     }
   }
 
-  disposeFuntion() {
-    // scrollerEnglish.value.dispose();
+  Future<void> getStudentReport(
+      {required String termname, bool isreload = true}) async {
+    isloading.value = isreload;
+    var response;
+    try {
+      response = await Dio(BaseOptions(headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      })).post('${baseUrlOpensis}getReportCard.php?id=IS201931&term=$termname');
+      isloading.value = false;
+      studentReport.value = StudentReportModel();
+      studentReport.value = StudentReportModel.fromJson(response.data);
+
+      debugPrint("data 12313123 ${studentReport.value.data!.term}");
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      isloading.value = false;
+      debugPrint("you have been catched $errorMessage");
+    }
   }
 }
 

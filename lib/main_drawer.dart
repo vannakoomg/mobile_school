@@ -34,6 +34,8 @@ class _MainDrawerState extends State<MainDrawer> {
   void initState() {
     super.initState();
     if (storage.read('isName') != null) {
+      debugPrint("nininininin");
+
       studentName = storage.read('isName').split(" ");
       for (var i = 0; i < studentName.length; i++) {
         if (i == 0)

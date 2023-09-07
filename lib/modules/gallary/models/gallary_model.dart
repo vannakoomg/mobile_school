@@ -1,7 +1,8 @@
 class GallaryModel {
   List<Data>? data;
+  List<Gallary>? data02;
 
-  GallaryModel({this.data});
+  GallaryModel({this.data, this.data02});
 
   GallaryModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -10,12 +11,21 @@ class GallaryModel {
         data!.add(new Data.fromJson(v));
       });
     }
+    if (json['data02'] != null) {
+      data02 = <Gallary>[];
+      json['data02'].forEach((v) {
+        data02!.add(new Gallary.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (this.data02 != null) {
+      data['data02'] = this.data02!.map((v) => v.toJson()).toList();
     }
     return data;
   }

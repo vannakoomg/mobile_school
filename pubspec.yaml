@@ -62,7 +62,9 @@ dependencies:
   animated_icon: ^0.0.4
   sliver_header_delegate: ^0.0.5
   table_calendar: ^3.0.9
-  image_downloader: ^0.31.0
+  gallery_saver: ^2.3.2
+  geolocator: ^9.0.2
+  pinch_zoom: ^1.0.0
 
   
 
@@ -72,7 +74,8 @@ flutter_icons:
   image_path: "assets/icons/login_icon/logo_with_radius.png"
   adaptive_icon_background: "assets/icons/login_icon/adaptive_icon_background.png"
   adaptive_icon_foreground: "assets/icons/login_icon/adaptive_icon_foreground.png"
-
+dependency_overrides:
+  test_api: 0.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

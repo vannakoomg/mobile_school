@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // # dotenv for protect the base url
 String baseUrlSchool = dotenv.get('baseUrlSchool');
 String baseUrlOdoo = dotenv.get('baseUrlOdoo');
+String baseUrlOpensis = dotenv.get('baseUrlOpensis');
 
 const String registerFirebase = 'api/register_firebasetoken';
 const String login = 'api/login';

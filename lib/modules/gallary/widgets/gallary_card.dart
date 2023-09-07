@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
@@ -25,15 +26,15 @@ class GallaryCard extends StatelessWidget {
           Text(
             "$yearMonth",
             style: TextStyle(
-              color: AppColor.backgroundColor,
+              color: AppColor.primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
-          Column(
+          Wrap(
             children: listOfGallary.map((data) {
               return GestureDetector(
                 onTap: () {
@@ -44,48 +45,62 @@ class GallaryCard extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  // width: 100,
+                  margin: EdgeInsets.only(bottom: 10),
                   child: Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 10, top: 10, right: 10),
+                        clipBehavior: Clip.antiAlias,
+                        // padding: EdgeInsets.only(left: 10, top: 10, right: 10),
                         width: double.infinity,
                         height: 30.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: controller.getColor(),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              "${data.image!}",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
                         ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.black.withOpacity(0.5)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
-                                  child: Text(
-                                    data.title!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: SizerUtil.deviceType ==
-                                              DeviceType.tablet
-                                          ? 18
-                                          : 12,
+                        child: Stack(
+                          children: [
+                            CachedNetworkImage(
+                              height: 30.h,
+                              width: 100.w,
+                              imageUrl: "${data.image}",
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              left: 10,
+                              top: 10,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Colors.black.withOpacity(0.5)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text(
+                                          data.title!,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: SizerUtil.deviceType ==
+                                                    DeviceType.tablet
+                                                ? 18
+                                                : 12,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ]),
+                                  ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
