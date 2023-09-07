@@ -23,113 +23,122 @@ class FlowchatState extends State<Flowchat> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(top: 20, bottom: 10, left: 5),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: BarChart(
-                      BarChartData(
-                        maxY: 10,
-                        barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor: Colors.grey,
-                            getTooltipItem: (a, b, c, d) => null,
-                          ),
-                          touchCallback: (FlTouchEvent event, response) {
-                            if (response == null || response.spot == null) {
-                              setState(() {
-                                controller.touchedGroupIndex.value = -1;
-                                showingBarGroups =
-                                    List.of(controller.rawBarGroups);
-                              });
-                              return;
-                            }
-                            controller.touchedGroupIndex.value =
-                                response.spot!.touchedBarGroupIndex;
-                            setState(() {
-                              showingBarGroups =
-                                  List.of(controller.rawBarGroups);
-                              if (controller.touchedGroupIndex.value != -1) {
-                                var sum = 0.0;
-                                for (final rod in showingBarGroups[
-                                        controller.touchedGroupIndex.value]
-                                    .barRods) {
-                                  sum += rod.toY;
-                                }
-                                final avg = sum /
-                                    showingBarGroups[
-                                            controller.touchedGroupIndex.value]
-                                        .barRods
-                                        .length;
-                                showingBarGroups[controller.touchedGroupIndex
-                                    .value] = showingBarGroups[
-                                        controller.touchedGroupIndex.value]
-                                    .copyWith(
-                                  barRods: showingBarGroups[
-                                          controller.touchedGroupIndex.value]
-                                      .barRods
-                                      .map((rod) {
-                                    return rod.copyWith(
-                                        toY: avg, color: Color(0xff61a5c2));
-                                  }).toList(),
-                                );
-                              }
-                            });
-                          },
-                        ),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          rightTitles: const AxisTitles(),
-                          topTitles: const AxisTitles(),
-                          bottomTitles: bottomTitles(),
-                          leftTitles: leftTitles(),
-                        ),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        barGroups: showingBarGroups,
-                        gridData: const FlGridData(
-                            show: true, drawVerticalLine: false),
-                      ),
-                    ),
-                  ),
-                  Row(
+    return Obx(() => AspectRatio(
+          aspectRatio: 1,
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 20, bottom: 10, left: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Column(
                     children: [
-                      // Spacer(),
-                      Container(
-                        margin: EdgeInsets.only(right: 10, left: 10),
-                        height: 4.w,
-                        width: 4.w,
-                        color: Color(0xff012a4a),
+                      Expanded(
+                        child: BarChart(
+                          BarChartData(
+                            maxY: 10,
+                            barTouchData: BarTouchData(
+                              touchTooltipData: BarTouchTooltipData(
+                                tooltipBgColor: Colors.grey,
+                                getTooltipItem: (a, b, c, d) => null,
+                              ),
+                              touchCallback: (FlTouchEvent event, response) {
+                                if (response == null || response.spot == null) {
+                                  setState(() {
+                                    controller.touchedGroupIndex.value = -1;
+                                    showingBarGroups =
+                                        List.of(controller.rawBarGroups);
+                                  });
+                                  return;
+                                }
+                                controller.touchedGroupIndex.value =
+                                    response.spot!.touchedBarGroupIndex;
+                                setState(() {
+                                  showingBarGroups =
+                                      List.of(controller.rawBarGroups);
+                                  if (controller.touchedGroupIndex.value !=
+                                      -1) {
+                                    var sum = 0.0;
+                                    for (final rod in showingBarGroups[
+                                            controller.touchedGroupIndex.value]
+                                        .barRods) {
+                                      sum += rod.toY;
+                                    }
+                                    final avg = sum /
+                                        showingBarGroups[controller
+                                                .touchedGroupIndex.value]
+                                            .barRods
+                                            .length;
+                                    showingBarGroups[controller
+                                        .touchedGroupIndex
+                                        .value] = showingBarGroups[
+                                            controller.touchedGroupIndex.value]
+                                        .copyWith(
+                                      barRods: showingBarGroups[controller
+                                              .touchedGroupIndex.value]
+                                          .barRods
+                                          .map((rod) {
+                                        return rod.copyWith(
+                                            toY: avg, color: Color(0xff61a5c2));
+                                      }).toList(),
+                                    );
+                                  }
+                                });
+                              },
+                            ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              rightTitles: const AxisTitles(),
+                              topTitles: const AxisTitles(),
+                              bottomTitles: bottomTitles(),
+                              leftTitles: leftTitles(),
+                            ),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            barGroups: showingBarGroups,
+                            gridData: const FlGridData(
+                                show: true, drawVerticalLine: false),
+                          ),
+                        ),
                       ),
-                      Text("English"),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 4.w,
-                        width: 4.w,
-                        color: Color(0xff468faf),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            // Spacer(),
+                            Container(
+                              margin: EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                              ),
+                              height: 4.w,
+                              width: 4.w,
+                              color: Color(0xff012a4a),
+                            ),
+                            Text("English"),
+                            Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              height: 4.w,
+                              width: 4.w,
+                              color: Color(0xff468faf),
+                            ),
+                            Text("Khmer"),
+                            SizedBox(
+                              width: 20,
+                            )
+                          ],
+                        ),
                       ),
-                      Text("Khmer"),
-                      SizedBox(
-                        width: 20,
-                      )
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 
   AxisTitles bottomTitles() {
@@ -138,11 +147,11 @@ class FlowchatState extends State<Flowchat> {
         showTitles: true,
         getTitlesWidget: (double value, TitleMeta meta) {
           final Widget text = Text(
-            controller.title[value.toInt()],
-            style: const TextStyle(
+            "${controller.summayReport.value.data!.en![value.toInt()].term}",
+            style: TextStyle(
               color: Color(0xff7589a2),
               fontWeight: FontWeight.w500,
-              fontSize: 11,
+              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 15 : 11,
             ),
           );
           return SideTitleWidget(
