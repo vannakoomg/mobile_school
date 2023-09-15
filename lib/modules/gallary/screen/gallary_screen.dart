@@ -29,7 +29,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
     return GetBuilder<GallaryController>(
       builder: (controller) {
         return Scaffold(
-            backgroundColor: AppColor.backgroundColor,
+            backgroundColor: Colors.grey.withOpacity(0.2),
             appBar: AppBar(
               title: Text(
                 "Gallary",
@@ -104,7 +104,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
                                               ),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(0),
                                                 color: controller.getColor(),
                                               ),
                                             ),

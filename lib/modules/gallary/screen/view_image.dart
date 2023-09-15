@@ -36,10 +36,12 @@ class _ViewimageState extends State<Viewimage>
         PageController(initialPage: int.parse(controller.tagId.value));
     return Obx(
       () => Container(
+        // color: Colors.grey.withOpacity(0.2),
+
         color: AppColor.primaryColor,
         child: SafeArea(
           child: Container(
-            color: AppColor.primaryColor,
+            color: Colors.grey.withOpacity(0.2),
             width: 100.h,
             height: 100.w,
             child: Stack(
@@ -61,10 +63,12 @@ class _ViewimageState extends State<Viewimage>
                             for (int j = 0; j < (value) ~/ 2; ++j) {
                               jumpScrll = jumpScrll + controller.highList[j];
                             }
-                            jumpScrll = jumpScrll +
-                                controller
-                                    .textKey.currentContext!.size!.height +
-                                20;
+                            jumpScrll = jumpScrll
+                                // +
+                                // controller
+                                //     .textKey.currentContext!.size!.height +
+                                // +20
+                                ;
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
@@ -158,15 +162,9 @@ class _ViewimageState extends State<Viewimage>
                             color: Colors.transparent,
                             height: 40,
                             child: Center(
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: SizerUtil.deviceType ==
-                                            DeviceType.tablet
-                                        ? 22
-                                        : 16),
+                              child: Icon(
+                                Icons.download,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -196,7 +194,7 @@ class _ViewimageState extends State<Viewimage>
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
-                              "Save This Photo",
+                              "Download Photo",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -223,7 +221,7 @@ class _ViewimageState extends State<Viewimage>
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
-                              "Save ${controller.gallaryDetail.value.data!.length} Photo",
+                              "Download All Photos (${controller.gallaryDetail.value.data!.length})",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -266,7 +264,9 @@ class _ViewimageState extends State<Viewimage>
                           width: 10,
                         ),
                         Text(
-                          controller.saveDone.value ? "Saved" : "Saving ...",
+                          controller.saveDone.value
+                              ? "Done"
+                              : "Downloading ...",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

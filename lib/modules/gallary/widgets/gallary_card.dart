@@ -55,7 +55,7 @@ class GallaryCard extends StatelessWidget {
                         width: double.infinity,
                         height: 30.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(0),
                           color: controller.getColor(),
                         ),
                         child: Stack(
