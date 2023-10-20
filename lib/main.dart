@@ -12,11 +12,9 @@ Future<void> main() async {
   await GetStorage.init();
   await Firebase.initializeApp();
   await dotenv.load(fileName: '.env');
-  // String foo = dotenv.get('base_ulr');
-  // debugPrint("base url :$foo");
   await EasyLocalization.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // systemNavigationBarColor: Colors.red,
+      // : Colors.red,
       // statusBarColor: Colors.red,
       // statusBarBrightness: Brightness.dark,
       // statusBarIconBrightness: Brightness.light,

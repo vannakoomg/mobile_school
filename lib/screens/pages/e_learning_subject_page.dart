@@ -25,6 +25,16 @@ class _ELearningSubjectPageState extends State<ELearningSubjectPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("$_title E-Learning"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                view = !view;
+              });
+            },
+            icon: Icon(!view ? Icons.menu : Icons.list_alt),
+          ),
+        ],
       ),
       body: _buildBody,
     );
@@ -40,50 +50,12 @@ class _ELearningSubjectPageState extends State<ELearningSubjectPage> {
   }
 
   get _buildBody {
-    return Stack(
-      children: [
-        Container(
-          height: 5.h,
-          width: 100.w,
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                iconSize: iconSize,
-                icon: Icon(
-                  Icons.grid_view,
-                  color: view ? Colors.blue : Colors.black,
-                ),
-                onPressed: () {
-                  setState(() {
-                    view = true;
-                  });
-                },
-              ),
-              IconButton(
-                iconSize: iconSize,
-                icon: Icon(
-                  Icons.list,
-                  color: !view ? Colors.blue : Colors.black,
-                ),
-                onPressed: () {
-                  setState(() {
-                    view = false;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-        Container(child: view ? _buildGridMenu : _buildListMenu),
-      ],
-    );
+    return Container(child: view ? _buildGridMenu : _buildListMenu);
   }
 
   get _buildGridMenu {
     return Container(
-      margin: EdgeInsets.only(top: 5.h),
+      margin: EdgeInsets.only(top: 2.h),
       padding: EdgeInsets.only(left: 2.h, right: 2.h),
       color: Colors.grey.shade100,
       child: GridView.builder(
@@ -141,7 +113,7 @@ class _ELearningSubjectPageState extends State<ELearningSubjectPage> {
   get _buildListMenu {
     return Container(
       color: Colors.grey.shade100,
-      margin: EdgeInsets.only(top: 5.h),
+      margin: EdgeInsets.only(top: 2.h),
       child: ListView.builder(
           itemCount: _eLearningSubjectList.length,
           itemBuilder: (BuildContext context, int index) {

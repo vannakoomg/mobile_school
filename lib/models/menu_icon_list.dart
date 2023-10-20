@@ -1,77 +1,110 @@
+import 'package:flutter/material.dart';
+
 class Menu {
-  String img, title, route;
+  String img, title, route, description;
   bool isAuthorize;
-  Menu(
-      {required this.img,
-      required this.title,
-      required this.route,
-      required this.isAuthorize});
+  GlobalKey globalKey;
+  Menu({
+    required this.img,
+    required this.title,
+    required this.route,
+    required this.description,
+    required this.isAuthorize,
+    required this.globalKey,
+  });
 }
 
 List<Menu> menuIconList = [
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/announcement.png",
-      title: "News",
-      route: 'announcement',
-      isAuthorize: true),
+    globalKey: GlobalKey(),
+    description: '',
+    img: "assets/icons/home_screen_icon_one_color/announcement.png",
+    title: "News",
+    route: 'announcement',
+    isAuthorize: true,
+  ),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/attendance.png",
       title: "Attendance",
       route: 'attendance_calendar',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/timetable.png",
       title: "Timetables",
       route: 'timetable',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/exam_schedule.png",
       title: "Exam Schedules",
       route: 'exam_schedule',
       isAuthorize: false),
   Menu(
+      description: 'Report card',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/reportcard.png",
       title: "Report Card",
       route: "student_report",
       isAuthorize: true),
   Menu(
+    description: 'Events',
+    globalKey: GlobalKey(),
     img: "assets/icons/home_screen_icon_one_color/event.png",
     title: "Events",
     route: 'events',
     isAuthorize: true,
   ),
   Menu(
+    description: 'Gallery',
+    globalKey: GlobalKey(),
     img: "assets/icons/home_screen_icon_one_color/gallery.png",
     title: "Gallery",
     route: 'gallary',
     isAuthorize: true,
   ),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/assignment.png",
       title: "Assignments",
       route: 'homeworks',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/assignment_result.png",
       title: "Assignment Results",
       route: 'class_results',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/pickup_card.png",
       title: "Pick Up\nVirtual Card",
       route: 'pick_up_card',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/feedback.png",
       title: "Feedback",
       route: 'feedback',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/e_learning.png",
       title: "E-Learning",
       route: 'e_learning',
       isAuthorize: false),
   Menu(
+      description: '',
+      globalKey: GlobalKey(),
       img: "assets/icons/home_screen_icon_one_color/canteen.png",
       title: "Canteen",
       route: 'canteen',

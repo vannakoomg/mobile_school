@@ -49,8 +49,6 @@ class _IWalletState extends State<IWallet> with TickerProviderStateMixin {
         length: 2,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            // final scrolled = innerBoxIsScrolled.scrollOffset > 0;
-            // print("innerBoxIsScrolled=$innerBoxIsScrolled");
             return <Widget>[
               SliverAppBar(
                 expandedHeight: 30.h,

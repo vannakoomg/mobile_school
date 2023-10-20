@@ -25,7 +25,6 @@ class _ViewimageState extends State<Viewimage>
     transcontroller = TransformationController();
     controller.urlImage.value =
         "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}";
-    debugPrint("url ${controller.urlImage.value}");
     animatedController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() => transcontroller!.value = animation!.value);
@@ -36,8 +35,6 @@ class _ViewimageState extends State<Viewimage>
         PageController(initialPage: int.parse(controller.tagId.value));
     return Obx(
       () => Container(
-        // color: Colors.grey.withOpacity(0.2),
-
         color: AppColor.primaryColor,
         child: SafeArea(
           child: Container(
@@ -63,12 +60,7 @@ class _ViewimageState extends State<Viewimage>
                             for (int j = 0; j < (value) ~/ 2; ++j) {
                               jumpScrll = jumpScrll + controller.highList[j];
                             }
-                            jumpScrll = jumpScrll
-                                // +
-                                // controller
-                                //     .textKey.currentContext!.size!.height +
-                                // +20
-                                ;
+                            jumpScrll = jumpScrll;
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,

@@ -36,26 +36,31 @@ class EventCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: data.asMap().entries.map((element) {
                     return Container(
+                      margin: EdgeInsets.only(top: 0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (element.key != 0)
-                              SizedBox(
-                                height: 10,
-                              ),
-                            Text(
-                              "${element.value.title}",
-                              style: TextStyle(
-                                color: Color(int.parse(
-                                    element.value.action_color.toString())),
-                                fontSize:
-                                    SizerUtil.deviceType == DeviceType.tablet
-                                        ? 8.sp
-                                        : 12,
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 4, bottom: 5, left: 10, right: 10),
+                              decoration: BoxDecoration(
+                                  color: Color(int.parse(
+                                      element.value.action_color.toString())),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: Text(
+                                "${element.value.title}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      SizerUtil.deviceType == DeviceType.tablet
+                                          ? 8.sp
+                                          : 12,
+                                ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 1),
+                              padding:
+                                  const EdgeInsets.only(top: 10, bottom: 20),
                               child: Text(
                                 "${element.value.time}",
                                 style: TextStyle(
@@ -66,6 +71,10 @@ class EventCard extends StatelessWidget {
                                         : 12),
                               ),
                             ),
+                            // if (data.length < element.key + 1)
+                            // SizedBox(
+                            //   height: 20,
+                            // )
                           ]),
                     );
                   }).toList()),
@@ -73,12 +82,13 @@ class EventCard extends StatelessWidget {
           ]),
         ),
         Positioned(
+          top: 3,
           child: Column(
             children: [
               Container(
                 margin: EdgeInsets.only(top: 0),
-                height: 20,
-                width: 20,
+                height: 22,
+                width: 22,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColor.primaryColor,
@@ -93,11 +103,6 @@ class EventCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 5,
-              //   width: 10,
-              //   color: Color(0xff1d1a56),
-              // )
             ],
           ),
         )

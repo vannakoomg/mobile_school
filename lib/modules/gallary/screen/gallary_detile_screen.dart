@@ -106,11 +106,6 @@ class _GallaryDetailState extends State<GallaryDetail> {
                               ontap01: () {
                                 controller.tagId.value =
                                     "${2 * (i + 1) - 1 - 1}";
-                                if (controller.gallaryData.last.image == '') {
-                                  controller.gallaryData.removeLast();
-                                }
-                                // debugPrint(
-                                //     "vannak ${controller.textKey.currentContext!.size!.height}");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -120,9 +115,6 @@ class _GallaryDetailState extends State<GallaryDetail> {
                               },
                               ontap02: () {
                                 controller.tagId.value = "${2 * (i + 1) - 1}";
-                                if (controller.gallaryData.last.image == '') {
-                                  controller.gallaryData.removeLast();
-                                }
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -205,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         print('Success=${value.status}');
         storage.write('user_token', value.data.token);
+        debugPrint("token ${value.data.token}");
         storage.write('isActive', value.data.studentId);
         // storage.write('isUsername', emailController.text.trim());
         storage.write('isPassword', passwordController.text.trim());

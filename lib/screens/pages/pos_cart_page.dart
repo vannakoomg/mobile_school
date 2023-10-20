@@ -402,15 +402,13 @@ class _PosCartState extends State<PosCart> {
   bool timeCheck() {
     bool diff = true;
     DateTime now = new DateTime.now();
-    String formattedDateTimeNow = DateFormat('y-MM-d kk:mm').format(now);
-    String formattedDateNow = DateFormat('y-MM-d').format(now);
+    String formattedDateTimeNow = DateFormat('y-MM-dd kk:mm').format(now);
+    String formattedDateNow = DateFormat('y-MM-dd').format(now);
     DateTime dt = DateTime.parse(formattedDateTimeNow);
     DateTime dtFrom = DateTime.parse(
         "$formattedDateNow ${storage.read("pre_order_time_from")}");
     DateTime dtTo = DateTime.parse(
         "$formattedDateNow ${storage.read("pre_order_time_to")}");
-    // print("dt1=$dt1");
-    // print("dt2=$dt2");
     bool diffBefore = dt.isBefore(dtFrom);
     bool diffAfter = dt.isAfter(dtTo);
 
