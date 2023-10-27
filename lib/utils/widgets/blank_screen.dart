@@ -3,7 +3,6 @@ import 'package:sizer/sizer.dart';
 
 class BlankPage extends StatefulWidget {
   const BlankPage({Key? key}) : super(key: key);
-
   @override
   State<BlankPage> createState() => _BlankPageState();
 }

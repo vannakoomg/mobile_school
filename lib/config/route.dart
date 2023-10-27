@@ -2,6 +2,10 @@ import 'package:school/modules/announcement/screens/announcement_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_detile_screen.dart';
 import 'package:school/modules/student_report/screens/student_report_screen.dart';
+import 'package:school/screens/about_screen.dart';
+import 'package:school/screens/contact_screen.dart';
+import 'package:school/screens/pages/pick_up_card_page.dart';
+import 'package:school/screens/pages/switch_account.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';

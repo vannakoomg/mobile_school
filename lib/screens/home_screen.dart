@@ -9,8 +9,6 @@ import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
-import 'package:school/utils/widgets/custom_show_case.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -45,42 +43,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late Map<String, dynamic> _mapUser;
   late List<Assigned> _recAssignedList = [], _recMissingList = [];
   late List<Slide> _recData = [];
-  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ShowCaseWidget.of(context).startShowCase([
-        menuIconList[4].globalKey,
-        menuIconList[5].globalKey,
-        menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-      ]);
-    });
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
     _fetchExamScheduleCount();
     _fetchAssignment();
     _login();
-    // scrollController.jumpTo(200);
+
     if (storage.read('user_token') != null && storage.read('mapUser') != null)
-      _fetchProfile().then((value) {
-        scrollController.jumpTo(50);
-      });
+      _fetchProfile();
     manager.emptyCache();
   }
 
@@ -247,6 +222,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
           child: CarouselSlider.builder(
               itemCount: _imageIphoneList.length,
               itemBuilder: (context, index, realIndex) {
@@ -296,89 +274,166 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
 
   get _buildGridMenu {
-    return Expanded(
-      child: Container(
-        // alignment: Alignment.center,
-        padding: EdgeInsets.only(left: 2.h, right: 2.h, top: 2.h),
-        color: Colors.grey.shade200,
-        height: 70.h,
-        child: GridView.builder(
-          itemCount: menuIconList.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () async {
-                tracking("${menuIconList[index].title}");
-                if (storage.read('user_token') != null ||
-                    menuIconList[index].isAuthorize) {
-                  var data = await Get.toNamed(menuIconList[index].route);
-                  if (data == 'Assignment') {
-                    setState(() {
-                      storage.read('assignment_badge');
-                    });
-                  }
-                } else {
-                  var data = await Get.toNamed('login',
-                      arguments: menuIconList[index].route);
-                  if (data == true) {
-                    setState(() {
-                      _fetchNotificationCount();
-                      _fetchExamScheduleCount();
-                      _fetchAssignment();
-                      _fetchProfile();
-                    });
-                  }
-                }
-              },
-              child: Card(
-                elevation: 10,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    menuIconList[index].title == 'Exam Schedules' &&
-                            (storage.read('exam_schedule_badge') != 0 &&
-                                storage.read('exam_schedule_badge') != null)
-                        ? badges.Badge(
-                            badgeContent: Text(
-                                '${storage.read('exam_schedule_badge')}',
-                                style: TextStyle(color: Colors.white)),
-                            child: Image.asset(menuIconList[index].img,
-                                height: 8.h, width: 8.h),
-                          )
-                        : menuIconList[index].title == 'Assignments' &&
-                                (storage.read('assignment_badge') != 0 &&
-                                    storage.read('assignment_badge') != null)
+    return Column(
+      children: [
+        Container(
+            margin: EdgeInsets.only(top: 0, right: 5, left: 5),
+            child: Wrap(
+              children: menuIconList.asMap().entries.map((e) {
+                return GestureDetector(
+                  onTap: () async {
+                    debugPrint("route : ${menuIconList[e.key].route}");
+                    tracking("${menuIconList[e.key].title}");
+                    if (storage.read('user_token') != null ||
+                        menuIconList[e.key].isAuthorize) {
+                      var data = await Get.toNamed(menuIconList[e.key].route);
+                      if (data == 'Assignment') {
+                        setState(() {
+                          storage.read('assignment_badge');
+                        });
+                      }
+                    } else {
+                      var data = await Get.toNamed('login',
+                          arguments: menuIconList[e.key].route);
+                      if (data == true) {
+                        setState(() {
+                          _fetchNotificationCount();
+                          _fetchExamScheduleCount();
+                          _fetchAssignment();
+                          _fetchProfile();
+                        });
+                      }
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3 - 15,
+                    height: MediaQuery.of(context).size.width / 3 -
+                        15 +
+                        (MediaQuery.of(context).size.width / 3 - 15) / 10,
+                    margin: EdgeInsets.only(left: 5, right: 5, top: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        menuIconList[e.key].title == 'Exam Schedules' &&
+                                (storage.read('exam_schedule_badge') != 0 &&
+                                    storage.read('exam_schedule_badge') != null)
                             ? badges.Badge(
                                 badgeContent: Text(
-                                    '${storage.read('assignment_badge')}',
+                                    '${storage.read('exam_schedule_badge')}',
                                     style: TextStyle(color: Colors.white)),
-                                child: Image.asset(menuIconList[index].img,
+                                child: Image.asset(menuIconList[e.key].img,
                                     height: 8.h, width: 8.h),
                               )
-                            : Image.asset(menuIconList[index].img,
-                                height: 8.h, width: 8.h),
-                    SizedBox(
-                      height: 5.sp,
+                            : menuIconList[e.key].title == 'Assignments' &&
+                                    (storage.read('assignment_badge') != 0 &&
+                                        storage.read('assignment_badge') !=
+                                            null)
+                                ? badges.Badge(
+                                    badgeContent: Text(
+                                        '${storage.read('assignment_badge')}',
+                                        style: TextStyle(color: Colors.white)),
+                                    child: Image.asset(menuIconList[e.key].img,
+                                        height: 8.h, width: 8.h),
+                                  )
+                                : Image.asset(menuIconList[e.key].img,
+                                    height: 6.5.h, width: 6.5.h),
+                        SizedBox(
+                          height: 5.sp,
+                        ),
+                        Text(
+                          menuIconList[e.key].title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 8.sp
+                                      : 10.sp),
+                        ),
+                      ],
                     ),
-                    Text(
-                      menuIconList[index].title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 7.sp
-                              : 9.sp),
+                  ),
+                );
+              }).toList(),
+            )),
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+                children: menuSubIconList.asMap().entries.map(
+              (e) {
+                return GestureDetector(
+                  onTap: () async {
+                    debugPrint("route : ${menuIconList[e.key].route}");
+                    tracking("${menuIconList[e.key].title}");
+                    if (storage.read('user_token') != null ||
+                        menuSubIconList[e.key].isAuthorize) {
+                      var data =
+                          await Get.toNamed(menuSubIconList[e.key].route);
+                      if (data == 'Assignment') {
+                        setState(() {
+                          storage.read('assignment_badge');
+                        });
+                      }
+                    } else {
+                      var data = await Get.toNamed('login',
+                          arguments: menuSubIconList[e.key].route);
+                      if (data == true) {
+                        setState(() {
+                          _fetchNotificationCount();
+                          _fetchExamScheduleCount();
+                          _fetchAssignment();
+                          _fetchProfile();
+                        });
+                      }
+                    }
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    margin: EdgeInsets.only(right: 5),
+                    height: 6.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ],
-                ),
-              ),
-            );
-          },
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: SizerUtil.deviceType == DeviceType.tablet ? 4 : 3,
-              crossAxisSpacing: 1.h,
-              mainAxisSpacing: 1.h),
-        ),
-      ),
+                    child: Center(
+                        child: Row(
+                      children: [
+                        Image.asset(
+                          "${menuSubIconList[e.key].img}",
+                          width: 20,
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "${menuSubIconList[e.key].title}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 8.sp
+                                      : 10.sp),
+                        ),
+                      ],
+                    )),
+                  ),
+                );
+              },
+            ).toList()),
+          ),
+        )
+      ],
     );
   }
 
@@ -409,7 +464,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  Future _fetchProfile() async {
+  void _fetchProfile() {
     fetchProfile(apiKey: storage.read('user_token')).then((value) {
       debugPrint(
           "khmer sl khmer ${value.data.data[0].fullImage} ${value.data.data[0].name} ${value.data.data[0].email}");
