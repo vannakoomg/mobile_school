@@ -34,21 +34,23 @@ class GallaryController extends GetxController {
   final currentPage = 1.obs;
   final textKey = GlobalKey();
   Future getGallary() async {
-    try {
-      isloading.value = true;
-      var response = await Dio(BaseOptions(headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      })).get('${baseUrlSchool}api/gallary');
-      gallary.value = GallaryModel.fromJson(response.data);
+    // try {
+    debugPrint("khmer sl khme r");
 
-      isloading.value = false;
-      debugPrint("value ${gallary.value.data!.length}");
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      isloading.value = false;
-      debugPrint("you have been catched $errorMessage");
-    }
+    isloading.value = true;
+    var response = await Dio(BaseOptions(headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    })).get('${baseUrlSchool}api/gallary');
+    debugPrint("dddddddddd ${response.data}");
+    gallary.value = GallaryModel.fromJson(response.data);
+    isloading.value = false;
+    // debugPrint("valuephpto ${gallary.value.data!.length}");
+    // } on DioError catch (e) {
+    //   final errorMessage = DioExceptions.fromDioError(e).toString();
+    //   isloading.value = false;
+    //   debugPrint("you have been catched $errorMessage");
+    // }
   }
 
   void getGallaryDetail({required String id, int page = 1}) async {

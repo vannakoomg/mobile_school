@@ -9,13 +9,14 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/config/route.dart';
 import 'package:school/modules/announcement/screens/announcement_detail_screen.dart';
+import 'package:school/modules/dasborad/screen/dasborad_screen.dart';
+import 'package:school/modules/gallary/screen/gallary_screen.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/register_device_token.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
 import 'package:school/screens/pages/notification_detail.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'models/AssignmentListDB.dart';
 import 'repos/assignment_list.dart';
 import 'screens/dashboard_screen.dart';
@@ -80,15 +81,7 @@ class _MyAppState extends State<MyApp> {
           appBarTheme: Theme.of(context).appBarTheme,
           primarySwatch: MaterialColor(0xff1d1a56, color),
         ),
-        home: storage.read('user_token') == null &&
-                (storage.read('mapUser') != null &&
-                    storage.read('mapUser').length != 0)
-            ? _switchAccountPage
-            : ShowCaseWidget(
-                builder: Builder(
-                  builder: (context) => DashboardScreen(),
-                ),
-              ),
+        home: Dashboard(),
         routes: route02,
         builder: EasyLoading.init(),
       );
@@ -192,27 +185,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    var mapUserLength = storage.read('mapUser');
-    // print('test=${mapUserLength.toString()}');
-    if (mapUserLength == 0) storage.remove('mapUser');
+    // var mapUserLength = storage.read('mapUser');
+    // // print('test=${mapUserLength.toString()}');
+    // if (mapUserLength == 0) storage.remove('mapUser');
 
     //print("storage.read('mapUser')=${storage.read('mapUser')}");
     //For handling notification when the app is in force ground
-    registerNotification();
+    // registerNotification();
 
-    //For handling notification when the app is in background but not terminated
-    checkForInitialMessage();
+    // //For handling notification when the app is in background but not terminated
+    // checkForInitialMessage();
 
     // For handling notification when the app is in background but not terminated
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      if (message.data['route'] != null) {
-        // _fetchNotificationCount();
-        _routes(
-            route: message.data['route'],
-            page: message.data['id'],
-            userId: message.data['user_id']);
-      }
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   if (message.data['route'] != null) {
+    //     // _fetchNotificationCount();
+    //     _routes(
+    //         route: message.data['route'],
+    //         page: message.data['id'],
+    //         userId: message.data['user_id']);
+    //   }
+    // });
     initPlatformState();
     super.initState();
   }

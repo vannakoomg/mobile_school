@@ -10,15 +10,9 @@ import './app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   await dotenv.load(fileName: '.env');
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // : Colors.red,
-      // statusBarColor: Colors.red,
-      // statusBarBrightness: Brightness.dark,
-      // statusBarIconBrightness: Brightness.light,
-      ));
   runApp(
     EasyLocalization(
       path: 'assets/translations',

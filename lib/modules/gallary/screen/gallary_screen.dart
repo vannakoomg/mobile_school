@@ -30,7 +30,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              "Gallary",
+              "Gallary3333",
               style: TextStyle(
                 fontSize: SizerUtil.deviceType == DeviceType.tablet ? 24 : 16,
               ),
@@ -50,7 +50,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
           body: controller.isloading.value
               ? Center(
                   child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: Colors.blue,
                 ))
               : controller.gallary.value.data!.isEmpty
                   ? Center(

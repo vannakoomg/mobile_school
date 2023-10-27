@@ -65,11 +65,15 @@ dependencies:
   gallery_saver: ^2.3.2
   geolocator: ^9.0.2
   pinch_zoom: ^1.0.0
-  showcaseview: ^2.0.3
+  flutter_svg: ^2.0.8
   flutter_native_splash: ^2.3.3
+  google_fonts: 4.0.4
+  go_router: ^12.0.0
+
 flutter_native_splash:
   android: true
   ios: true
+  web: true
   color: "#FFFFFF"
   image: assets/icons/login_icon/adaptive_icon_foreground.png
 
@@ -95,6 +99,8 @@ flutter:
 
   uses-material-design: true
   assets:
+    - assets/
+    - assets/dashboard/
     - assets/icons/home_screen_icon/
     - assets/icons/contact_us_icon/
     - assets/icons/about_us_icon/

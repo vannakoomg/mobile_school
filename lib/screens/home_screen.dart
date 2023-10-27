@@ -8,8 +8,6 @@ import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
-import 'package:school/utils/widgets/custom_show_case.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -47,25 +45,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ShowCaseWidget.of(context).startShowCase([
-        menuIconList[4].globalKey,
-        menuIconList[5].globalKey,
-        menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-      ]);
-    });
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
@@ -247,52 +226,46 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     }
                   }
                 },
-                child: CustomShowCase(
-                  title: 'Exam Schedules',
-                  key1: menuIconList[index].globalKey,
-                  child: Card(
-                    elevation: 10,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        menuIconList[index].title == 'Exam Schedules' &&
-                                (storage.read('exam_schedule_badge') != 0 &&
-                                    storage.read('exam_schedule_badge') != null)
-                            ? badges.Badge(
-                                badgeContent: Text(
-                                    '${storage.read('exam_schedule_badge')}',
-                                    style: TextStyle(color: Colors.white)),
-                                child: Image.asset(menuIconList[index].img,
-                                    height: 8.h, width: 8.h),
-                              )
-                            : menuIconList[index].title == 'Assignments' &&
-                                    (storage.read('assignment_badge') != 0 &&
-                                        storage.read('assignment_badge') !=
-                                            null)
-                                ? badges.Badge(
-                                    badgeContent: Text(
-                                        '${storage.read('assignment_badge')}',
-                                        style: TextStyle(color: Colors.white)),
-                                    child: Image.asset(menuIconList[index].img,
-                                        height: 8.h, width: 8.h),
-                                  )
-                                : Image.asset(menuIconList[index].img,
-                                    height: 8.h, width: 8.h),
-                        SizedBox(
-                          height: 5.sp,
-                        ),
-                        Text(
-                          menuIconList[index].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  SizerUtil.deviceType == DeviceType.tablet
-                                      ? 7.sp
-                                      : 9.sp),
-                        ),
-                      ],
-                    ),
+                child: Card(
+                  elevation: 10,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      menuIconList[index].title == 'Exam Schedules' &&
+                              (storage.read('exam_schedule_badge') != 0 &&
+                                  storage.read('exam_schedule_badge') != null)
+                          ? badges.Badge(
+                              badgeContent: Text(
+                                  '${storage.read('exam_schedule_badge')}',
+                                  style: TextStyle(color: Colors.white)),
+                              child: Image.asset(menuIconList[index].img,
+                                  height: 8.h, width: 8.h),
+                            )
+                          : menuIconList[index].title == 'Assignments' &&
+                                  (storage.read('assignment_badge') != 0 &&
+                                      storage.read('assignment_badge') != null)
+                              ? badges.Badge(
+                                  badgeContent: Text(
+                                      '${storage.read('assignment_badge')}',
+                                      style: TextStyle(color: Colors.white)),
+                                  child: Image.asset(menuIconList[index].img,
+                                      height: 8.h, width: 8.h),
+                                )
+                              : Image.asset(menuIconList[index].img,
+                                  height: 8.h, width: 8.h),
+                      SizedBox(
+                        height: 5.sp,
+                      ),
+                      Text(
+                        menuIconList[index].title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 7.sp
+                                : 9.sp),
+                      ),
+                    ],
                   ),
                 ),
               ),
