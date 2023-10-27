@@ -16,8 +16,11 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
   final controller = Get.put(StudentController());
   @override
   void initState() {
+    controller.getSummery().then((value) {
+      // debugPrint("value $value");
+    });
     controller.getStudentReport(termname: "Term 4");
-    controller.getSummery();
+
     super.initState();
   }
 

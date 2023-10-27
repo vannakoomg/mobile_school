@@ -19,13 +19,19 @@ class GallaryController extends GetxController {
   final oldColor = 0.obs;
   final tagId = ''.obs;
   final urlImage = ''.obs;
+  final flex01 = [].obs;
+  final flex02 = [].obs;
+  final hight = [].obs;
   final gallary = GallaryModel().obs;
   final gallaryDetail = GallaryDetailModel().obs;
+  final gallaryData = <ImageModel>[].obs;
   final isloading = true.obs;
   final isloadingGallaryDetail = true.obs;
   final isTapImage = false.obs;
   final isTapSave = false.obs;
   final isviewImageDetile = false.obs;
+  final nextPage = 0.obs;
+  final currentPage = 1.obs;
   final textKey = GlobalKey();
   Future getGallary() async {
     try {
@@ -37,7 +43,7 @@ class GallaryController extends GetxController {
       gallary.value = GallaryModel.fromJson(response.data);
 
       isloading.value = false;
-      debugPrint("value ${gallary.value.data}");
+      debugPrint("value ${gallary.value.data!.length}");
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       isloading.value = false;
@@ -45,16 +51,25 @@ class GallaryController extends GetxController {
     }
   }
 
-  void getGallaryDetail(String id) async {
+  void getGallaryDetail({required String id, int page = 1}) async {
     try {
       isloadingGallaryDetail.value = true;
       var response = await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-      })).get('${baseUrlSchool}api/gallary?id=$id');
+      })).get('${baseUrlSchool}api/gallary?id=$id&page=$page');
+      gallaryDetail.value = GallaryDetailModel();
       gallaryDetail.value = GallaryDetailModel.fromJson(response.data);
+      for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
+        flex01.add(Random().nextInt(3) + 2);
+        flex02.add(Random().nextInt(3) + 2);
+        hight.add(getHigh());
+        gallaryData.add(gallaryDetail.value.data![i]);
+      }
+      if (gallaryDetail.value.data!.length.floor().isOdd) {
+        gallaryData.add(ImageModel(image: ""));
+      }
       isloadingGallaryDetail.value = false;
-      debugPrint("value ${gallaryDetail.value.data![0].image}");
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       isloadingGallaryDetail.value = false;

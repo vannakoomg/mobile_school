@@ -1,14 +1,11 @@
 import 'package:school/modules/announcement/screens/announcement_screen.dart';
 import 'package:school/modules/gallary/screen/gallary_screen.dart';
-import 'package:school/modules/gallary/screen/gallary_screen_detile.dart';
+import 'package:school/modules/gallary/screen/gallary_detile_screen.dart';
 import 'package:school/modules/student_report/screens/student_report_screen.dart';
-import 'package:school/screens/pages/switch_account.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
 import '../modules/pickup/screen/pickup_screen.dart';
-import '../screens/about_screen.dart';
-import '../screens/contact_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login.dart';
 import '../screens/pages/about_accreditation_page.dart';
@@ -67,7 +64,7 @@ var route02 = {
   'homeworks_portal': (context) => HomeworksPortal(),
   'teacher_homeworks_add': (context) => TeacherHomeworksAdd(),
   'attendance_calendar': (context) => AttendanceCalendar(),
-  'pick_up_card': (context) => PickUpCard(),
+  'pick_up_card': (context) => ScanScreen(),
   'canteen': (context) => CanteenScreen(),
   'pos_order': (context) => PosOrder(),
   'pos_history': (context) => PosHistory(),

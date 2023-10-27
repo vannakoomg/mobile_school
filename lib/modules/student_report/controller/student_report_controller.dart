@@ -37,6 +37,7 @@ class StudentController extends GetxController {
       summayReport.value = SummeryReport();
       summayReport.value = SummeryReport.fromJson(response.data);
       items.clear();
+      term.value = summayReport.value.data!.en!.length - 1;
       for (int i = 0; i < summayReport.value.data!.en!.length; ++i) {
         items.add(makeGroupData(
             i,

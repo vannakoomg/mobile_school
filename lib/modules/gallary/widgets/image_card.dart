@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageCard extends StatelessWidget {
@@ -45,9 +46,9 @@ class ImageCard extends StatelessWidget {
                   margin: EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     color: colors01,
-                    // borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: NetworkImage(image01), fit: BoxFit.cover),
+                        image: CachedNetworkImageProvider(image01),
+                        fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -68,7 +69,8 @@ class ImageCard extends StatelessWidget {
                       color: colors02,
                       // borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          image: NetworkImage(image02), fit: BoxFit.cover),
+                          image: CachedNetworkImageProvider(image02),
+                          fit: BoxFit.cover),
                     ),
                   ),
                 ),
