@@ -30,7 +30,7 @@ List<Menu> menuIconList = [
       isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/exam_schedule.png",
-      title: "Exam Schedules",
+      title: "Schedules",
       route: 'exam_schedule',
       isAuthorize: false),
   Menu(
@@ -40,7 +40,7 @@ List<Menu> menuIconList = [
       isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/assignment_result.png",
-      title: "Assignment Results",
+      title: "Assignment",
       route: 'class_results',
       isAuthorize: false),
 ];

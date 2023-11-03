@@ -28,7 +28,7 @@ class GallaryCard extends StatelessWidget {
           Text(
             "$yearMonth",
             style: TextStyle(
-              color: AppColor.primaryColor,
+              color: AppColor.primary,
               fontWeight: FontWeight.bold,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
             ),

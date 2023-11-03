@@ -62,8 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-          backgroundColor: Colors.grey.shade300,
-          key: key,
+          backgroundColor: AppColor.primary,
           body: _buildBody,
         ));
   }
@@ -78,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             top: 10.h,
             left: 0,
             child: Container(
+              // color: AppColor.background,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     GestureDetector(
                       onTap: () {
                         if (storage.read('user_token') == null) {
-                          // Get.toNamed('login', arguments: 'home_screen');
+                          Get.toNamed('login', arguments: 'home_screen');
                         } else {
                           tracking("profile");
                           controller.isShowProfile.value = true;
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 width: 7.h - 5,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: AppColor.primaryColor,
+                                    color: AppColor.primary,
                                     image: DecorationImage(
                                         image: NetworkImage(
                                             "${storage.read('isPhoto')}"))),
@@ -122,12 +122,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           Text(
                             "${controller.helloFromIcs()}  ${storage.read('isName') ?? ''}",
                             style: TextStyle(
-                              color: AppColor.primaryColor.withOpacity(0.8),
+                              color: AppColor.mainColor,
                               fontWeight: FontWeight.bold,
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
-                                      ? 10.sp
-                                      : 13.sp,
+                                      ? 11.sp
+                                      : 14.sp,
                             ),
                           ),
                         ]),
@@ -145,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
           Container(
             height: 11.h,
-            color: AppColor.primaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,9 +201,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               top: controller.isShowProfile.value == false ? 100.h : 0.h,
               left: 0,
               curve: Curves.easeOutCirc,
-              duration: Duration(milliseconds: 300),
+              duration: Duration(milliseconds: 350),
               child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 350),
                   curve: Curves.linear,
                   opacity: controller.isShowProfile.value == false ? 0 : 1,
                   child: ProfileScreen(
@@ -218,39 +217,56 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   get _buildImageSlider {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-          child: CarouselSlider.builder(
-              itemCount: _imageIphoneList.length,
-              itemBuilder: (context, index, realIndex) {
-                final urlImage = SizerUtil.deviceType == DeviceType.tablet
-                    ? _imageIpadList[index]
-                    : _imageIphoneList[index];
-                return _buildUrlImages(urlImage);
-              },
-              options: CarouselOptions(
-                  aspectRatio: 10 / 9,
-                  height: SizerUtil.deviceType == DeviceType.tablet
-                      ? 120.sp
-                      : 170.sp,
-                  viewportFraction: 1,
-                  autoPlay: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      activeIndex = index;
-                    });
-                  })),
-        ),
-        Positioned(
-          child: buildIndicator(),
-          bottom: 1.h,
-        ),
-      ],
+    return Container(
+      margin: EdgeInsets.only(left: 10, top: 10),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Promotion",
+            style: TextStyle(
+                color: AppColor.mainColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w500),
+          ),
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 10, top: 10),
+                clipBehavior: Clip.antiAlias,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                child: CarouselSlider.builder(
+                    itemCount: _imageIphoneList.length,
+                    itemBuilder: (context, index, realIndex) {
+                      final urlImage = SizerUtil.deviceType == DeviceType.tablet
+                          ? _imageIpadList[index]
+                          : _imageIphoneList[index];
+                      return _buildUrlImages(urlImage);
+                    },
+                    options: CarouselOptions(
+                        aspectRatio: 10 / 9,
+                        height: SizerUtil.deviceType == DeviceType.tablet
+                            ? 120.sp
+                            : 170.sp,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            activeIndex = index;
+                          });
+                        })),
+              ),
+              Positioned(
+                child: buildIndicator(),
+                bottom: 1.h,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -263,21 +279,28 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: activeIndex,
-        count: _imageIphoneList.length,
-        effect: SlideEffect(
-            dotColor: Colors.white,
-            activeDotColor: Colors.lightBlue,
-            dotHeight: 1.h,
-            dotWidth: 1.h),
+  Widget buildIndicator() => Container(
+        padding: EdgeInsets.all(3),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.black.withOpacity(0.35),
+        ),
+        child: AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: _imageIphoneList.length,
+          effect: SlideEffect(
+              dotColor: Colors.white,
+              activeDotColor: AppColor.primary,
+              dotHeight: 1.h,
+              dotWidth: 1.h),
+        ),
       );
 
   get _buildGridMenu {
     return Column(
       children: [
         Container(
-            margin: EdgeInsets.only(top: 0, right: 5, left: 5),
+            margin: EdgeInsets.only(top: 10, right: 5, left: 5),
             child: Wrap(
               children: menuIconList.asMap().entries.map((e) {
                 return GestureDetector(
@@ -307,15 +330,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 3 - 15,
-                    height: MediaQuery.of(context).size.width / 3 -
-                        15 +
-                        (MediaQuery.of(context).size.width / 3 - 15) / 10,
+                    height: MediaQuery.of(context).size.width / 3 - 15,
                     margin: EdgeInsets.only(left: 5, right: 5, top: 10),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.mainColor,
                         borderRadius: BorderRadius.circular(15)),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         menuIconList[e.key].title == 'Exam Schedules' &&
                                 (storage.read('exam_schedule_badge') != 0 &&
@@ -338,20 +359,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     child: Image.asset(menuIconList[e.key].img,
                                         height: 8.h, width: 8.h),
                                   )
-                                : Image.asset(menuIconList[e.key].img,
-                                    height: 6.5.h, width: 6.5.h),
-                        SizedBox(
-                          height: 5.sp,
-                        ),
+                                : Image.asset(
+                                    menuIconList[e.key].img,
+                                    height: 6.h,
+                                    width: 6.h,
+                                    color: AppColor.primary,
+                                  ),
                         Text(
                           menuIconList[e.key].title,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              color: AppColor.primary,
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
                                       ? 8.sp
-                                      : 10.sp),
+                                      : 12.sp),
                         ),
                       ],
                     ),
@@ -596,6 +619,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         print("app in detached");
+        break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
         break;
     }
   }

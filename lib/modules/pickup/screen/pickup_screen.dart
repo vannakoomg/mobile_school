@@ -105,7 +105,7 @@ class _PickUpCardState extends State<PickUpCard> {
                           decoration: BoxDecoration(
                               color: controller.distan.value > 100
                                   ? Colors.grey
-                                  : AppColor.primaryColor,
+                                  : AppColor.primary,
                               borderRadius: BorderRadius.circular(80)),
                           child: Center(
                               child: Text(
@@ -128,7 +128,7 @@ class _PickUpCardState extends State<PickUpCard> {
                 },
                 child: Container(
                   height: 80,
-                  color: AppColor.primaryColor,
+                  color: AppColor.primary,
                   child: Center(
                       child: Text(
                     "Scan QR",

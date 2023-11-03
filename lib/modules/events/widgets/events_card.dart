@@ -24,7 +24,7 @@ class EventCard extends StatelessWidget {
               border: Border(
             left: BorderSide(
               width: 0.55,
-              color: AppColor.primaryColor,
+              color: AppColor.primary,
             ),
           )),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -91,7 +91,7 @@ class EventCard extends StatelessWidget {
                 width: 22,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColor.primaryColor,
+                  color: AppColor.primary,
                 ),
                 child: Center(
                   child: Text(

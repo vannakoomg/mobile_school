@@ -35,7 +35,7 @@ class _ViewimageState extends State<Viewimage>
         PageController(initialPage: int.parse(controller.tagId.value));
     return Obx(
       () => Container(
-        color: AppColor.primaryColor,
+        color: AppColor.primary,
         child: SafeArea(
           child: Container(
             color: Colors.grey.withOpacity(0.2),
@@ -45,7 +45,7 @@ class _ViewimageState extends State<Viewimage>
               children: [
                 GestureDetector(
                   child: Container(
-                    color: AppColor.backgroundColor,
+                    color: AppColor.background,
                     child: Hero(
                       tag: controller.tagId.value,
                       child: Container(
@@ -119,7 +119,7 @@ class _ViewimageState extends State<Viewimage>
                       padding: EdgeInsets.only(right: 10),
                       height: 60,
                       width: 100.w,
-                      color: AppColor.primaryColor,
+                      color: AppColor.primary,
                       child: Row(children: [
                         IconButton(
                             onPressed: () {
@@ -237,7 +237,7 @@ class _ViewimageState extends State<Viewimage>
                       width: 100.w,
                       color: controller.saveDone.value
                           ? Colors.blue
-                          : AppColor.primaryColor,
+                          : AppColor.primary,
                       child: Row(children: [
                         Container(
                           height: 25,

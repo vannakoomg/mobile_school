@@ -28,7 +28,7 @@ class _EventScreenState extends State<EventScreen> {
 
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-        backgroundColor: AppColor.backgroundColor,
+        backgroundColor: AppColor.background,
         appBar: AppBar(
             title: Text(
           "Event",
@@ -99,8 +99,7 @@ class _EventScreenState extends State<EventScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppColor.primaryColor
-                                          .withOpacity(0.9),
+                                      color: AppColor.primary.withOpacity(0.9),
                                     ),
                                     width: 5.h,
                                     height: 5.h,
@@ -198,7 +197,7 @@ class _EventScreenState extends State<EventScreen> {
                                   ? "NOTHING"
                                   : "UPCOMING",
                               style: TextStyle(
-                                color: AppColor.primaryColor,
+                                color: AppColor.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize:
                                     SizerUtil.deviceType == DeviceType.tablet

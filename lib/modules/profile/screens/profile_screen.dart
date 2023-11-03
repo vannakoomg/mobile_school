@@ -25,12 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       height: 100.h,
       width: 100.w,
-      color: Colors.grey[300],
+      color: AppColor.secondary,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              color: AppColor.primaryColor,
+              color: AppColor.primary,
               child: Column(
                 children: [
                   Container(
@@ -73,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 25.w,
                     width: 25.w,
                     decoration: BoxDecoration(
-                        color: AppColor.primaryColor,
+                        color: AppColor.primary,
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: NetworkImage(
@@ -162,11 +162,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Container(
                       height: 7.5.h,
                       decoration: BoxDecoration(
-                          color: Color(
-                            0XFFf08080,
-                          ),
+                          color: AppColor.warning,
                           borderRadius: BorderRadius.circular(20)),
-                      child: Center(child: Text("LOGOUT")),
+                      child: Center(
+                          child: Text(
+                        "LOGOUT",
+                        style: TextStyle(
+                            color: AppColor.mainColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
+                      )),
                     ),
                   )
                 ],

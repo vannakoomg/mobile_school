@@ -50,7 +50,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColor.backgroundColor,
+        backgroundColor: AppColor.background,
         appBar: AppBar(
           title: Text(
             "${argument['title']}",
@@ -63,7 +63,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 controller.gallaryData.isEmpty
             ? Center(
                 child: CircularProgressIndicator(
-                color: AppColor.primaryColor,
+                color: AppColor.primary,
               ))
             : Container(
                 margin: EdgeInsets.only(left: 5, right: 5),
@@ -77,7 +77,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                       child: Text(
                         "${controller.gallaryDetail.value.description}",
                         style: TextStyle(
-                          color: AppColor.primaryColor.withOpacity(0.8),
+                          color: AppColor.primary.withOpacity(0.8),
                           fontSize: SizerUtil.deviceType == DeviceType.tablet
                               ? 20
                               : 16,
