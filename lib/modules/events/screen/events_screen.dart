@@ -36,11 +36,10 @@ class _EventScreenState extends State<EventScreen> {
               color: Colors.white,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 10.sp : 16),
         )),
-        body: SingleChildScrollView(
-            child: Container(
-                // height: double.infinity,
-                // width: double.infinity,
-                child: Column(
+        body: Container(
+            // height: double.infinity,
+            // width: double.infinity,
+            child: Column(
           children: [
             TableCalendar(
                 rowHeight: 6.h,
@@ -178,65 +177,72 @@ class _EventScreenState extends State<EventScreen> {
                 availableCalendarFormats: {
                   CalendarFormat.month: 'Month',
                 }),
-            Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+            Expanded(
+              child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
                   ),
-                ),
-                child: controller.isloading.value == false
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            Text(
-                              controller.eventDate.value.data!.isEmpty
-                                  ? "NOTHING"
-                                  : "UPCOMING",
-                              style: TextStyle(
-                                color: AppColor.primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    SizerUtil.deviceType == DeviceType.tablet
-                                        ? 10.sp
-                                        : 8.sp,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Stack(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children:
-                                      controller.eventDate.value.data!.map(
-                                    (e) {
-                                      return Container(
-                                          child: Column(children: [
-                                        EventCard(
-                                          day: "${e.date![8]}${e.date![9]}",
-                                          data: e.event!,
-                                        ),
-                                      ]));
-                                    },
-                                  ).toList(),
+                  child: controller.isloading.value == false
+                      ? Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              Text(
+                                controller.eventDate.value.data!.isEmpty
+                                    ? "NOTHING"
+                                    : "UPCOMING",
+                                style: TextStyle(
+                                  color: AppColor.primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      SizerUtil.deviceType == DeviceType.tablet
+                                          ? 10.sp
+                                          : 8.sp,
                                 ),
-                                Positioned(
-                                    child: Container(
-                                  height: 3,
-                                  width: 20,
-                                  color: Colors.white,
-                                ))
-                              ],
-                            )
-                          ])
-                    : SizedBox())
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Stack(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children:
+                                        controller.eventDate.value.data!.map(
+                                      (e) {
+                                        return Container(
+                                            child: Column(children: [
+                                          EventCard(
+                                            day: "${e.date![8]}${e.date![9]}",
+                                            data: e.event!,
+                                          ),
+                                        ]));
+                                      },
+                                    ).toList(),
+                                  ),
+                                  Positioned(
+                                      child: Container(
+                                    height: 3,
+                                    width: 20,
+                                    color: Colors.white,
+                                  ))
+                                ],
+                              )
+                            ])
+                      : Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.primaryColor,
+                          ),
+                        )),
+            )
           ],
-        )))));
+        ))));
   }
 }

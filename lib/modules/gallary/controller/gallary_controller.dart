@@ -41,7 +41,6 @@ class GallaryController extends GetxController {
         "Content-Type": "application/json",
       })).get('${baseUrlSchool}api/gallary');
       gallary.value = GallaryModel.fromJson(response.data);
-
       isloading.value = false;
       debugPrint("value ${gallary.value.data!.length}");
     } on DioError catch (e) {
