@@ -3,7 +3,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/screens/about_screen.dart';
 import 'package:school/screens/contact_screen.dart';
 import 'package:school/screens/home_screen.dart';
-import 'package:school/screens/student_info.dart';
 import '../main_drawer.dart';
 import '../repos/version.dart';
 import '../translations/locale_keys.g.dart';

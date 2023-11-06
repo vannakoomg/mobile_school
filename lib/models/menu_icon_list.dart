@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Menu {
   String img, title, route;
   bool isAuthorize;
@@ -17,7 +15,7 @@ List<Menu> menuIconList = [
       img: "assets/icons/home_screen_icon_one_color/announcement.png",
       title: "Pick Up",
       route: 'pick_up_card',
-      isAuthorize: true),
+      isAuthorize: false),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/attendance.png",
       title: "Attendance",
@@ -46,13 +44,13 @@ List<Menu> menuIconList = [
 ];
 List<Menu> menuSubIconList = [
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/attendance.png",
-      title: "Student Report",
-      route: "student_report",
+      img: "assets/icons/home_screen_icon_one_color/announcement.png",
+      title: "News",
+      route: "announcement",
       isAuthorize: true),
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/feedback.png",
-      title: "Report Card",
+      img: "assets/icons/home_screen_icon_one_color/attendance.png",
+      title: "Student Report",
       route: "student_report",
       isAuthorize: true),
   Menu(
@@ -67,50 +65,15 @@ List<Menu> menuSubIconList = [
       route: 'e_learning',
       isAuthorize: false),
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/feedback.png",
-      title: "Feedback",
-      route: 'feedback',
-      isAuthorize: false),
-  Menu(
     img: "assets/icons/home_screen_icon_one_color/feedback.png",
     title: "Gallary",
     route: 'gallary',
     isAuthorize: true,
   ),
   Menu(
-      img: "assets/icons/home_screen_icon_one_color/announcement.png",
-      title: "News",
-      route: 'announcement',
-      isAuthorize: true),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/assignment.png",
-      title: "Assignments",
-      route: 'homeworks',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/assignment_result.png",
-      title: "Assignment Results",
-      route: 'class_results',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/pickup_card.png",
-      title: "Pick Up\nVirtual Card",
-      route: 'pick_up_card',
-      isAuthorize: false),
-  Menu(
       img: "assets/icons/home_screen_icon_one_color/feedback.png",
       title: "Feedback",
       route: 'feedback',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/e_learning.png",
-      title: "E-Learning",
-      route: 'e_learning',
-      isAuthorize: false),
-  Menu(
-      img: "assets/icons/home_screen_icon_one_color/canteen.png",
-      title: "Canteen",
-      route: 'canteen',
       isAuthorize: false),
 ];
 

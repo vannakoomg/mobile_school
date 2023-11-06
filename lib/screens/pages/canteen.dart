@@ -4,7 +4,6 @@ import 'package:animated_icon/animate_icon.dart';
 import 'package:animated_icon/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +27,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
   late final PhoneSize phoneSize;
   late String device;
   late List<PosUserData> _recPosUserData = [];
-  late List<CanteenMenu> _recCanteenMenu = [];
   late int posSessionOrderId, posSessionTopUpId;
   late bool posMessage, posUserMessage;
   bool isLoading = false, isFirstLoading = false;
@@ -400,46 +398,47 @@ class _CanteenScreenState extends State<CanteenScreen> {
   }
 
   Future<void> _fetchPosUser() async {
+    debugPrint("dfdfdfdf");
     await fetchPos(route: "user").then((value) {
       try {
         // print("value.status=${value.status}");
-        setState(() {
-          // value.canteenMenu
-          if (!isFirstLoading) {
-            _recCanteenMenu.addAll(value.canteenMenu);
-            _recCanteenMenu.forEachIndexed((index, element) {
-              menuCanteenList[index].title = element.title;
-              menuCanteenList[index].subtitle = element.subtitle;
-              storage.write("unregistered", value.unregistered);
-              // print('index=$index');
-            });
-            isFirstLoading = true;
-          }
-          posSessionOrderId = value.posSessionOrderId;
-          posSessionTopUpId = value.posSessionTopUpId;
-          posUserMessage = value.message;
-          _recPosUserData.addAll(value.response);
-          // menuCanteenList[0].title='dara';
-          _balance = value.response[0].balanceCard;
-          storage.write("campus", value.response[0].campus);
-          storage.write("available_balance", f.format(_balance));
-          storage.write("term_condition", value.termCondition);
-          storage.write("instruction", value.instruction);
-          storage.write("pre_order_instruction", value.preOrderInstruction);
-          storage.write("purchase_limit", value.response[0].purchaseLimit);
-          storage.write("card_no", value.response[0].cardNo);
-          storage.write("pick_up", value.pickUp);
-          storage.write("product_id", value.productId);
-          storage.write(
-              "message_pre_order_closed", value.messagePreOrderClosed);
-          storage.write("message_top_up_closed", value.messageTopUpClosed);
-          storage.write(
-              "message_pre_order_time_closed", value.messagePreOrderTimeClosed);
-          storage.write("pre_order_time_from", value.preOrderTimeFrom);
-          storage.write("pre_order_time_to", value.preOrderTimeTo);
-          productCount = value.productsCount;
-          isLoading = true;
-        });
+        // setState(() {
+        //   // value.canteenMenu
+        //   if (!isFirstLoading) {
+        //     _recCanteenMenu.addAll(value.canteenMenu);
+        //     _recCanteenMenu.forEachIndexed((index, element) {
+        //       menuCanteenList[index].title = element.title;
+        //       menuCanteenList[index].subtitle = element.subtitle;
+        //       storage.write("unregistered", value.unregistered);
+        //       // print('index=$index');
+        //     });
+        //     isFirstLoading = true;
+        //   }
+        //   posSessionOrderId = value.posSessionOrderId;
+        //   posSessionTopUpId = value.posSessionTopUpId;
+        //   posUserMessage = value.message;
+        //   _recPosUserData.addAll(value.response);
+        //   // menuCanteenList[0].title='dara';
+        //   _balance = value.response[0].balanceCard;
+        //   storage.write("campus", value.response[0].campus);
+        //   storage.write("available_balance", f.format(_balance));
+        //   storage.write("term_condition", value.termCondition);
+        //   storage.write("instruction", value.instruction);
+        //   storage.write("pre_order_instruction", value.preOrderInstruction);
+        //   storage.write("purchase_limit", value.response[0].purchaseLimit);
+        //   storage.write("card_no", value.response[0].cardNo);
+        //   storage.write("pick_up", value.pickUp);
+        //   storage.write("product_id", value.productId);
+        //   storage.write(
+        //       "message_pre_order_closed", value.messagePreOrderClosed);
+        //   storage.write("message_top_up_closed", value.messageTopUpClosed);
+        //   storage.write(
+        //       "message_pre_order_time_closed", value.messagePreOrderTimeClosed);
+        //   storage.write("pre_order_time_from", value.preOrderTimeFrom);
+        //   storage.write("pre_order_time_to", value.preOrderTimeTo);
+        //   productCount = value.productsCount;
+        //   isLoading = true;
+        // });
       } catch (err) {
         print("err=$err");
         Get.defaultDialog(

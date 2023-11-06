@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:school/config/app_colors.dart';
@@ -17,18 +16,8 @@ class PickUpCard extends StatefulWidget {
 class _PickUpCardState extends State<PickUpCard> {
   final controller = Get.put(PickUpController());
   Timer? timer;
-  void getdistan() async {
-    await Geolocator.requestPermission();
-    timer = new Timer.periodic(Duration(seconds: 1), (Timer timer) async {
-      Position position = await Geolocator.getCurrentPosition();
-      controller.distan.value = Geolocator.distanceBetween(position.latitude,
-          position.longitude, 11.561247233695815, 104.92620972996541);
-    });
-  }
-
   @override
   void initState() {
-    getdistan();
     super.initState();
   }
 

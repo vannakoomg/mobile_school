@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:school/models/posDB.dart';
@@ -37,10 +38,8 @@ Future fetchPos({String route = "products"}) async {
         "student_id": storage.read('isActive')
       }
     };
-
+  debugPrint("$route");
   try {
-    // print("fetchPos");
-    // String fullUrl = "http://202.62.45.129:8069/ics_canteen";
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json"
@@ -51,8 +50,9 @@ Future fetchPos({String route = "products"}) async {
       posDb = PosDb.fromMap(response.data);
       return posDb;
     } else if (route == "user") {
-      posUserDb = PosUserDb.fromMap(response.data);
-      return posUserDb;
+      debugPrint("data @@@ ${response.data}");
+      // posUserDb = PosUserDb.fromMap(response.data);
+      // return posUserDb;
     } else if (route == "order_history") {
       posOrderHistoryDb = PosOrderHistoryDb.fromMap(response.data);
       return posOrderHistoryDb;

@@ -9,7 +9,6 @@ import 'package:school/screens/pages/switch_account.dart';
 import 'package:school/screens/pages/teacher_homeworks_add.dart';
 
 import '../modules/events/screen/events_screen.dart';
-import '../modules/pickup/screen/pickup_screen.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login.dart';
 import '../screens/pages/about_accreditation_page.dart';

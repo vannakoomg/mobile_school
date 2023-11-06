@@ -24,7 +24,6 @@ Future posPurchaseLimit({required double purchaseLimit}) async {
       "Accept": "application/json",
       "Content-Type": "application/json"
     })).post(baseUrlOdoo, data: data);
-    // print("response.data=${response.data}");
     purchaseLimitDb = PurchaseLimitDb.fromMap(response.data);
     return purchaseLimitDb;
   } on DioError catch (e) {

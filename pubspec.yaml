@@ -63,7 +63,6 @@ dependencies:
   sliver_header_delegate: ^0.0.5
   table_calendar: ^3.0.9
   gallery_saver: ^2.3.2
-  geolocator: ^9.0.2
   pinch_zoom: ^1.0.0
   showcaseview: ^2.0.3
   flutter_native_splash: ^2.3.3
