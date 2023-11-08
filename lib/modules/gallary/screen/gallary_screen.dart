@@ -61,8 +61,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
                         left: 10,
                         right: 10,
                       ),
-                      child: Expanded(
-                          child: ListView.builder(
+                      child: ListView.builder(
                         itemCount: controller.gallary.value.data!.length,
                         itemBuilder: (context, index) {
                           return Container(
@@ -74,7 +73,7 @@ class _GallaryScreenState extends State<GallaryScreen> {
                                   yearMonth: controller
                                       .gallary.value.data![index].yearMonth!));
                         },
-                      ))));
+                      )));
     });
   }
 }
