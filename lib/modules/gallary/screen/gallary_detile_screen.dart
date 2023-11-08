@@ -14,7 +14,6 @@ class GallaryDetail extends StatefulWidget {
 
 class _GallaryDetailState extends State<GallaryDetail> {
   final controller = Get.put(GallaryController());
-
   final argument = Get.arguments;
   @override
   void initState() {
@@ -33,9 +32,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
           controller.scrllcontroller.value.position.maxScrollExtent) {
         controller.nextPage.value = controller.currentPage.value + 1;
         if (controller.nextPage.value >
-            controller.gallaryDetail.value.lastPage!.toInt()) {
-          debugPrint("all paged");
-        }
+            controller.gallaryDetail.value.lastPage!.toInt()) {}
         if (controller.nextPage.value <=
             controller.gallaryDetail.value.lastPage!.toInt())
           controller.getGallaryDetail(

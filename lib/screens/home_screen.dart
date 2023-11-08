@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   ShowCaseWidget.of(context).startShowCase([
     //     menuIconList[4].globalKey,

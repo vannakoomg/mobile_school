@@ -24,10 +24,17 @@ class _ViewimageState extends State<Viewimage>
     super.initState();
     transcontroller = TransformationController();
     controller.urlImage.value =
-        "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}";
+        "${controller.gallaryData[int.parse(controller.tagId.value)].image}";
     animatedController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() => transcontroller!.value = animation!.value);
+  }
+
+  @override
+  void dispose() {
+    transcontroller!.dispose();
+    animatedController!.dispose();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -52,9 +59,8 @@ class _ViewimageState extends State<Viewimage>
                         height: 100.h,
                         child: PageView(
                           onPageChanged: (value) {
-                            controller.urlImage.value = controller
-                                .gallaryDetail.value.data![value].image!;
-                            debugPrint("ulr ${controller.urlImage.value}");
+                            controller.urlImage.value =
+                                controller.gallaryData[value].image!;
                             controller.tagId.value = "$value";
                             double jumpScrll = 0;
                             for (int j = 0; j < (value) ~/ 2; ++j) {
@@ -64,10 +70,8 @@ class _ViewimageState extends State<Viewimage>
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
-                          children: controller.gallaryDetail.value.data!
-                              .asMap()
-                              .entries
-                              .map((e) {
+                          children:
+                              controller.gallaryData.asMap().entries.map((e) {
                             return GestureDetector(
                               onTap: () {
                                 controller.isTapImage.value =
@@ -135,7 +139,7 @@ class _ViewimageState extends State<Viewimage>
                             )),
                         Spacer(),
                         Text(
-                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDetail.value.data!.length}",
+                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryData.length}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -213,7 +217,7 @@ class _ViewimageState extends State<Viewimage>
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
-                              "Download All Photos (${controller.gallaryDetail.value.data!.length})",
+                              "Download All Photos (${controller.gallaryData.length})",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
