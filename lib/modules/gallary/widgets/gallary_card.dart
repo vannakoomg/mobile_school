@@ -38,6 +38,7 @@ class GallaryCard extends StatelessWidget {
           ),
           isList == false
               ? Container(
+                  margin: EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: listOfGallary.map((data) {
                       return GestureDetector(

@@ -103,6 +103,18 @@ class _GallaryDetailState extends State<GallaryDetail> {
                               ontap01: () {
                                 controller.tagId.value =
                                     "${2 * (i + 1) - 1 - 1}";
+                                controller.gallaryDataView.clear();
+                                for (int i = 0;
+                                    i < controller.gallaryData.length;
+                                    ++i) {
+                                  debugPrint(
+                                      "image : ${controller.gallaryData[i].image}");
+                                  if (controller.gallaryData[i].image != "")
+                                    controller.gallaryDataView
+                                        .add(controller.gallaryData[i]);
+                                }
+                                debugPrint(
+                                    "image : ${controller.gallaryDataView.length}");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

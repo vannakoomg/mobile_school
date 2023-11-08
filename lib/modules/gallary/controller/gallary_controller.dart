@@ -25,6 +25,7 @@ class GallaryController extends GetxController {
   final gallary = GallaryModel().obs;
   final gallaryDetail = GallaryDetailModel().obs;
   final gallaryData = <ImageModel>[].obs;
+  final gallaryDataView = <ImageModel>[].obs;
   final isloading = true.obs;
   final isloadingGallaryDetail = true.obs;
   final isTapImage = false.obs;

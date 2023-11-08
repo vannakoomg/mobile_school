@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
+import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:sizer/sizer.dart';
 
 class Viewimage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _ViewimageState extends State<Viewimage>
                         child: PageView(
                           onPageChanged: (value) {
                             controller.urlImage.value =
-                                controller.gallaryData[value].image!;
+                                controller.gallaryDataView[value].image!;
                             controller.tagId.value = "$value";
                             double jumpScrll = 0;
                             for (int j = 0; j < (value) ~/ 2; ++j) {
@@ -70,8 +71,10 @@ class _ViewimageState extends State<Viewimage>
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
-                          children:
-                              controller.gallaryData.asMap().entries.map((e) {
+                          children: controller.gallaryDataView
+                              .asMap()
+                              .entries
+                              .map((e) {
                             return GestureDetector(
                               onTap: () {
                                 controller.isTapImage.value =
@@ -139,7 +142,7 @@ class _ViewimageState extends State<Viewimage>
                             )),
                         Spacer(),
                         Text(
-                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryData.length}",
+                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDataView.length}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

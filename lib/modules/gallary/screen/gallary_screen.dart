@@ -57,7 +57,10 @@ class _GallaryScreenState extends State<GallaryScreen> {
                       child: Text("No Gallary"),
                     )
                   : Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
                       child: Expanded(
                           child: ListView.builder(
                         itemCount: controller.gallary.value.data!.length,
