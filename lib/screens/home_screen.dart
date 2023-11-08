@@ -47,25 +47,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ShowCaseWidget.of(context).startShowCase([
-        menuIconList[4].globalKey,
-        menuIconList[5].globalKey,
-        menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-      ]);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ShowCaseWidget.of(context).startShowCase([
+    //     menuIconList[4].globalKey,
+    //     menuIconList[5].globalKey,
+    //     menuIconList[6].globalKey,
+    //   ]);
+    // });
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
