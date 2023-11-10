@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
-import 'package:school/modules/gallary/models/gallary_detail_model.dart';
 import 'package:sizer/sizer.dart';
 
 class Viewimage extends StatefulWidget {
@@ -94,17 +94,19 @@ class _ViewimageState extends State<Viewimage>
                               child: InteractiveViewer(
                                 transformationController: transcontroller,
                                 onInteractionEnd: (value) {
-                                  debugPrint("b sl soy ");
                                   reset();
                                 },
                                 maxScale: 5,
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage("${e.value.image}"),
-                                        fit: BoxFit.fitWidth),
-                                  ),
+                                child: CachedNetworkImage(
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.fitWidth,
+                                  imageUrl: "${e.value.image}",
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             );
