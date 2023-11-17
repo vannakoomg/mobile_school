@@ -4,17 +4,21 @@ import 'package:animated_icon/animate_icon.dart';
 import 'package:animated_icon/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/config/app_colors.dart';
+import 'package:school/modules/canteen/controller/canteen_controller.dart';
+import 'package:school/modules/canteen/widget/loading_canteen.dart';
 import 'package:school/utils/function/function.dart';
 import 'package:sizer/sizer.dart';
-import '../../models/PosUserDB.dart';
-import '../../models/menu_icon_list.dart';
-import '../../repos/pos_data.dart';
-import '../../config/theme/theme.dart';
+import '../../../models/PosUserDB.dart';
+import '../../../models/menu_icon_list.dart';
+import '../../../repos/pos_data.dart';
+import '../../../config/theme/theme.dart';
 
 class CanteenScreen extends StatefulWidget {
   const CanteenScreen({Key? key}) : super(key: key);
@@ -24,6 +28,7 @@ class CanteenScreen extends StatefulWidget {
 }
 
 class _CanteenScreenState extends State<CanteenScreen> {
+  final controller = CanteenController();
   final storage = GetStorage();
   late final PhoneSize phoneSize;
   late String device;
@@ -36,9 +41,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
   double _balance = 0;
   int productCount = 0;
   late String title, body;
-
-  // DateTime dateOnly = now.getDateOnly();
-
   @override
   void initState() {
     super.initState();
@@ -46,7 +48,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
     phoneSize = SizerUtil.deviceType == DeviceType.tablet
         ? PhoneSize.ipad
         : PhoneSize.iphone;
-
     if (Platform.isAndroid)
       device = 'Android';
     else
@@ -56,109 +57,70 @@ class _CanteenScreenState extends State<CanteenScreen> {
   @override
   Widget build(BuildContext context) {
     return !isLoading
-        ? _loading()
-        : Container(
-            height: 100.h,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Column(
-                  children: [_buildHeader, _buildBodyListExtend],
-                ),
-                _buildMainBalance,
-                Positioned(
-                  left: 20,
-                  top: 40,
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Icon(
-                      device == 'iOS' ? Icons.arrow_back_ios : Icons.arrow_back,
-                      size: 25,
-                      color: Colors.white,
+        ? LoadingCanteen()
+        : SafeArea(
+            child: Container(
+              // height: 100.h,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    height: 30.h,
+                    color: AppColor.primaryColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: InkWell(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: Icon(
+                                  device == 'iOS'
+                                      ? Icons.arrow_back_ios
+                                      : Icons.arrow_back,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text('${storage.read("isName")}',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 14.sp
+                                            : 18.sp)),
+                              ),
+                            ),
+                            Obx(() => Switch(
+                                  value: controller.isMuteCanteen.value == "1"
+                                      ? true
+                                      : false,
+                                  onChanged: (value) {
+                                    controller.updateNotificationMenu(
+                                        value: value);
+                                  },
+                                  activeColor: Colors.blue,
+                                  inactiveThumbColor: Colors.red,
+                                  inactiveTrackColor:
+                                      Colors.red.withOpacity(0.6),
+                                )),
+                          ],
+                        ),
+                        _buildMainBalance
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          );
-  }
-
-  _loading() {
-    return Container(
-      // color: Colors.grey,
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 30.h,
-                color: Color(0xff1d1a56),
-                margin: EdgeInsets.only(bottom: 2.h),
-              ),
-              Center(child: CircularProgressIndicator()),
-            ],
-          ),
-          Positioned(
-            left: 20,
-            top: 40,
-            child: InkWell(
-              onTap: () => Navigator.of(context).pop(),
-              child: Icon(
-                device == 'iOS' ? Icons.arrow_back_ios : Icons.arrow_back,
-                size: 25,
-                color: Colors.white,
+                  _buildBodyListExtend,
+                ],
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  get _buildHeader {
-    return _recPosUserData[0].name != ""
-        ? Container(
-            padding: EdgeInsets.all(8.0),
-            height: 30.h,
-            color: Color(0xff1d1a56),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildUrlImages(storage.read('isPhoto') ?? ''),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: Text('${_recPosUserData[0].name}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  SizerUtil.deviceType == DeviceType.tablet
-                                      ? 14.sp
-                                      : 18.sp)),
-                    ),
-                    Text('${storage.read('isActive')}',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: SizerUtil.deviceType == DeviceType.tablet
-                                ? 10.sp
-                                : 11.sp)),
-                  ],
-                ),
-              ],
-            ),
-          )
-        : Container(
-            padding: EdgeInsets.all(8.0),
-            height: 30.h,
-            color: Color(0xff1d1a56),
           );
   }
 
@@ -167,32 +129,73 @@ class _CanteenScreenState extends State<CanteenScreen> {
         ? Expanded(
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    // color: Colors.red,
-                    height: 5.h,
-                  ),
                   ListView.builder(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      // physics: PageScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: menuCanteenList.length,
-                      itemBuilder: (context, index) => Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              index == 0
-                                  ? Divider(
-                                      color: Colors.blue,
-                                      height: 2,
-                                    )
-                                  : SizedBox(),
-                              _buildItem(index),
-                              Divider(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: menuCanteenList.length,
+                    itemBuilder: (context, index) => Column(
+                      children: [
+                        index == 0
+                            ? Divider(
                                 color: Colors.blue,
                                 height: 2,
                               )
-                            ],
-                          )),
+                            : SizedBox(),
+                        _buildItem(index),
+                        Divider(
+                          color: Colors.blue,
+                          height: 2,
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Menu Today",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: AppColor.primaryColor.withOpacity(0.9),
+                          fontSize: SizerUtil.deviceType == DeviceType.tablet
+                              ? 10.sp
+                              : 12.sp,
+                        ),
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 25.h,
+                    child: CarouselSlider.builder(
+                        itemCount: controller.menu.value.image!.length,
+                        itemBuilder: (contestxt, index, realIndex) {
+                          return Container(
+                            height: 200,
+                            width: double.infinity,
+                            color: Colors.red,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  "https://imgs.search.brave.com/CE2ctgybbhs6ICfMP4cmoQE2wu1DIvuu9QDCyURKL_w/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI5/NTM4NzI0MC9waG90/by9kZWxpY2lvdXMt/bWVhbC5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9aXNXNmRz/eHRkQUR0M3BPbHhH/am1LakZ5RVktRTc2/UTNUWE1tek45LXd1/TT0",
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                        options: CarouselOptions(
+                            height: SizerUtil.deviceType == DeviceType.tablet
+                                ? 130.sp
+                                : 180.sp,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            onPageChanged: (index, reason) {})),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ),
@@ -203,7 +206,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
   _buildItem(int index) {
     return InkWell(
       child: Container(
-          // color: Colors.red,
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 8, right: 8),
           height: 8.h,
@@ -232,6 +234,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
                         child: AutoSizeText(
                           '${menuCanteenList[index].subtitle}',
                           style: TextStyle(
+                              color: Colors.grey,
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
                                       ? 15
@@ -245,10 +248,8 @@ class _CanteenScreenState extends State<CanteenScreen> {
                   )
                 ],
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Color(0xff1d1a56),
-              )
+              Icon(Icons.arrow_forward_ios,
+                  size: 22, color: AppColor.primaryColor.withOpacity(0.9))
             ],
           )),
       onTap: () {
@@ -288,87 +289,75 @@ class _CanteenScreenState extends State<CanteenScreen> {
   }
 
   get _buildMainBalance {
-    return Positioned(
-        top: 23.h,
-        child: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(color: Colors.grey, blurRadius: 3, offset: Offset(2, 3))
-            ],
-          ),
-          width: 90.w,
-          height: 13.h,
-          // color: Colors.white,
-          child: _recPosUserData[0].cardId != ""
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Column(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Available Balance",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    SizerUtil.deviceType == DeviceType.tablet
-                                        ? 10.sp
-                                        : 12.sp)),
-                        Text("\$${f.format(_balance)}",
-                            style: TextStyle(
-                                color: Color(0xff1d1a56),
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    SizerUtil.deviceType == DeviceType.tablet
-                                        ? 16.sp
-                                        : 18.sp))
-                      ],
-                    ),
-                    Container(
-                        alignment: Alignment.topRight,
-                        width: 10.w,
-                        height: 100.w,
-                        // color: Colors.red,
-                        child: AnimateIcon(
-                          key: UniqueKey(),
-                          onTap: () {
-                            _fetchPosUser();
-                            // var _checkTime = timeCheck();
-                            // print("timeCheck=$_checkTime");
-                          },
-                          iconType: IconType.animatedOnTap,
-                          // height: 8.w,
-                          width: 8.w,
-                          color: Colors.blue,
-                          animateIcon: AnimateIcons.refresh,
-                        )),
-                  ],
-                )
-              : Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText("${storage.read("unregistered")}",
-                      style: TextStyle(
-                          color: Color(0xff1d1a56),
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 16.sp
-                              : 18.sp),
-                      minFontSize: 10,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis),
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      width: 90.w,
+      height: 13.h,
+      child: _recPosUserData[0].cardId != ""
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 10.w,
                 ),
-        ));
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Available Balance",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor.withOpacity(0.9),
+                          fontSize: SizerUtil.deviceType == DeviceType.tablet
+                              ? 10.sp
+                              : 12.sp,
+                        )),
+                    Text("\$${f.format(_balance)}",
+                        style: TextStyle(
+                            color: AppColor.primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 14.sp
+                                : 16.sp))
+                  ],
+                ),
+                Container(
+                    alignment: Alignment.topRight,
+                    width: 10.w,
+                    height: 100.w,
+                    child: AnimateIcon(
+                      key: UniqueKey(),
+                      onTap: () {
+                        _fetchPosUser();
+                      },
+                      iconType: IconType.animatedOnTap,
+                      width: 8.w,
+                      color: Colors.blue,
+                      animateIcon: AnimateIcons.refresh,
+                    )),
+              ],
+            )
+          : Container(
+              alignment: Alignment.center,
+              child: AutoSizeText("${storage.read("unregistered")}",
+                  style: TextStyle(
+                      color: Color(0xff1d1a56),
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          ? 16.sp
+                          : 18.sp),
+                  minFontSize: 10,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis),
+            ),
+    );
   }
 
   handleReturnData({required String route, required int arg}) async {
     var data = await Get.toNamed(route, arguments: arg);
-    // print("data-canteen=$data");
     if (data == true) {
       setState(() {
         _fetchPosUser();
@@ -376,42 +365,17 @@ class _CanteenScreenState extends State<CanteenScreen> {
     }
   }
 
-  _buildUrlImages(String urlImage) {
-    return Container(
-      child: CachedNetworkImage(
-        height: 10.h,
-        width: 10.h,
-        imageUrl: urlImage,
-        imageBuilder: (context, imageProvider) => Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        placeholder: (context, url) => CircularProgressIndicator(),
-        errorWidget: (context, url, error) =>
-            Image.asset("assets/icons/login_icon/logo_no_background.png"),
-      ),
-    );
-  }
-
   Future<void> _fetchPosUser() async {
+    await controller.fetchMenu();
     await fetchPos(route: "user").then((value) {
       try {
-        // print("value.status=${value.status}");
         setState(() {
-          // value.canteenMenu
           if (!isFirstLoading) {
             _recCanteenMenu.addAll(value.canteenMenu);
             _recCanteenMenu.forEachIndexed((index, element) {
               menuCanteenList[index].title = element.title;
               menuCanteenList[index].subtitle = element.subtitle;
               storage.write("unregistered", value.unregistered);
-              // print('index=$index');
             });
             isFirstLoading = true;
           }
@@ -419,7 +383,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
           posSessionTopUpId = value.posSessionTopUpId;
           posUserMessage = value.message;
           _recPosUserData.addAll(value.response);
-          // menuCanteenList[0].title='dara';
           _balance = value.response[0].balanceCard;
           storage.write("campus", value.response[0].campus);
           storage.write("available_balance", f.format(_balance));
@@ -452,34 +415,11 @@ class _CanteenScreenState extends State<CanteenScreen> {
     });
   }
 
-  bool timeCheck() {
-    bool diff = true;
-    DateTime now = new DateTime.now();
-    String formattedDateTimeNow = DateFormat('y-MM-d kk:mm').format(now);
-    String formattedDateNow = DateFormat('y-MM-d').format(now);
-    DateTime dt = DateTime.parse(formattedDateTimeNow);
-    DateTime dtFrom = DateTime.parse(
-        "$formattedDateNow ${storage.read("pre_order_time_from")}");
-    DateTime dtTo = DateTime.parse(
-        "$formattedDateNow ${storage.read("pre_order_time_to")}");
-    // print("dt1=$dt1");
-    // print("dt2=$dt2");
-    bool diffBefore = dt.isBefore(dtFrom);
-    bool diffAfter = dt.isAfter(dtTo);
-
-    // print("diffBefore=$diffBefore");
-    // print("diffAfter=$diffAfter");
-    if (!diffBefore && !diffAfter) // Ex: can order from 10:00 to 12:00
-      diff = false;
-    return diff;
-  }
-
   Widget reloadBtn() {
     return ElevatedButton(
         onPressed: () {
           Get.back();
           Navigator.of(context).pop();
-          // _fetchPos();
         },
         child: Text("OK"));
   }
@@ -491,7 +431,6 @@ class _CanteenScreenState extends State<CanteenScreen> {
           return AlertDialog(
             insetPadding: EdgeInsets.zero,
             contentPadding: EdgeInsets.zero,
-            // clipBehavior: Clip.antiAliasWithSaveLayer,
             content: InteractiveViewer(
               child: Container(
                 padding: EdgeInsets.all(8.0),

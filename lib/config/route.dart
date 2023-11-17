@@ -16,7 +16,7 @@ import '../screens/pages/about_school_history_page.dart';
 import '../screens/pages/about_vision_page.dart';
 import '../screens/pages/attendance_calendar_page.dart';
 import '../screens/pages/attendance_page.dart';
-import '../screens/pages/canteen.dart';
+import '../modules/canteen/screen/canteen_screen.dart';
 import '../screens/pages/class_results_page.dart';
 import '../screens/pages/e_learning.dart';
 import '../screens/pages/e_learning_subject_page.dart';

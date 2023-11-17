@@ -39,7 +39,7 @@ class AnnouncementController extends GetxController {
       })).post('$baseUrlSchool' + 'api/announcemen/create', data: {'id': id});
       debugPrint("countAnnouncement statusCode : ${response.statusCode}");
     } catch (value) {
-      debugPrint("you have catch $value");
+      debugPrint("you have catch1111 $value");
     }
   }
 }

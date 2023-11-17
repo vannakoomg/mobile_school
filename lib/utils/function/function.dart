@@ -13,6 +13,6 @@ void tracking(String action) async {
     })).post('$baseUrlSchool' + 'api/tracking', data: {'name': action});
     debugPrint("tracking statusCode : ${response.statusCode}");
   } catch (value) {
-    debugPrint("you have catch $value");
+    debugPrint("you have catch333 $value");
   }
 }
