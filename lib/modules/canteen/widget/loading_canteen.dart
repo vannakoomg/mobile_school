@@ -15,15 +15,18 @@ class LoadingCanteen extends StatelessWidget {
         children: [
           Container(
             height: 30.h,
+            width: double.infinity,
             color: AppColor.primaryColor,
             child: Center(
-              child: Text('${storage.read("isName")}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: SizerUtil.deviceType == DeviceType.tablet
-                          ? 14.sp
-                          : 18.sp)),
+              child: storage.read("isName") != null
+                  ? Text('${storage.read("isName")}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: SizerUtil.deviceType == DeviceType.tablet
+                              ? 14.sp
+                              : 18.sp))
+                  : SizedBox(),
             ),
           ),
           Spacer(),

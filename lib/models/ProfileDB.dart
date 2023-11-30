@@ -40,7 +40,7 @@ class Datum {
       required this.fullImage,
       required this.version,
       required this.muteCanteen});
-  String? muteCanteen;
+  int? muteCanteen;
 
   String id;
   String name;

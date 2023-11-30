@@ -7,7 +7,7 @@ import 'package:school/repos/pos_data.dart';
 
 class CanteenController extends GetxController {
   final Dio _dio = Dio();
-  final isMuteCanteen = "1".obs;
+  final isMuteCanteen = 1.obs;
   final menu = MenuModel().obs;
   Future<void> fetchMenu() async {
     try {
@@ -17,7 +17,6 @@ class CanteenController extends GetxController {
       )
           .then((value) {
         menu.value = MenuModel.fromJson(value.data);
-        debugPrint("value ${menu.value.image!.length}");
       });
     } catch (e) {
       debugPrint('you have catch on fetchMenu: $e');
@@ -26,7 +25,8 @@ class CanteenController extends GetxController {
 
   Future<void> updateNotificationMenu({required value}) async {
     debugPrint("user ${storage.read('isActive')}");
-    value ? isMuteCanteen.value = "1" : isMuteCanteen.value = "0";
+    value ? isMuteCanteen.value = 1 : isMuteCanteen.value = 0;
+    debugPrint("data ${isMuteCanteen.value} : ${storage.read('isActive')}");
     try {
       await _dio.post(
         '${baseUrlSchool}api/menu',
@@ -37,7 +37,7 @@ class CanteenController extends GetxController {
       );
       debugPrint("update Notification menu to user Done");
     } catch (e) {
-      debugPrint('Error: $e');
+      debugPrint('you have been on catch: $e');
     }
   }
 }

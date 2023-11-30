@@ -44,49 +44,49 @@ class FlowchatState extends State<Flowchat> {
                                 tooltipBgColor: Colors.grey,
                                 getTooltipItem: (a, b, c, d) => null,
                               ),
-                              touchCallback: (FlTouchEvent event, response) {
-                                if (response == null || response.spot == null) {
-                                  setState(() {
-                                    controller.touchedGroupIndex.value = -1;
-                                    showingBarGroups =
-                                        List.of(controller.rawBarGroups);
-                                  });
-                                  return;
-                                }
-                                controller.touchedGroupIndex.value =
-                                    response.spot!.touchedBarGroupIndex;
-                                setState(() {
-                                  showingBarGroups =
-                                      List.of(controller.rawBarGroups);
-                                  if (controller.touchedGroupIndex.value !=
-                                      -1) {
-                                    var sum = 0.0;
-                                    for (final rod in showingBarGroups[
-                                            controller.touchedGroupIndex.value]
-                                        .barRods) {
-                                      sum += rod.toY;
-                                    }
-                                    final avg = sum /
-                                        showingBarGroups[controller
-                                                .touchedGroupIndex.value]
-                                            .barRods
-                                            .length;
-                                    showingBarGroups[controller
-                                        .touchedGroupIndex
-                                        .value] = showingBarGroups[
-                                            controller.touchedGroupIndex.value]
-                                        .copyWith(
-                                      barRods: showingBarGroups[controller
-                                              .touchedGroupIndex.value]
-                                          .barRods
-                                          .map((rod) {
-                                        return rod.copyWith(
-                                            toY: avg, color: Color(0xff61a5c2));
-                                      }).toList(),
-                                    );
-                                  }
-                                });
-                              },
+                              // touchCallback: (FlTouchEvent event, response) {
+                              //   if (response == null || response.spot == null) {
+                              //     setState(() {
+                              //       controller.touchedGroupIndex.value = -1;
+                              //       showingBarGroups =
+                              //           List.of(controller.rawBarGroups);
+                              //     });
+                              //     return;
+                              //   }
+                              //   controller.touchedGroupIndex.value =
+                              //       response.spot!.touchedBarGroupIndex;
+                              //   setState(() {
+                              //     showingBarGroups =
+                              //         List.of(controller.rawBarGroups);
+                              //     if (controller.touchedGroupIndex.value !=
+                              //         -1) {
+                              //       var sum = 0.0;
+                              //       for (final rod in showingBarGroups[
+                              //               controller.touchedGroupIndex.value]
+                              //           .barRods) {
+                              //         sum += rod.toY;
+                              //       }
+                              //       final avg = sum /
+                              //           showingBarGroups[controller
+                              //                   .touchedGroupIndex.value]
+                              //               .barRods
+                              //               .length;
+                              //       showingBarGroups[controller
+                              //           .touchedGroupIndex
+                              //           .value] = showingBarGroups[
+                              //               controller.touchedGroupIndex.value]
+                              //           .copyWith(
+                              //         barRods: showingBarGroups[controller
+                              //                 .touchedGroupIndex.value]
+                              //             .barRods
+                              //             .map((rod) {
+                              //           return rod.copyWith(
+                              //               toY: avg, color: Color(0xff61a5c2));
+                              //         }).toList(),
+                              //       );
+                              //     }
+                              //   });
+                              // },
                             ),
                             titlesData: FlTitlesData(
                               show: true,
@@ -146,18 +146,20 @@ class FlowchatState extends State<Flowchat> {
       sideTitles: SideTitles(
         showTitles: true,
         getTitlesWidget: (double value, TitleMeta meta) {
-          final Widget text = Text(
-            "${controller.summayReport.value.data!.en![value.toInt()].term}",
-            style: TextStyle(
-              color: Color(0xff7589a2),
-              fontWeight: FontWeight.w500,
-              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 15 : 11,
+          final Widget text = Container(
+            child: Text(
+              "${controller.summayReport.value.data!.en![value.toInt()].term}",
+              style: TextStyle(
+                color: Color(0xff7589a2),
+                fontWeight: FontWeight.w500,
+                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 15 : 11,
+              ),
             ),
           );
           return SideTitleWidget(
             axisSide: meta.axisSide,
             space: 10,
-            child: text,
+            child: Container(child: text),
           );
         },
         reservedSize: 30,

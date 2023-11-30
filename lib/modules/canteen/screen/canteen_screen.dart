@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,7 +29,7 @@ class CanteenScreen extends StatefulWidget {
 }
 
 class _CanteenScreenState extends State<CanteenScreen> {
-  final controller = CanteenController();
+  final controller = Get.put(CanteenController());
   final storage = GetStorage();
   late final PhoneSize phoneSize;
   late String device;
@@ -57,7 +58,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
   @override
   Widget build(BuildContext context) {
     return !isLoading
-        ? LoadingCanteen()
+        ? SafeArea(child: LoadingCanteen())
         : SafeArea(
             child: Container(
               // height: 100.h,
@@ -85,6 +86,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
                                 ),
                               ),
                             ),
+
                             Expanded(
                               child: Center(
                                 child: Text('${storage.read("isName")}',
@@ -98,19 +100,32 @@ class _CanteenScreenState extends State<CanteenScreen> {
                                             : 18.sp)),
                               ),
                             ),
-                            Obx(() => Switch(
-                                  value: controller.isMuteCanteen.value == "1"
-                                      ? true
-                                      : false,
-                                  onChanged: (value) {
-                                    controller.updateNotificationMenu(
-                                        value: value);
-                                  },
-                                  activeColor: Colors.blue,
-                                  inactiveThumbColor: Colors.red,
-                                  inactiveTrackColor:
-                                      Colors.red.withOpacity(0.6),
-                                )),
+                            Obx(() => Container(
+                                  child: CupertinoSwitch(
+                                    activeColor: Colors.blue,
+                                    trackColor: Colors.red,
+                                    value: controller.isMuteCanteen.value == 1
+                                        ? true
+                                        : false,
+                                    onChanged: (value) {
+                                      controller.updateNotificationMenu(
+                                          value: value);
+                                    },
+                                  ),
+                                ))
+                            //  Switch(
+                            //       value: controller.isMuteCanteen.value == 1
+                            //           ? true
+                            //           : false,
+                            //       onChanged: (value) {
+                            //         controller.updateNotificationMenu(
+                            //             value: value);
+                            //       },
+                            // activeColor: Colors.blue,
+                            // inactiveThumbColor: Colors.red,
+                            // inactiveTrackColor:
+                            //     Colors.red.withOpacity(0.6),
+                            //     )),
                           ],
                         ),
                         _buildMainBalance
@@ -177,10 +192,10 @@ class _CanteenScreenState extends State<CanteenScreen> {
                           return Container(
                             height: 200,
                             width: double.infinity,
-                            color: Colors.red,
+                            color: Colors.white,
                             child: CachedNetworkImage(
                               imageUrl:
-                                  "https://imgs.search.brave.com/CE2ctgybbhs6ICfMP4cmoQE2wu1DIvuu9QDCyURKL_w/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI5/NTM4NzI0MC9waG90/by9kZWxpY2lvdXMt/bWVhbC5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9aXNXNmRz/eHRkQUR0M3BPbHhH/am1LakZ5RVktRTc2/UTNUWE1tek45LXd1/TT0",
+                                  "${controller.menu.value.image![index]}",
                               fit: BoxFit.cover,
                             ),
                           );

@@ -203,23 +203,27 @@ class _LoginScreenState extends State<LoginScreen> {
             storage.read('device_token'))
         .then((value) {
       try {
-        print('Success=${value.status}');
-        storage.write('user_token', value.data.token);
-        debugPrint("token ${value.data.token}");
-        storage.write('isActive', value.data.studentId);
-        // storage.write('isUsername', emailController.text.trim());
-        storage.write('isPassword', passwordController.text.trim());
-        EasyLoading.showSuccess('Logged in successfully!');
-        EasyLoading.dismiss();
-        // Navigator.pop(context);
-        Get.back(result: true);
-        if (_route == 'no route' || _route == 'pick_up_card') {
-          // print("no route");
-        } else if (_route == 'dashboard') {
-          Get.offAllNamed(_route!);
-        } else {
-          Get.toNamed(_route!);
-        }
+        setState(() {
+          print('Success=${value.status}');
+          storage.write('user_token', value.data.token);
+          debugPrint("token ${value.data.token}");
+          storage.write('isActive', value.data.studentId);
+
+          // storage.write('isUsername', emailController.text.trim());
+          storage.write('isPassword', passwordController.text.trim());
+          EasyLoading.showSuccess('Logged in successfully!');
+          EasyLoading.dismiss();
+          // Navigator.pop(context);
+
+          Get.back(result: true);
+          if (_route == 'no route' || _route == 'pick_up_card') {
+            // print("no route");
+          } else if (_route == 'dashboard') {
+            Get.offAllNamed(_route!);
+          } else {
+            Get.toNamed(_route!);
+          }
+        });
       } catch (err) {
         EasyLoading.dismiss();
         setState(() {
