@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
@@ -24,10 +25,17 @@ class _ViewimageState extends State<Viewimage>
     super.initState();
     transcontroller = TransformationController();
     controller.urlImage.value =
-        "${controller.gallaryDetail.value.data![int.parse(controller.tagId.value)].image}";
+        "${controller.gallaryData[int.parse(controller.tagId.value)].image}";
     animatedController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() => transcontroller!.value = animation!.value);
+  }
+
+  @override
+  void dispose() {
+    // transcontroller!.dispose();
+    // animatedController!.dispose();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -52,19 +60,21 @@ class _ViewimageState extends State<Viewimage>
                         height: 100.h,
                         child: PageView(
                           onPageChanged: (value) {
-                            controller.urlImage.value = controller
-                                .gallaryDetail.value.data![value].image!;
-                            debugPrint("ulr ${controller.urlImage.value}");
+                            controller.urlImage.value =
+                                controller.gallaryDataView[value].image!;
                             controller.tagId.value = "$value";
                             double jumpScrll = 0;
+                            // get scroll pixel by the [high of image index]
                             for (int j = 0; j < (value) ~/ 2; ++j) {
                               jumpScrll = jumpScrll + controller.highList[j];
                             }
-                            jumpScrll = jumpScrll;
+                            jumpScrll = jumpScrll +
+                                controller.hightOfDescrition.value -
+                                2;
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
-                          children: controller.gallaryDetail.value.data!
+                          children: controller.gallaryDataView
                               .asMap()
                               .entries
                               .map((e) {
@@ -87,17 +97,24 @@ class _ViewimageState extends State<Viewimage>
                               child: InteractiveViewer(
                                 transformationController: transcontroller,
                                 onInteractionEnd: (value) {
-                                  debugPrint("b sl soy ");
                                   reset();
                                 },
                                 maxScale: 5,
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage("${e.value.image}"),
-                                        fit: BoxFit.fitWidth),
+                                child: CachedNetworkImage(
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.fitWidth,
+                                  imageUrl: "${e.value.image}",
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Center(
+                                    child: Image.asset(
+                                      "assets/icons/home_screen_icon_one_color/gallery.png",
+                                      height: 50,
+                                      width: 50,
+                                    ),
                                   ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             );
@@ -135,7 +152,7 @@ class _ViewimageState extends State<Viewimage>
                             )),
                         Spacer(),
                         Text(
-                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDetail.value.data!.length}",
+                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDataView.length}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -186,7 +203,7 @@ class _ViewimageState extends State<Viewimage>
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
-                              "Download Photo",
+                              "Download This Photo",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -200,30 +217,31 @@ class _ViewimageState extends State<Viewimage>
                         SizedBox(
                           height: 10,
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            controller.saveAllPhoto();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, right: 20),
-                            height: 50,
-                            width: 100.w - 40,
-                            decoration: BoxDecoration(
-                                color: Color(0xff1f487e).withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(70)),
-                            child: Center(
-                                child: Text(
-                              "Download All Photos (${controller.gallaryDetail.value.data!.length})",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizerUtil.deviceType == DeviceType.tablet
-                                          ? 20
-                                          : 15),
-                            )),
-                          ),
-                        )
+                        if (controller.gallaryDataView.length > 1)
+                          GestureDetector(
+                            onTap: () async {
+                              controller.saveAllPhoto();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              height: 50,
+                              width: 100.w - 40,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff1f487e).withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(70)),
+                              child: Center(
+                                  child: Text(
+                                "Download All Photos (${controller.gallaryDataView.length})",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizerUtil.deviceType ==
+                                            DeviceType.tablet
+                                        ? 20
+                                        : 15),
+                              )),
+                            ),
+                          )
                       ],
                     ),
                   ),

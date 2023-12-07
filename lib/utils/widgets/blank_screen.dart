@@ -11,13 +11,14 @@ class _BlankPageState extends State<BlankPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             'assets/icons/home_screen_icon/no-data.png',
-            height: 15.h,
+            height: 12.h,
           ),
           SizedBox(
             height: 8,

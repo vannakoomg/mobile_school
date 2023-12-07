@@ -11,7 +11,6 @@ Future userLogin(String email, String password, String firebaseToken) async {
     'password': password,
     'firebase_token': firebaseToken,
   });
-
   try {
     String fullUrl = baseUrlSchool + login;
     var response = await _dio.post(fullUrl, data: formData);

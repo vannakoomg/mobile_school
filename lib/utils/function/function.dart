@@ -11,8 +11,8 @@ void tracking(String action) async {
       "Accept": "application/json",
       "Content-Type": "application/json",
     })).post('$baseUrlSchool' + 'api/tracking', data: {'name': action});
-    debugPrint("tracking statusCode : ${response.statusCode}");
+    debugPrint("Tracking : ${response.statusCode}");
   } catch (value) {
-    debugPrint("you have catch $value");
+    debugPrint("You have been on catch [ Tracking ] $value");
   }
 }

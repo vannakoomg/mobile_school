@@ -124,6 +124,11 @@ class _MyAppState extends State<MyApp> {
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        if (message.notification!.title == "Top up Notification") {
+          debugPrint("fetch new blance ");
+          // fetchPosUser();
+          // _fetchPosUser();
+        }
         print(
             'Message title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
         // Parse the message received

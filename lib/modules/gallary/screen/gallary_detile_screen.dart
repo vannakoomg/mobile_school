@@ -14,7 +14,6 @@ class GallaryDetail extends StatefulWidget {
 
 class _GallaryDetailState extends State<GallaryDetail> {
   final controller = Get.put(GallaryController());
-
   final argument = Get.arguments;
   @override
   void initState() {
@@ -25,7 +24,13 @@ class _GallaryDetailState extends State<GallaryDetail> {
     controller.flex01.clear();
     controller.flex02.clear();
     Future.delayed(const Duration(milliseconds: 10), () {
-      controller.getGallaryDetail(id: '${argument['id']}');
+      controller.getGallaryDetail(id: '${argument['id']}').then((value) => {
+            // wait until widget render already on the screen
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              controller.hightOfDescrition.value =
+                  controller.textKey.currentContext!.size!.height;
+            })
+          });
       controller.highList.clear();
     });
     controller.scrllcontroller.value.addListener(() {
@@ -33,9 +38,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
           controller.scrllcontroller.value.position.maxScrollExtent) {
         controller.nextPage.value = controller.currentPage.value + 1;
         if (controller.nextPage.value >
-            controller.gallaryDetail.value.lastPage!.toInt()) {
-          debugPrint("all paged");
-        }
+            controller.gallaryDetail.value.lastPage!.toInt()) {}
         if (controller.nextPage.value <=
             controller.gallaryDetail.value.lastPage!.toInt())
           controller.getGallaryDetail(
@@ -66,7 +69,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 color: AppColor.primary,
               ))
             : Container(
-                margin: EdgeInsets.only(left: 5, right: 5),
+                margin: EdgeInsets.only(left: 2.5, right: 2.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -90,39 +93,74 @@ class _GallaryDetailState extends State<GallaryDetail> {
                         controller: controller.scrllcontroller.value,
                         itemCount: controller.gallaryData.length ~/ 2,
                         itemBuilder: (context, i) {
-                          return Container(
-                            child: ImageCard(
-                              tag01: "${2 * (i + 1) - 1 - 1}",
-                              tag02: "${2 * (i + 1) - 1}",
-                              image01: controller
-                                  .gallaryData[2 * (i + 1) - 1 - 1].image!,
-                              image02: controller
-                                  .gallaryData[2 * (i + 1) - 1].image!,
-                              colors01: controller.getColor(),
-                              colors02: controller.getColor(),
-                              flex01: controller.flex01[i],
-                              flex02: controller.flex02[i],
-                              high: controller.hight[i],
-                              ontap01: () {
-                                controller.tagId.value =
-                                    "${2 * (i + 1) - 1 - 1}";
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Viewimage(),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (i == 0)
+                                Padding(
+                                  key: controller.textKey,
+                                  padding: const EdgeInsets.only(
+                                      left: 5, top: 10, bottom: 10),
+                                  child: Text(
+                                    "${controller.gallaryDetail.value.description}",
+                                    style: TextStyle(
+                                      color: AppColor.primaryColor
+                                          .withOpacity(0.8),
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.tablet
+                                          ? 20
+                                          : 14,
+                                    ),
                                   ),
-                                );
-                              },
-                              ontap02: () {
-                                controller.tagId.value = "${2 * (i + 1) - 1}";
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Viewimage(),
-                                  ),
-                                );
-                              },
-                            ),
+                                ),
+                              Container(
+                                child: ImageCard(
+                                  tag01: "${2 * (i + 1) - 1 - 1}",
+                                  tag02: "${2 * (i + 1) - 1}",
+                                  image01: controller
+                                      .gallaryData[2 * (i + 1) - 1 - 1].image!,
+                                  image02: controller
+                                      .gallaryData[2 * (i + 1) - 1].image!,
+                                  colors01: controller.getColor(),
+                                  colors02: controller.getColor(),
+                                  flex01: controller.flex01[i],
+                                  flex02: controller.flex02[i],
+                                  high: controller.hight[i],
+                                  ontap01: () {
+                                    controller.tagId.value =
+                                        "${2 * (i + 1) - 1 - 1}";
+                                    controller.gallaryDataView.clear();
+                                    for (int i = 0;
+                                        i < controller.gallaryData.length;
+                                        ++i) {
+                                      debugPrint(
+                                          "image : ${controller.gallaryData[i].image}");
+                                      if (controller.gallaryData[i].image != "")
+                                        controller.gallaryDataView
+                                            .add(controller.gallaryData[i]);
+                                    }
+                                    debugPrint(
+                                        "image : ${controller.gallaryDataView.length}");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Viewimage(),
+                                      ),
+                                    );
+                                  },
+                                  ontap02: () {
+                                    controller.tagId.value =
+                                        "${2 * (i + 1) - 1}";
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Viewimage(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -130,7 +168,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                     if (controller.isloadingGallaryDetail.value &&
                         controller.gallaryData.isNotEmpty)
                       Container(
-                        height: 30,
+                        height: 40,
                         width: double.infinity,
                         child: Center(
                           child: CircularProgressIndicator(

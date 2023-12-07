@@ -47,7 +47,7 @@ class ImageCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: colors01,
                     image: DecorationImage(
-                        image: CachedNetworkImageProvider(image01),
+                        image: CachedNetworkImageProvider("${image01}"),
                         fit: BoxFit.cover),
                   ),
                 ),
