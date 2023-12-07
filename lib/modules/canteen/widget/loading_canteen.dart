@@ -16,16 +16,16 @@ class LoadingCanteen extends StatelessWidget {
           Container(
             height: 30.h,
             width: double.infinity,
-            color: AppColor.primaryColor,
+            // color: AppColor.primaryColor,
             child: Center(
               child: storage.read("isName") != null
                   ? Text('${storage.read("isName")}',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
                           fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 14.sp
-                              : 18.sp))
+                              ? 18.sp
+                              : 16.sp))
                   : SizedBox(),
             ),
           ),

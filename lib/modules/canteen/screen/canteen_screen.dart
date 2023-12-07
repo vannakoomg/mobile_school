@@ -1,7 +1,6 @@
 import 'dart:io';
+import 'dart:ui';
 
-import 'package:animated_icon/animate_icon.dart';
-import 'package:animated_icon/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,8 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:open_document/my_files/init.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/canteen/controller/canteen_controller.dart';
+import 'package:school/modules/canteen/models/menu_model.dart';
+import 'package:school/modules/canteen/screen/style_card.dart';
 import 'package:school/modules/canteen/widget/loading_canteen.dart';
 import 'package:school/utils/function/function.dart';
 import 'package:sizer/sizer.dart';
@@ -28,8 +30,14 @@ class CanteenScreen extends StatefulWidget {
   _CanteenScreenState createState() => _CanteenScreenState();
 }
 
-class _CanteenScreenState extends State<CanteenScreen> {
+class _CanteenScreenState extends State<CanteenScreen>
+    with SingleTickerProviderStateMixin {
   final controller = Get.put(CanteenController());
+  TransformationController? transcontroller;
+  AnimationController? animatedController;
+  Animation<Matrix4>? animation;
+  final double minScale = 1;
+  final double maxScale = 4;
   final storage = GetStorage();
   late final PhoneSize phoneSize;
   late String device;
@@ -45,6 +53,11 @@ class _CanteenScreenState extends State<CanteenScreen> {
   @override
   void initState() {
     super.initState();
+    transcontroller = TransformationController();
+
+    animatedController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() => transcontroller!.value = animation!.value);
     _fetchPosUser();
     phoneSize = SizerUtil.deviceType == DeviceType.tablet
         ? PhoneSize.ipad
@@ -57,161 +70,355 @@ class _CanteenScreenState extends State<CanteenScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColor.primaryColor, // Set your desired color here
+      statusBarIconBrightness:
+          Brightness.light, // Change the color of the icons
+    ));
     return !isLoading
-        ? SafeArea(child: LoadingCanteen())
-        : SafeArea(
-            child: Container(
-              // height: 100.h,
-              child: Column(
+        ? LoadingCanteen()
+        : Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: Stack(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    height: 30.h,
-                    color: AppColor.primaryColor,
+                    color: Colors.white,
+                    padding: EdgeInsets.only(top: 20),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: InkWell(
-                                onTap: () => Navigator.of(context).pop(),
-                                child: Icon(
-                                  device == 'iOS'
-                                      ? Icons.arrow_back_ios
-                                      : Icons.arrow_back,
-                                  size: 25,
-                                  color: Colors.white,
+                        Container(
+                          padding: EdgeInsets.only(left: 10, right: 20, top: 0),
+                          height: 25.h,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.black, // Left border color
+                                width: 0.1, // Left border width
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                // color: AppColor.primaryColor,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20),
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            Navigator.of(context).pop(),
+                                        child: Icon(
+                                          device == 'iOS'
+                                              ? Icons.arrow_back_ios
+                                              : Icons.arrow_back,
+                                          size: 25,
+                                          color: AppColor.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: Text('${storage.read("isName")}',
+                                            style: TextStyle(
+                                                color: AppColor.primaryColor
+                                                    .withOpacity(0.9),
+                                                overflow: TextOverflow.ellipsis,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize:
+                                                    SizerUtil.deviceType ==
+                                                            DeviceType.tablet
+                                                        ? 14.sp
+                                                        : 16.sp)),
+                                      ),
+                                    ),
+                                    Obx(() => Container(
+                                          child: CupertinoSwitch(
+                                            activeColor: Colors.blue,
+                                            trackColor: Colors.red,
+                                            value: controller
+                                                        .isMuteCanteen.value ==
+                                                    1
+                                                ? true
+                                                : false,
+                                            onChanged: (value) {
+                                              controller.updateNotificationMenu(
+                                                  value: value);
+                                            },
+                                          ),
+                                        ))
+                                  ],
                                 ),
                               ),
-                            ),
-
-                            Expanded(
-                              child: Center(
-                                child: Text('${storage.read("isName")}',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: SizerUtil.deviceType ==
-                                                DeviceType.tablet
-                                            ? 14.sp
-                                            : 18.sp)),
-                              ),
-                            ),
-                            Obx(() => Container(
-                                  child: CupertinoSwitch(
-                                    activeColor: Colors.blue,
-                                    trackColor: Colors.red,
-                                    value: controller.isMuteCanteen.value == 1
-                                        ? true
-                                        : false,
-                                    onChanged: (value) {
-                                      controller.updateNotificationMenu(
-                                          value: value);
-                                    },
-                                  ),
-                                ))
-                            //  Switch(
-                            //       value: controller.isMuteCanteen.value == 1
-                            //           ? true
-                            //           : false,
-                            //       onChanged: (value) {
-                            //         controller.updateNotificationMenu(
-                            //             value: value);
-                            //       },
-                            // activeColor: Colors.blue,
-                            // inactiveThumbColor: Colors.red,
-                            // inactiveTrackColor:
-                            //     Colors.red.withOpacity(0.6),
-                            //     )),
-                          ],
+                              Spacer(),
+                              _buildMainBalance,
+                              Spacer(),
+                            ],
+                          ),
                         ),
-                        _buildMainBalance
+                        _buildBodyListExtend,
                       ],
                     ),
                   ),
-                  _buildBodyListExtend,
+                  Obx(() => controller.isShowMenu.value
+                      ? GestureDetector(
+                          onTap: () {
+                            controller.ontapMenu();
+                          },
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                                sigmaX: 5.0,
+                                sigmaY:
+                                    5.0), // Adjust the blur radius as needed
+                            child: Container(
+                              color: Colors.black.withOpacity(0.9),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    "Menu Today",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white.withOpacity(0.9),
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.tablet
+                                          ? 10.sp
+                                          : 18.sp,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Container(
+                                        height: 30.h,
+                                        color: Colors.pink,
+                                        child: CarouselSlider.builder(
+                                          itemCount: controller
+                                              .menu.value.image!.length,
+                                          itemBuilder:
+                                              (contestxt, index, realIndex) {
+                                            return Stack(
+                                              children: [
+                                                InteractiveViewer(
+                                                  transformationController:
+                                                      transcontroller,
+                                                  onInteractionEnd: (value) {
+                                                    reset();
+                                                  },
+                                                  maxScale: 5,
+                                                  child: GestureDetector(
+                                                    onTap: () {},
+                                                    child: Container(
+                                                      height: 30.h,
+                                                      width: double.infinity,
+                                                      color: Colors.white,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "${controller.menu.value.image![index]}",
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: 0,
+                                                  bottom: 0,
+                                                  child: CustomPaint(
+                                                    painter: StyleCardMeun(),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          height: 50,
+                                                          width: 50,
+                                                        ),
+                                                        Positioned(
+                                                          right: 5,
+                                                          bottom: 5,
+                                                          child: Text(
+                                                            "${index + 1}",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                          options: CarouselOptions(
+                                              height: SizerUtil.deviceType ==
+                                                      DeviceType.tablet
+                                                  ? 130.sp
+                                                  : 180.sp,
+                                              viewportFraction: 1,
+                                              autoPlay: true,
+                                              onPageChanged:
+                                                  (index, reason) {}),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox())
                 ],
               ),
             ),
           );
   }
 
+  void reset() {
+    animation = Matrix4Tween(
+      begin: transcontroller!.value,
+      end: Matrix4.identity(),
+    ).animate(CurvedAnimation(parent: animatedController!, curve: Curves.ease));
+    animatedController!.forward(from: 0);
+  }
+
   get _buildBodyListExtend {
     return _recPosUserData[0].cardId != ""
         ? Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: menuCanteenList.length,
-                    itemBuilder: (context, index) => Column(
-                      children: [
-                        index == 0
-                            ? Divider(
-                                color: Colors.blue,
-                                height: 2,
-                              )
-                            : SizedBox(),
-                        _buildItem(index),
-                        Divider(
-                          color: Colors.blue,
-                          height: 2,
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        "Menu Today",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.primaryColor.withOpacity(0.9),
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 10.sp
-                              : 12.sp,
+            child: RefreshIndicator(
+              onRefresh: (() => _fetchPosUser()),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: menuCanteenList.length,
+                      itemBuilder: (context, index) => Container(
+                        child: Column(
+                          children: [
+                            _buildItem(index),
+                          ],
                         ),
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 25.h,
-                    child: CarouselSlider.builder(
-                        itemCount: controller.menu.value.image!.length,
-                        itemBuilder: (contestxt, index, realIndex) {
-                          return Container(
-                            height: 200,
-                            width: double.infinity,
-                            color: Colors.white,
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "${controller.menu.value.image![index]}",
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                        options: CarouselOptions(
-                            height: SizerUtil.deviceType == DeviceType.tablet
-                                ? 130.sp
-                                : 180.sp,
-                            viewportFraction: 1,
-                            autoPlay: true,
-                            onPageChanged: (index, reason) {})),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Obx(
+                      () => controller.isNoMenu.value == false
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    "Menu Today",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black.withOpacity(0.9),
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.tablet
+                                          ? 10.sp
+                                          : 12.sp,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.ontapMenu();
+                                  },
+                                  child: Container(
+                                    height: 25.h,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: CarouselSlider.builder(
+                                        itemCount:
+                                            controller.menu.value.image!.length,
+                                        itemBuilder:
+                                            (contestxt, index, realIndex) {
+                                          return Stack(
+                                            children: [
+                                              Container(
+                                                height: 200,
+                                                width: double.infinity,
+                                                color: Colors.white,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${controller.menu.value.image![index]}",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                right: 0,
+                                                bottom: 0,
+                                                child: CustomPaint(
+                                                  painter: StyleCardMeun(),
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                      ),
+                                                      Positioned(
+                                                        right: 5,
+                                                        bottom: 5,
+                                                        child: Text(
+                                                          "${index + 1}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                        options: CarouselOptions(
+                                            height: SizerUtil.deviceType ==
+                                                    DeviceType.tablet
+                                                ? 130.sp
+                                                : 180.sp,
+                                            viewportFraction: 1,
+                                            autoPlay:
+                                                !controller.isShowMenu.value,
+                                            onPageChanged: (index, reason) {})),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(
+                              height: 25.h,
+                              child: Center(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffe85d04),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    padding: EdgeInsets.all(20),
+                                    child: Text(
+                                      "Menu for today not yet available !",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                              )),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
               ),
             ),
           )
@@ -221,6 +428,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
   _buildItem(int index) {
     return InkWell(
       child: Container(
+          // color: AppColor.primaryColor,
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 8, right: 8),
           height: 8.h,
@@ -229,9 +437,18 @@ class _CanteenScreenState extends State<CanteenScreen> {
             children: [
               Row(
                 children: [
-                  SizedBox(
-                      height: 10.w,
-                      child: Image.asset('${menuCanteenList[index].img}')),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Color(int.parse(menuCanteenList[index].color)),
+                        shape: BoxShape.circle),
+                    child: SizedBox(
+                        height: 6.w,
+                        child: Image.asset(
+                          '${menuCanteenList[index].img}',
+                          color: Colors.white,
+                        )),
+                  ),
                   SizedBox(
                     width: 5.w,
                   ),
@@ -240,20 +457,21 @@ class _CanteenScreenState extends State<CanteenScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('${menuCanteenList[index].title}',
-                          style: myTextStyleHeader[phoneSize]),
+                          style: myTextStyleHeader[phoneSize]!
+                              .copyWith(color: Colors.black)),
                       SizedBox(
-                        height: 0.5.h,
+                        height: 1.h,
                       ),
                       Container(
                         width: 70.w,
                         child: AutoSizeText(
                           '${menuCanteenList[index].subtitle}',
                           style: TextStyle(
-                              color: Colors.grey,
+                              color: Colors.black.withOpacity(0.6),
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
                                       ? 15
-                                      : 12),
+                                      : 11),
                           minFontSize: 10,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -264,7 +482,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
                 ],
               ),
               Icon(Icons.arrow_forward_ios,
-                  size: 22, color: AppColor.primaryColor.withOpacity(0.9))
+                  size: 22, color: AppColor.mainColor.withOpacity(0.6))
             ],
           )),
       onTap: () {
@@ -307,51 +525,29 @@ class _CanteenScreenState extends State<CanteenScreen> {
     return Container(
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(10),
       ),
       width: 90.w,
       height: 13.h,
       child: _recPosUserData[0].cardId != ""
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ? Column(
               children: [
-                SizedBox(
-                  width: 10.w,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text("Available Balance",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.primaryColor.withOpacity(0.9),
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 10.sp
-                              : 12.sp,
-                        )),
-                    Text("\$${f.format(_balance)}",
-                        style: TextStyle(
-                            color: AppColor.primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: SizerUtil.deviceType == DeviceType.tablet
-                                ? 14.sp
-                                : 16.sp))
-                  ],
-                ),
-                Container(
-                    alignment: Alignment.topRight,
-                    width: 10.w,
-                    height: 100.w,
-                    child: AnimateIcon(
-                      key: UniqueKey(),
-                      onTap: () {
-                        _fetchPosUser();
-                      },
-                      iconType: IconType.animatedOnTap,
-                      width: 8.w,
-                      color: Colors.blue,
-                      animateIcon: AnimateIcons.refresh,
+                Text("\$${f.format(_balance)}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          ? 35.sp
+                          : 30.sp,
+                    )),
+                Text("Available Balance",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey.withOpacity(1),
+                      fontSize: SizerUtil.deviceType == DeviceType.tablet
+                          ? 15.sp
+                          : 13.sp,
                     )),
               ],
             )
@@ -381,6 +577,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
   }
 
   Future<void> _fetchPosUser() async {
+    debugPrint("kkk");
     await controller.fetchMenu();
     await fetchPos(route: "user").then((value) {
       try {

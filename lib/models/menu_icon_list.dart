@@ -113,40 +113,51 @@ List<Menu> menuIconList = [
 ];
 
 class Canteen {
-  String img, title, subtitle, route;
+  String img, title, subtitle, route, color;
 
   Canteen(
       {required this.img,
       required this.title,
       required this.subtitle,
-      required this.route});
+      required this.route,
+      required this.color});
 }
 
 List<Canteen> menuCanteenList = [
   Canteen(
-      img: 'assets/icons/canteen/foods_drinks.png',
-      title: 'Pre-Order (For Lunch Only)',
-      subtitle: 'Please make pre-orders before 10:00AM',
-      route: 'pos_order'),
+    img: 'assets/icons/canteen/foods_drinks.png',
+    title: 'Pre-Order (For Lunch Only)',
+    subtitle: 'Please make pre-orders before 10:00AM',
+    route: 'pos_order',
+    color: "0xff2a9d8f",
+  ),
   Canteen(
-      img: 'assets/icons/canteen/top_up.png',
-      title: 'Top Up',
-      subtitle:
-          'The amount will be transferred to your iWallet within 1 working day',
-      route: 'top_up'),
+    img: 'assets/icons/canteen/top_up.png',
+    title: 'Top Up',
+    subtitle:
+        'The amount will be transferred to your iWallet within 1 working day',
+    route: 'top_up',
+    color: "0xffffc300",
+  ),
   Canteen(
-      img: 'assets/icons/canteen/iwallet_card.png',
-      title: 'iWallet',
-      subtitle: 'History of pre-oders and top ups',
-      route: 'i_wallet'),
+    img: 'assets/icons/canteen/iwallet_card.png',
+    title: 'iWallet',
+    subtitle: 'History of pre-oders and top ups',
+    route: 'i_wallet',
+    color: "0xff219ebc",
+  ),
   Canteen(
-      img: 'assets/icons/canteen/limit_purchase.png',
-      title: 'Purchase Limit',
-      subtitle: 'Set a daily purchase limit',
-      route: 'limit_purchase'),
+    img: 'assets/icons/canteen/limit_purchase.png',
+    title: 'Purchase Limit',
+    subtitle: 'Set a daily purchase limit',
+    route: 'limit_purchase',
+    color: "0xfffb8500",
+  ),
   Canteen(
-      img: 'assets/icons/canteen/term_condition.png',
-      title: 'Terms & Conditions',
-      subtitle: 'Rules and Guidelines',
-      route: 'terms_conditions'),
+    img: 'assets/icons/canteen/term_condition.png',
+    title: 'Terms & Conditions',
+    subtitle: 'Rules and Guidelines',
+    route: 'terms_conditions',
+    color: "0xffc1121f",
+  ),
 ];

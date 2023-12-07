@@ -34,6 +34,7 @@ class GallaryController extends GetxController {
   final nextPage = 0.obs;
   final currentPage = 1.obs;
   final textKey = GlobalKey();
+  final hightOfDescrition = 0.0.obs;
   Future getGallary() async {
     try {
       isloading.value = true;
@@ -43,7 +44,6 @@ class GallaryController extends GetxController {
       })).get('${baseUrlSchool}api/gallary');
       gallary.value = GallaryModel.fromJson(response.data);
       isloading.value = false;
-      debugPrint("value ${gallary.value.data!.length}");
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       isloading.value = false;
@@ -51,7 +51,7 @@ class GallaryController extends GetxController {
     }
   }
 
-  void getGallaryDetail({required String id, int page = 1}) async {
+  Future getGallaryDetail({required String id, int page = 1}) async {
     try {
       isloadingGallaryDetail.value = true;
       var response = await Dio(BaseOptions(headers: {
@@ -87,10 +87,10 @@ class GallaryController extends GetxController {
     }
     oldColor.value = i;
     if (i == 0) {
-      return Color(0xff012a4a);
+      return Color(0xffffc300);
     }
     if (i == 1) {
-      return Color(0xffa3cef1);
+      return Color(0xff219ebc);
     }
     if (i == 2) {
       return Color(0xffef476f);
@@ -102,15 +102,15 @@ class GallaryController extends GetxController {
       return Color(0xff48cae4);
     }
     if (i == 5) {
-      return Color(0xffffafcc);
+      return Color(0xfffb8500);
     }
     if (i == 6) {
       return Color(0xff70a288);
     }
     if (i == 7) {
-      return Color(0xff2c7da0);
+      return Color(0xffc1121f);
     }
-    return Color(0xff2c7da0);
+    return Color.fromARGB(255, 10, 162, 227);
   }
 
   final highList = [].obs;

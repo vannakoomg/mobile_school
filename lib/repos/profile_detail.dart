@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/models/ProfileDB.dart';
 import 'package:school/config/url.dart';

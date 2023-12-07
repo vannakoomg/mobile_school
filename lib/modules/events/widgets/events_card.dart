@@ -60,7 +60,7 @@ class EventCard extends StatelessWidget {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 10, bottom: 20),
+                                  const EdgeInsets.only(top: 5, bottom: 20),
                               child: Text(
                                 "${element.value.time}",
                                 style: TextStyle(

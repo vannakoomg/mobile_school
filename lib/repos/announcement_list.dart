@@ -10,7 +10,7 @@ Future fetchAnnouncement({String pageNo = '1'}) async {
     'page': pageNo,
   };
   try {
-    String fullUrl = '$baseUrlSchool' + 'api/getannouncementlist';
+    String fullUrl = '${baseUrlSchool}api/getannouncementlist';
     var response = await Dio(BaseOptions(
             receiveDataWhenStatusError: true,
             connectTimeout: 15000,

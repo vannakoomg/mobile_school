@@ -37,8 +37,6 @@ class _EventScreenState extends State<EventScreen> {
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 10.sp : 16),
         )),
         body: Container(
-            // height: double.infinity,
-            // width: double.infinity,
             child: Column(
           children: [
             TableCalendar(
@@ -151,8 +149,8 @@ class _EventScreenState extends State<EventScreen> {
                     return null;
                   },
                 ),
-                firstDay: DateTime(2010, 10, 16),
-                lastDay: DateTime(2040, 3, 14),
+                firstDay: DateTime(2023, 10, 16),
+                lastDay: DateTime(2050, 3, 14),
                 focusedDay: controller.focusDate.value,
                 onPageChanged: (value) {
                   controller.focusDate.value = value;
@@ -191,51 +189,64 @@ class _EventScreenState extends State<EventScreen> {
                   ),
                   child: controller.isloading.value == false
                       ? Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                              Text(
-                                controller.eventDate.value.data!.isEmpty
-                                    ? "NOTHING"
-                                    : "UPCOMING",
-                                style: TextStyle(
-                                  color: AppColor.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizerUtil.deviceType == DeviceType.tablet
-                                          ? 10.sp
-                                          : 8.sp,
-                                ),
+                            Text(
+                              controller.eventDate.value.data!.isEmpty
+                                  ? "NOTHING"
+                                  : "UPCOMING",
+                              style: TextStyle(
+                                color: AppColor.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 14.sp
+                                        : 10.sp,
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Stack(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children:
-                                        controller.eventDate.value.data!.map(
-                                      (e) {
-                                        return Container(
-                                            child: Column(children: [
-                                          EventCard(
-                                            day: "${e.date![8]}${e.date![9]}",
-                                            data: e.event!,
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: controller
+                                                .eventDate.value.data!
+                                                .map(
+                                              (e) {
+                                                return Container(
+                                                    child: Column(children: [
+                                                  EventCard(
+                                                    day:
+                                                        "${e.date![8]}${e.date![9]}",
+                                                    data: e.event!,
+                                                  ),
+                                                ]));
+                                              },
+                                            ).toList(),
                                           ),
-                                        ]));
-                                      },
-                                    ).toList(),
-                                  ),
-                                  Positioned(
-                                      child: Container(
-                                    height: 3,
-                                    width: 20,
-                                    color: Colors.white,
-                                  ))
-                                ],
-                              )
-                            ])
+                                          Positioned(
+                                              child: Container(
+                                            height: 3,
+                                            width: 20,
+                                            color: Colors.white,
+                                          ))
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      )
+                                    ]),
+                              ),
+                            ),
+                          ],
+                        )
                       : Center(
                           child: CircularProgressIndicator(
                             color: AppColor.primaryColor,

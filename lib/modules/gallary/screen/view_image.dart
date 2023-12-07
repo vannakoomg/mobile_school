@@ -33,8 +33,8 @@ class _ViewimageState extends State<Viewimage>
 
   @override
   void dispose() {
-    transcontroller!.dispose();
-    animatedController!.dispose();
+    // transcontroller!.dispose();
+    // animatedController!.dispose();
     super.dispose();
   }
 
@@ -64,10 +64,13 @@ class _ViewimageState extends State<Viewimage>
                                 controller.gallaryDataView[value].image!;
                             controller.tagId.value = "$value";
                             double jumpScrll = 0;
+                            // get scroll pixel by the [high of image index]
                             for (int j = 0; j < (value) ~/ 2; ++j) {
                               jumpScrll = jumpScrll + controller.highList[j];
                             }
-                            jumpScrll = jumpScrll;
+                            jumpScrll = jumpScrll +
+                                controller.hightOfDescrition.value -
+                                2;
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
@@ -103,8 +106,13 @@ class _ViewimageState extends State<Viewimage>
                                   imageUrl: "${e.value.image}",
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
+                                          Center(
+                                    child: Image.asset(
+                                      "assets/icons/home_screen_icon_one_color/gallery.png",
+                                      height: 50,
+                                      width: 50,
+                                    ),
+                                  ),
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
                                 ),
@@ -195,7 +203,7 @@ class _ViewimageState extends State<Viewimage>
                                 borderRadius: BorderRadius.circular(70)),
                             child: Center(
                                 child: Text(
-                              "Download Photo",
+                              "Download This Photo",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -209,30 +217,31 @@ class _ViewimageState extends State<Viewimage>
                         SizedBox(
                           height: 10,
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            controller.saveAllPhoto();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20, right: 20),
-                            height: 50,
-                            width: 100.w - 40,
-                            decoration: BoxDecoration(
-                                color: Color(0xff1f487e).withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(70)),
-                            child: Center(
-                                child: Text(
-                              "Download All Photos (${controller.gallaryData.length})",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizerUtil.deviceType == DeviceType.tablet
-                                          ? 20
-                                          : 15),
-                            )),
-                          ),
-                        )
+                        if (controller.gallaryDataView.length > 1)
+                          GestureDetector(
+                            onTap: () async {
+                              controller.saveAllPhoto();
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              height: 50,
+                              width: 100.w - 40,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff1f487e).withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(70)),
+                              child: Center(
+                                  child: Text(
+                                "Download All Photos (${controller.gallaryDataView.length})",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizerUtil.deviceType ==
+                                            DeviceType.tablet
+                                        ? 20
+                                        : 15),
+                              )),
+                            ),
+                          )
                       ],
                     ),
                   ),

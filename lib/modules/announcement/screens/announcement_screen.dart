@@ -105,6 +105,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           });
         },
         child: Container(
+          color: Colors.grey.withOpacity(0.2),
           alignment: Alignment.center,
           child: _empty == 0
               ? BlankPage()
@@ -128,72 +129,76 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   _buildItem(Datum item) {
     return InkWell(
-      child: Card(
-        elevation: 5,
-        child: Column(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          // boxShadow: [
+          //   BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: 0.5)
+          // ]
+        ),
+        padding: EdgeInsets.all(8),
+        child: Row(
           children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  SizedBox(
-                    child: _buildUrlImages(item.fullImage),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 12.h,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: myTextStyleHeader[phoneSize],
-                              )),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.event_sharp,
-                                color: Color(0xff1d1a56),
-                              ),
-                              SizedBox(
-                                width: 0.8.h,
-                              ),
-                              Text(
-                                item.date,
-                                style: myTextStyleBody[phoneSize],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.access_time,
-                                color: Color(0xff1d1a56),
-                              ),
-                              SizedBox(
-                                width: 0.8.h,
-                              ),
-                              Text(
-                                item.time,
-                                style: myTextStyleBody[phoneSize],
-                              ),
-                              Spacer(),
-                              Text("${item.view} view"),
-                            ],
-                          ),
-                        ],
-                      ),
+            SizedBox(
+              child: _buildUrlImages(item.fullImage),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Expanded(
+              child: Container(
+                height: 12.h,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          item.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: myTextStyleHeader[phoneSize],
+                        )),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.date_range,
+                          // color: ,
+                        ),
+                        SizedBox(
+                          width: 0.8.h,
+                        ),
+                        Text(
+                          item.date,
+                          style: myTextStyleBody[phoneSize],
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          color: Color(0xff1d1a56),
+                        ),
+                        SizedBox(
+                          width: 0.8.h,
+                        ),
+                        Text(
+                          item.time,
+                          style: myTextStyleBody[phoneSize],
+                        ),
+                        Spacer(),
+                        if (item.view != 0)
+                          item.view == 1
+                              ? Text("${item.view}  view")
+                              : Text("${item.view}  views"),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -221,9 +226,9 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            boxShadow: [
-              BoxShadow(blurRadius: 5, color: Colors.grey, offset: Offset(1, 3))
-            ],
+            // boxShadow: [
+            //   BoxShadow(blurRadius: 5, color: Colors.grey, offset: Offset(1, 3))
+            // ],
           ),
         ),
         placeholder: (context, url) => Icon(
