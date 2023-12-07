@@ -9,7 +9,6 @@ import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -49,25 +48,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ShowCaseWidget.of(context).startShowCase([
-        menuIconList[4].globalKey,
-        menuIconList[5].globalKey,
-        menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-        // menuIconList[4].globalKey,
-        // menuIconList[5].globalKey,
-        // menuIconList[6].globalKey,
-      ]);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ShowCaseWidget.of(context).startShowCase([
+    //     menuIconList[4].globalKey,
+    //     menuIconList[5].globalKey,
+    //     menuIconList[6].globalKey,
+    //     // menuIconList[4].globalKey,
+    //     // menuIconList[5].globalKey,
+    //     // menuIconList[6].globalKey,
+    //     // menuIconList[4].globalKey,
+    //     // menuIconList[5].globalKey,
+    //     // menuIconList[6].globalKey,
+    //     // menuIconList[4].globalKey,
+    //     // menuIconList[5].globalKey,
+    //     // menuIconList[6].globalKey,
+    //     // menuIconList[4].globalKey,
+    //     // menuIconList[5].globalKey,
+    //     // menuIconList[6].globalKey,
+    //   ]);
+    // });
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();

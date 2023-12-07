@@ -54,7 +54,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                               DeviceType.tablet
                                           ? 20
                                           : 18,
-                                      color: AppColor.primaryColor,
+                                      color: AppColor.primary,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -74,7 +74,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                   DeviceType.tablet
                                               ? 18
                                               : 16,
-                                          color: AppColor.primaryColor,
+                                          color: AppColor.primary,
                                           fontWeight: FontWeight.w600),
                                     ),
                                     Spacer(),
@@ -170,8 +170,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                   child: Text(
                                                     "${element.value.subject}",
                                                     style: TextStyle(
-                                                      color:
-                                                          AppColor.primaryColor,
+                                                      color: AppColor.primary,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontSize: SizerUtil
@@ -257,7 +256,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                   DeviceType.tablet
                                               ? 18
                                               : 16,
-                                          color: AppColor.primaryColor,
+                                          color: AppColor.primary,
                                           fontWeight: FontWeight.w600),
                                     ),
                                     SizedBox(
@@ -295,8 +294,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                                   child: Text(
                                                     "${element.value.subject}",
                                                     style: TextStyle(
-                                                        color: AppColor
-                                                            .primaryColor,
+                                                        color: AppColor.primary,
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         fontSize: SizerUtil

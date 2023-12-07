@@ -104,8 +104,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                   child: Text(
                                     "${controller.gallaryDetail.value.description}",
                                     style: TextStyle(
-                                      color: AppColor.primaryColor
-                                          .withOpacity(0.8),
+                                      color: AppColor.primary.withOpacity(0.8),
                                       fontSize: SizerUtil.deviceType ==
                                               DeviceType.tablet
                                           ? 20

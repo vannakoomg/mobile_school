@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/url.dart';
-import 'package:school/models/ExamScheduleDB.dart';
 import 'package:school/modules/canteen/models/menu_model.dart';
 import 'package:school/repos/pos_data.dart';
 

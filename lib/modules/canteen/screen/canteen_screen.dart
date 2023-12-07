@@ -13,7 +13,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/canteen/controller/canteen_controller.dart';
-import 'package:school/modules/canteen/models/menu_model.dart';
 import 'package:school/modules/canteen/screen/style_card.dart';
 import 'package:school/modules/canteen/widget/loading_canteen.dart';
 import 'package:school/utils/function/function.dart';
@@ -71,7 +70,7 @@ class _CanteenScreenState extends State<CanteenScreen>
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: AppColor.primaryColor, // Set your desired color here
+      statusBarColor: AppColor.primary, // Set your desired color here
       statusBarIconBrightness:
           Brightness.light, // Change the color of the icons
     ));
@@ -114,7 +113,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                               ? Icons.arrow_back_ios
                                               : Icons.arrow_back,
                                           size: 25,
-                                          color: AppColor.primaryColor,
+                                          color: AppColor.primary,
                                         ),
                                       ),
                                     ),
@@ -122,7 +121,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                       child: Center(
                                         child: Text('${storage.read("isName")}',
                                             style: TextStyle(
-                                                color: AppColor.primaryColor
+                                                color: AppColor.primary
                                                     .withOpacity(0.9),
                                                 overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w500,

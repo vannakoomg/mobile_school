@@ -248,7 +248,7 @@ class _EventScreenState extends State<EventScreen> {
                         )
                       : Center(
                           child: CircularProgressIndicator(
-                            color: AppColor.primaryColor,
+                            color: AppColor.primary,
                           ),
                         )),
             )

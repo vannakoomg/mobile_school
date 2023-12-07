@@ -31,7 +31,7 @@ class LoadingCanteen extends StatelessWidget {
           ),
           Spacer(),
           CircularProgressIndicator(
-            color: AppColor.primaryColor,
+            color: AppColor.primary,
           ),
           Spacer(),
         ],
