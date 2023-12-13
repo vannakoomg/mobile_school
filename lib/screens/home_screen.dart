@@ -42,12 +42,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final scrollController = ScrollController();
   void disablescreen() async {
     await ScreenProtector.preventScreenshotOff();
+    await ScreenProtector.preventScreenshotOff();
   }
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    disablescreen();
+    // await ScreenProtector.protectDataLeakageOn();
+
+    await ScreenProtector.preventScreenshotOn();
+
+    // disablescreen();
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
