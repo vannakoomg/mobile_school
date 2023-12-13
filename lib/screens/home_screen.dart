@@ -9,6 +9,7 @@ import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
 import 'package:school/utils/widgets/custom_show_case.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -39,10 +40,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late List<Assigned> _recAssignedList = [], _recMissingList = [];
   late List<Slide> _recData = [];
   final scrollController = ScrollController();
+  void disablescreen() async {
+    await ScreenProtector.preventScreenshotOff();
+  }
 
   @override
   void initState() {
     super.initState();
+    disablescreen();
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
@@ -122,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   get _buildBody {
     return Container(
-      color: Colors.red,
+      color: Colors.white,
       height: double.infinity,
       width: double.infinity,
       child: Column(
