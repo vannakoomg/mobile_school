@@ -12,13 +12,12 @@ import './app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    if (Platform.isAndroid) {
-      debugPrint("khmer sl khmer iii ");
-      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    }
-  });
-  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //   if (Platform.isAndroid) {
+  //     debugPrint("khmer sl khmer iii ");
+  //     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  //   }
+  // });
 
   await GetStorage.init();
   await Firebase.initializeApp();

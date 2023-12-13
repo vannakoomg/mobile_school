@@ -5,6 +5,7 @@ import 'package:school/modules/student_report/controller/student_report_controll
 import 'package:school/modules/student_report/screens/flowchat.dart';
 import 'package:school/modules/student_report/screens/report_table.dart';
 import 'package:school/utils/widgets/blank_screen.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'package:sizer/sizer.dart';
 
 class StudentReportScreen extends StatefulWidget {
@@ -15,14 +16,29 @@ class StudentReportScreen extends StatefulWidget {
 }
 
 final controller = Get.put(StudentController());
+void disablescreenShot() async {
+  await ScreenProtector.preventScreenshotOn();
+}
+
+void ablescreenShot() async {
+  await ScreenProtector.preventScreenshotOff();
+}
 
 class _StudentReportScreenState extends State<StudentReportScreen> {
   @override
   void initState() {
+    disablescreenShot();
+
     controller.getSummery().then((value) {
       controller.getStudentReport(termname: "Term ${controller.term.value}");
     });
     super.initState();
+  }
+
+  void dispose() {
+    ablescreenShot();
+    debugPrint("ffff");
+    super.dispose();
   }
 
   Widget build(BuildContext context) {

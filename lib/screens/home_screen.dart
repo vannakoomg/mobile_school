@@ -40,19 +40,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late List<Assigned> _recAssignedList = [], _recMissingList = [];
   late List<Slide> _recData = [];
   final scrollController = ScrollController();
-  void disablescreen() async {
-    await ScreenProtector.preventScreenshotOff();
-    await ScreenProtector.preventScreenshotOff();
-  }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    // await ScreenProtector.protectDataLeakageOn();
-
-    await ScreenProtector.preventScreenshotOn();
-
-    // disablescreen();
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
@@ -65,6 +56,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         scrollController.jumpTo(50);
       });
     manager.emptyCache();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    debugPrint("b sl soy ");
+    super.dispose();
   }
 
   @override
@@ -522,12 +521,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       });
     });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   Widget reloadBtn(String message) {
