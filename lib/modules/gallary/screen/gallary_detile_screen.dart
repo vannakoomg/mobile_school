@@ -69,6 +69,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 color: AppColor.primaryColor,
               ))
             : Container(
+                // color: Colors.grey,
                 margin: EdgeInsets.only(left: 2.5, right: 2.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

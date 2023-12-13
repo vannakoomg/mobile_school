@@ -43,11 +43,12 @@ class ImageCard extends StatelessWidget {
                   ontap01();
                 },
                 child: Container(
-                  margin: EdgeInsets.all(2),
+                  margin: EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     color: colors01,
+                    borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                        image: CachedNetworkImageProvider("${image01}"),
+                        image: CachedNetworkImageProvider("$image01"),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -64,8 +65,10 @@ class ImageCard extends StatelessWidget {
                     ontap02();
                   },
                   child: Container(
-                    margin: EdgeInsets.all(2),
+                    margin: EdgeInsets.all(3),
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+
                       color: colors02,
                       // borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(

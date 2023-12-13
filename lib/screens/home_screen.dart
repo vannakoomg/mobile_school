@@ -33,8 +33,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final storage = GetStorage();
   int activeIndex = 0;
   DefaultCacheManager manager = new DefaultCacheManager();
-  final GlobalKey<NavigatorState> key = new GlobalKey<NavigatorState>();
-
   final List<String> _imageIphoneList = ['${baseUrlSchool + 'blank.png'}'],
       _imageIpadList = ['${baseUrlSchool + 'blank.png'}'];
   late Map<String, dynamic> _mapUser;
@@ -45,13 +43,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   ShowCaseWidget.of(context).startShowCase([
-    //     menuIconList[4].globalKey,
-    //     menuIconList[5].globalKey,
-    //     menuIconList[6].globalKey,
-    //   ]);
-    // });
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();
@@ -69,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: key,
       appBar: _buildAppBar,
       body: _buildBody,
     );
@@ -132,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   get _buildBody {
     return Container(
+      color: Colors.red,
       height: double.infinity,
       width: double.infinity,
       child: Column(
@@ -233,52 +224,46 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     }
                   }
                 },
-                child: CustomShowCase(
-                  title: 'Exam Schedules',
-                  key1: menuIconList[index].globalKey,
-                  child: Card(
-                    elevation: 10,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        menuIconList[index].title == 'Exam Schedules' &&
-                                (storage.read('exam_schedule_badge') != 0 &&
-                                    storage.read('exam_schedule_badge') != null)
-                            ? badges.Badge(
-                                badgeContent: Text(
-                                    '${storage.read('exam_schedule_badge')}',
-                                    style: TextStyle(color: Colors.white)),
-                                child: Image.asset(menuIconList[index].img,
-                                    height: 8.h, width: 8.h),
-                              )
-                            : menuIconList[index].title == 'Assignments' &&
-                                    (storage.read('assignment_badge') != 0 &&
-                                        storage.read('assignment_badge') !=
-                                            null)
-                                ? badges.Badge(
-                                    badgeContent: Text(
-                                        '${storage.read('assignment_badge')}',
-                                        style: TextStyle(color: Colors.white)),
-                                    child: Image.asset(menuIconList[index].img,
-                                        height: 8.h, width: 8.h),
-                                  )
-                                : Image.asset(menuIconList[index].img,
-                                    height: 8.h, width: 8.h),
-                        SizedBox(
-                          height: 5.sp,
-                        ),
-                        Text(
-                          menuIconList[index].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  SizerUtil.deviceType == DeviceType.tablet
-                                      ? 7.sp
-                                      : 9.sp),
-                        ),
-                      ],
-                    ),
+                child: Card(
+                  elevation: 10,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      menuIconList[index].title == 'Exam Schedules' &&
+                              (storage.read('exam_schedule_badge') != 0 &&
+                                  storage.read('exam_schedule_badge') != null)
+                          ? badges.Badge(
+                              badgeContent: Text(
+                                  '${storage.read('exam_schedule_badge')}',
+                                  style: TextStyle(color: Colors.white)),
+                              child: Image.asset(menuIconList[index].img,
+                                  height: 8.h, width: 8.h),
+                            )
+                          : menuIconList[index].title == 'Assignments' &&
+                                  (storage.read('assignment_badge') != 0 &&
+                                      storage.read('assignment_badge') != null)
+                              ? badges.Badge(
+                                  badgeContent: Text(
+                                      '${storage.read('assignment_badge')}',
+                                      style: TextStyle(color: Colors.white)),
+                                  child: Image.asset(menuIconList[index].img,
+                                      height: 8.h, width: 8.h),
+                                )
+                              : Image.asset(menuIconList[index].img,
+                                  height: 8.h, width: 8.h),
+                      SizedBox(
+                        height: 5.sp,
+                      ),
+                      Text(
+                        menuIconList[index].title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 7.sp
+                                : 9.sp),
+                      ),
+                    ],
                   ),
                 ),
               ),

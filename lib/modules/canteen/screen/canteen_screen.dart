@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -13,7 +12,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/canteen/controller/canteen_controller.dart';
-import 'package:school/modules/canteen/models/menu_model.dart';
 import 'package:school/modules/canteen/screen/style_card.dart';
 import 'package:school/modules/canteen/widget/loading_canteen.dart';
 import 'package:school/utils/function/function.dart';
