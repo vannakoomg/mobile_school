@@ -87,28 +87,28 @@ class GallaryController extends GetxController {
     }
     oldColor.value = i;
     if (i == 0) {
-      return Color(0xffffc300);
+      return Color.fromARGB(255, 240, 207, 99);
     }
     if (i == 1) {
       return Color(0xff219ebc);
     }
     if (i == 2) {
-      return Color(0xffef476f);
+      return Color.fromARGB(255, 238, 107, 137);
     }
     if (i == 3) {
-      return Color(0xffd5896f);
+      return Color.fromARGB(255, 239, 171, 148);
     }
     if (i == 4) {
-      return Color(0xff48cae4);
+      return Color.fromARGB(255, 111, 222, 244);
     }
     if (i == 5) {
-      return Color(0xfffb8500);
+      return Color.fromARGB(255, 248, 174, 89);
     }
     if (i == 6) {
-      return Color(0xff70a288);
+      return Color.fromARGB(255, 135, 240, 186);
     }
     if (i == 7) {
-      return Color(0xffc1121f);
+      return Color.fromARGB(255, 236, 95, 104);
     }
     return Color.fromARGB(255, 10, 162, 227);
   }
