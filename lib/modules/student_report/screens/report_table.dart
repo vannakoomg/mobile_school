@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/student_report/controller/student_report_controller.dart';
-import 'package:school/modules/student_report/models/subject_detail.dart';
-import 'package:school/screens/pages/top_up_history.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomReportTable extends StatelessWidget {

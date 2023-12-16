@@ -8,8 +8,6 @@ import 'package:school/repos/home_slide.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
-import 'package:school/utils/widgets/custom_show_case.dart';
-import 'package:screen_protector/screen_protector.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get_storage/get_storage.dart';
@@ -50,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _fetchExamScheduleCount();
     _fetchAssignment();
     _login();
-    // scrollController.jumpTo(200);
     if (storage.read('user_token') != null && storage.read('mapUser') != null)
       _fetchProfile().then((value) {
         scrollController.jumpTo(50);

@@ -67,7 +67,6 @@ dependencies:
   pinch_zoom: ^1.0.0
   showcaseview: ^2.0.3
   flutter_native_splash: ^2.3.3
-  flutter_windowmanager: ^0.2.0
   screen_protector: ^1.4.1
 
 flutter_native_splash:

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
@@ -8,6 +10,8 @@ import 'package:school/utils/widgets/blank_screen.dart';
 import 'package:screen_protector/screen_protector.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../utils/function/function.dart';
+
 class StudentReportScreen extends StatefulWidget {
   const StudentReportScreen({Key? key}) : super(key: key);
 
@@ -16,19 +20,11 @@ class StudentReportScreen extends StatefulWidget {
 }
 
 final controller = Get.put(StudentController());
-void disablescreenShot() async {
-  await ScreenProtector.preventScreenshotOn();
-}
-
-void ablescreenShot() async {
-  await ScreenProtector.preventScreenshotOff();
-}
 
 class _StudentReportScreenState extends State<StudentReportScreen> {
   @override
   void initState() {
     disablescreenShot();
-
     controller.getSummery().then((value) {
       controller.getStudentReport(termname: "Term ${controller.term.value}");
     });
@@ -37,7 +33,6 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
 
   void dispose() {
     ablescreenShot();
-    debugPrint("ffff");
     super.dispose();
   }
 
