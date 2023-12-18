@@ -52,7 +52,6 @@ class _CanteenScreenState extends State<CanteenScreen>
   void initState() {
     super.initState();
     transcontroller = TransformationController();
-
     animatedController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() => transcontroller!.value = animation!.value);

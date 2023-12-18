@@ -49,19 +49,21 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: SizerUtil.deviceType == DeviceType.tablet ? 45.w : 67.w,
-      child: Drawer(
-        child: Column(
-          children: <Widget>[
-            _buildHeader,
-            Container(
-              color: Colors.grey.shade300,
-              height: 1,
-            ),
-            _buildBody,
-            _buildFooter
-          ],
+    return SafeArea(
+      child: Container(
+        width: SizerUtil.deviceType == DeviceType.tablet ? 45.w : 67.w,
+        child: Drawer(
+          child: Column(
+            children: <Widget>[
+              _buildHeader,
+              Container(
+                color: Colors.grey.shade300,
+                height: 1,
+              ),
+              _buildBody,
+              _buildFooter
+            ],
+          ),
         ),
       ),
     );

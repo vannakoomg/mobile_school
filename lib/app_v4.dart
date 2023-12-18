@@ -7,20 +7,48 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:school/config/route.dart';
-import 'package:school/modules/announcement/screens/announcement_detail_screen.dart';
 import 'package:school/modules/canteen/screen/canteen_screen.dart';
+import 'package:school/modules/pickup/screen/pickup_screen.dart';
 import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/register_device_token.dart';
+import 'package:school/screens/pages/e_learning.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
+import 'package:school/screens/pages/limit_purchase.dart';
 import 'package:school/screens/pages/notification_detail.dart';
-import 'package:showcaseview/showcaseview.dart';
+import 'package:school/screens/pages/notification_page.dart';
+import 'package:school/screens/pages/homeworks_portal.dart';
+import 'package:school/screens/pages/pick_up_card_page.dart';
+import 'package:school/screens/pages/pos_cart_page.dart';
+import 'package:school/screens/pages/pos_history.dart';
+import 'package:school/screens/pages/pos_page.dart';
+import 'package:school/screens/pages/teacher_homeworks.dart';
+import 'package:school/screens/pages/teacher_homeworks_add.dart';
+import 'package:school/screens/pages/top_up.dart';
+import 'package:school/screens/profile_screen.dart';
 import 'models/AssignmentListDB.dart';
+import 'modules/announcement/screens/announcement_detail_screen.dart';
 import 'repos/assignment_list.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/login.dart';
+import 'screens/pages/about_accreditation_page.dart';
+import 'screens/pages/about_campuses_page.dart';
+import 'screens/pages/about_core_beliefs_page.dart';
+import 'screens/pages/about_introduction_page.dart';
+import 'screens/pages/about_school_history_page.dart';
+import 'screens/pages/about_vision_page.dart';
+import 'screens/pages/attendance_calendar_page.dart';
+import 'screens/pages/e_learning_subject_page.dart';
+import 'screens/pages/feedback_send.dart';
+import 'screens/pages/attendance_page.dart';
+import 'screens/pages/class_results_page.dart';
+import 'screens/pages/exam_schedule_page.dart';
+import 'screens/pages/feedback_page.dart';
+import 'screens/pages/homeworks_page.dart';
 import 'screens/pages/switch_account.dart';
+import 'screens/pages/terms_conditions.dart';
+import 'screens/pages/timetable_page.dart';
 import 'screens/widgets/local_notications_helper.dart';
 import 'models/push_notification.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +73,7 @@ class _MyAppState extends State<MyApp> {
   PushNotification? _notificationInfo;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  // DashboardScreen _dashboardScreen = DashboardScreen();
+  DashboardScreen _dashboardScreen = DashboardScreen();
   SwitchAccountPage _switchAccountPage = SwitchAccountPage();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
@@ -67,6 +95,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // storage.remove('user_token');
+    // storage.remove('mapUser');
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -78,19 +108,58 @@ class _MyAppState extends State<MyApp> {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: new ThemeData(
-          appBarTheme: Theme.of(context).appBarTheme,
+          appBarTheme: Theme.of(context)
+              .appBarTheme
+              .copyWith(systemOverlayStyle: SystemUiOverlayStyle.light),
           primarySwatch: MaterialColor(0xff1d1a56, color),
+          // textTheme: Theme.of(context).textTheme.apply(
+          //   // bodyColor: Colors.blue,
+          //   // displayColor: Colors.red,
+          // )
         ),
         home: storage.read('user_token') == null &&
                 (storage.read('mapUser') != null &&
                     storage.read('mapUser').length != 0)
             ? _switchAccountPage
-            : ShowCaseWidget(
-                builder: Builder(
-                  builder: (context) => DashboardScreen(),
-                ),
+            : _dashboardScreen,
+        routes: {
+          'dashboard': (context) => DashboardScreen(),
+          // 'announcement': (context) => AnnouncementPage(),
+          'attendance': (context) => AttendancePage(),
+          'timetable': (context) => TimetablePage(),
+          'exam_schedule': (context) => ExamSchedulePage(),
+          'homeworks': (context) => HomeworksPage(),
+          'teacher_homeworks': (context) => TeacherHomeworks(),
+          'class_results': (context) => ClassResultsPage(),
+          'feedback': (context) => FeedbackPage(),
+          'feedback_send': (context) => FeedbackSendPage(
+                sortFilter: [],
               ),
-        routes: route02,
+          'e_learning_subject': (context) => ELearningSubjectPage(),
+          'introduction': (context) => IntroductionPage(),
+          'school_history': (context) => SchoolHistoryPage(),
+          'vision': (context) => VisionPage(),
+          'core_beliefs': (context) => CoreBeliefsPage(),
+          'accreditation': (context) => AccreditationPage(),
+          'campuses': (context) => CampusesPage(),
+          'login': (context) => LoginScreen(),
+          'profile_screen': (context) => ProfileScreen(),
+          'notification': (context) => NotificationPage(),
+          'e_learning': (context) => ELearningPage(),
+          'homeworks_portal': (context) => HomeworksPortal(),
+          'teacher_homeworks_add': (context) => TeacherHomeworksAdd(),
+          'attendance_calendar': (context) => AttendanceCalendar(),
+          'pick_up_card': (context) => PickUpCard(),
+          'canteen': (context) => CanteenScreen(),
+          'pos_order': (context) => PosOrder(),
+          'pos_history': (context) => PosHistory(),
+          'top_up': (context) => TopUp(),
+          'i_wallet': (context) => IWallet(
+                index: 0,
+              ),
+          'limit_purchase': (context) => LimitPurchase(),
+          'terms_conditions': (context) => TermsAndConditions(),
+        },
         builder: EasyLoading.init(),
       );
     });
@@ -122,17 +191,20 @@ class _MyAppState extends State<MyApp> {
         print('Success=${value.status}');
       } catch (err) {
         print("err=$err");
+        // Get.defaultDialog(
+        //   title: "Error",
+        //   middleText: "$value",
+        //   barrierDismissible: false,
+        //   confirm: reloadBtn(),
+        // );
       }
     });
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        if (message.notification!.title == "Top up Notification") {
-          debugPrint("fetch new blance ");
-        }
         print(
-            'Message ======> title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
+            'Message title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
         // Parse the message received
         if (message.data['route'] != null) {
           _notificationRoute = message.data['route'];
@@ -145,6 +217,7 @@ class _MyAppState extends State<MyApp> {
           dataTitle: message.data['title'],
           dataBody: message.data['body'],
         );
+
         setState(() {
           print("notification=$notification");
           _notificationInfo = notification;
@@ -185,8 +258,6 @@ class _MyAppState extends State<MyApp> {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await FirebaseMessaging.instance.getInitialMessage().then((message) {
-      debugPrint("ontap notification 03");
-
       if (message != null)
         _routes(
             route: message.data['route'],
@@ -204,12 +275,14 @@ class _MyAppState extends State<MyApp> {
     //print("storage.read('mapUser')=${storage.read('mapUser')}");
     //For handling notification when the app is in force ground
     registerNotification();
+
     //For handling notification when the app is in background but not terminated
     checkForInitialMessage();
+
     // For handling notification when the app is in background but not terminated
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint("ontap notification 02");
       if (message.data['route'] != null) {
+        // _fetchNotificationCount();
         _routes(
             route: message.data['route'],
             page: message.data['id'],
@@ -222,36 +295,45 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _routes(
       {required String route, String? page, String? userId}) async {
-    if (route == "Menu Today Is Coming") {
-      Get.to(CanteenScreen());
+    //print("userId=$userId");
+    //if(userId.runtimeType == String) print("classIdclassId");
+    //if(storage.read('isClassId').runtimeType == String) print("HeisClassIdisClassIdllo");
+    // print("route=${route}");
+    if (route == 'ICS News') {
+      Get.to(() => AnnouncementHtml(item: page!));
+    } else if (userId != storage.read('isUserId').toString()) {
+      Get.offAllNamed('dashboard');
+    } else if (route == 'Fingerprint Notification') {
+      Get.toNamed('attendance_calendar');
+    } else if (route == 'ICS Feedback') {
+      Get.to(() => FeedbackDetail(item: page!));
+    } else if (route == 'Assignment') {
+      // print("Assignment");
+      var data = await Get.to(() => HomeworkDetailPage(
+            assignmentId: int.parse(page!),
+          ));
+      if (data == null) _fetchAssignment();
+    } else if (route == 'Order Notification') {
+      Get.to(() => IWallet(index: 1));
+    } else if (route == 'Top up Notification') {
+      Get.toNamed('i_wallet');
     } else {
-      if (route == 'ICS News') {
-        Get.to(() => AnnouncementHtml(item: page!));
-      } else if (userId != storage.read('isUserId').toString()) {
-        Get.offAllNamed('dashboard');
-      } else if (route == 'Fingerprint Notification') {
-        Get.toNamed('attendance_calendar');
-      } else if (route == 'ICS Feedback') {
-        Get.to(() => FeedbackDetail(item: page!));
-      } else if (route == 'Assignment') {
-        var data = await Get.to(() => HomeworkDetailPage(
-              assignmentId: int.parse(page!),
-            ));
-        if (data == null) _fetchAssignment();
-      } else if (route == 'Order Notification') {
-        Get.to(() => IWallet(index: 1));
-      } else if (route == 'Top up Notification') {
-        Get.toNamed('i_wallet');
-      } else if (route == 'Menu Today Is Coming') {
-        debugPrint("Menu Today Is Coming 333333333");
-      } else {
-        var data = await Get.to(() => NotificationsDetail(
-              item: page!,
-            ));
-        if (data == null) _fetchNotificationCount();
-      }
+      // print("page=$page");
+      var data = await Get.to(() => NotificationsDetail(
+            item: page!,
+          ));
+      // print('data=$data');
+      if (data == null) _fetchNotificationCount();
     }
   }
+
+  // Widget reloadBtn() {
+  //   return ElevatedButton(
+  //       onPressed: () {
+  //         Get.back();
+  //       },
+  //       child: Text("OK"));
+  // }
 
   Future<void> initPlatformState() async {
     Map<String, dynamic> deviceData = <String, dynamic>{};
