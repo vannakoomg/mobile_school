@@ -144,30 +144,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Container(
-          height: 30.h,
-          child: CarouselSlider.builder(
-              itemCount: _imageIphoneList.length,
-              itemBuilder: (context, index, realIndex) {
-                final urlImage = SizerUtil.deviceType == DeviceType.tablet
-                    ? _imageIpadList[index]
-                    : _imageIphoneList[index];
-                return _buildUrlImages(urlImage);
-              },
-              options: CarouselOptions(
-                  height: SizerUtil.deviceType == DeviceType.tablet
-                      ? 130.sp
-                      : 180.sp,
-                  viewportFraction: 1,
-                  autoPlay: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      activeIndex = index;
-                    });
-                  }
-                  // reverse: true,
-                  )),
-        ),
+        CarouselSlider.builder(
+            itemCount: _imageIphoneList.length,
+            itemBuilder: (context, index, realIndex) {
+              final urlImage = SizerUtil.deviceType == DeviceType.tablet
+                  ? _imageIpadList[index]
+                  : _imageIphoneList[index];
+              return _buildUrlImages(urlImage);
+            },
+            options: CarouselOptions(
+                height:
+                    SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
+                viewportFraction: 1,
+                autoPlay: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    activeIndex = index;
+                  });
+                }
+                // reverse: true,
+                )),
         Positioned(
           child: buildIndicator(),
           bottom: 1.h,
