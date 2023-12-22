@@ -78,6 +78,7 @@ class _MyAppState extends State<MyApp> {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: new ThemeData(
+          useMaterial3: false,
           appBarTheme: Theme.of(context).appBarTheme,
           primarySwatch: MaterialColor(0xff1d1a56, color),
         ),

@@ -130,21 +130,24 @@ class _CanteenScreenState extends State<CanteenScreen>
                                                         : 16.sp)),
                                       ),
                                     ),
-                                    Obx(() => Container(
-                                          child: CupertinoSwitch(
-                                            activeColor: Colors.blue,
-                                            trackColor: Colors.red,
-                                            value: controller
-                                                        .isMuteCanteen.value ==
-                                                    1
-                                                ? true
-                                                : false,
-                                            onChanged: (value) {
-                                              controller.updateNotificationMenu(
-                                                  value: value);
-                                            },
-                                          ),
-                                        ))
+                                    SizedBox(
+                                      width: 50,
+                                    )
+                                    // Obx(() => Container(
+                                    //       child: CupertinoSwitch(
+                                    //         activeColor: Colors.blue,
+                                    //         trackColor: Colors.red,
+                                    //         value: controller
+                                    //                     .isMuteCanteen.value ==
+                                    //                 1
+                                    //             ? true
+                                    //             : false,
+                                    //         onChanged: (value) {
+                                    //           controller.updateNotificationMenu(
+                                    //               value: value);
+                                    //         },
+                                    //       ),
+                                    //     ))
                                   ],
                                 ),
                               ),

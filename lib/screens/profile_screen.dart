@@ -62,14 +62,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
   get _buildBody {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            _headerImage,
-            _switchAccount,
-            _studentProfile,
-          ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              _headerImage,
+              _switchAccount,
+              _studentProfile,
+            ],
+          ),
         ),
       ),
     );
