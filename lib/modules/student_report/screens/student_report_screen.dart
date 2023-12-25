@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
@@ -7,7 +5,6 @@ import 'package:school/modules/student_report/controller/student_report_controll
 import 'package:school/modules/student_report/screens/flowchat.dart';
 import 'package:school/modules/student_report/screens/report_table.dart';
 import 'package:school/utils/widgets/blank_screen.dart';
-import 'package:screen_protector/screen_protector.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../utils/function/function.dart';
@@ -60,7 +57,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                             children: [
                               Center(
                                 child: Text(
-                                  "School Year : ${controller.studentReport.value.data!.schoolyear}",
+                                  "School Year  ${controller.studentReport.value.data!.schoolyear}",
                                   style: TextStyle(
                                       fontSize: SizerUtil.deviceType ==
                                               DeviceType.tablet
@@ -80,7 +77,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Term :",
+                                      "Term ",
                                       style: TextStyle(
                                           fontSize: SizerUtil.deviceType ==
                                                   DeviceType.tablet
@@ -98,7 +95,6 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                             ++i)
                                           GestureDetector(
                                             onTap: () {
-                                              debugPrint("i ====$i");
                                               controller.changeTerm(i);
                                             },
                                             child: Container(
@@ -163,6 +159,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                         .entries
                                         .map((element) {
                                       return CustomReportTable(
+                                          title: "Taught in English Language",
                                           color: Color(0xff012a4a),
                                           index: element.key,
                                           subject: element.value.subject ?? "",
@@ -190,6 +187,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                         .entries
                                         .map((element) {
                                       return CustomReportTable(
+                                          title: "Taught in Khmer Language",
                                           color: Color(0xff468faf),
                                           index: element.key,
                                           subject: element.value.subject ?? "",

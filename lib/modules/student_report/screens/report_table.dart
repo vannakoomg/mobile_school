@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/student_report/controller/student_report_controller.dart';
+import 'package:school/screens/pages/top_up_history.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomReportTable extends StatelessWidget {
   final int index;
+  final String title;
   final String subject;
   final String totalwithletter;
   final Color color;
-  const CustomReportTable(
-      {Key? key,
-      required this.index,
-      required this.subject,
-      required this.totalwithletter,
-      required this.color})
-      : super(key: key);
+
+  const CustomReportTable({
+    Key? key,
+    required this.index,
+    required this.subject,
+    required this.totalwithletter,
+    required this.color,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class CustomReportTable extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "Taught in English Language",
+                    "$title",
                     style: TextStyle(
                       color: AppColor.mainColor,
                       fontWeight: FontWeight.w500,

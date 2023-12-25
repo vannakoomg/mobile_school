@@ -5,15 +5,22 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:school/config/url.dart';
 import 'package:screen_protector/screen_protector.dart';
 
-void tracking(String action) async {
+void tracking(
+    {String? menuName = '', String campus = '', String userName = ""}) async {
   try {
+    // debugPrint("menuname $menuName \n username $userName \n campus $campus");
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
-    })).post('$baseUrlSchool' + 'api/tracking', data: {'name': action});
+    })).post('$baseUrlSchool' + 'api/tracking', data: {
+      'menu_name': menuName,
+      'user_name': userName,
+      'campus': campus,
+    });
     debugPrint("Tracking : ${response.statusCode}");
   } catch (value) {
     debugPrint("You have been on catch [ Tracking ] $value");

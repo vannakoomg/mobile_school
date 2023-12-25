@@ -103,7 +103,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   )
                 : Icon(Icons.notifications),
             onTap: () async {
-              tracking("notification");
+              tracking(
+                menuName: "notification",
+                campus: storage.read("campus") ?? '',
+                userName: storage.read('name') ?? '',
+              );
               if (storage.read('user_token') != null) {
                 Get.toNamed('notification');
               } else {
@@ -204,7 +208,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               // color: Colors.green,
               child: GestureDetector(
                 onTap: () async {
-                  tracking("${menuIconList[index].title}");
+                  tracking(
+                    menuName: "${menuIconList[index].title}",
+                    campus: storage.read("campus") ?? '',
+                    userName: storage.read('name') ?? '',
+                  );
                   if (storage.read('user_token') != null ||
                       menuIconList[index].isAuthorize) {
                     var data = await Get.toNamed(menuIconList[index].route);

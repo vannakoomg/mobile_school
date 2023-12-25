@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
+import 'package:school/repos/profile_detail.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -208,7 +209,17 @@ class _LoginScreenState extends State<LoginScreen> {
           storage.write('user_token', value.data.token);
           debugPrint("token ${value.data.token}");
           storage.write('isActive', value.data.studentId);
-
+          fetchProfile(apiKey: '${value.data.token}')
+              .then((value) => {
+                    debugPrint(
+                        "data after login02 ${value.data.data[0].name} "),
+                    storage.write('name', value.data.data[0].name),
+                    storage.write('campus', value.data.data[0].campus),
+                  })
+              .then((value) => {
+                    debugPrint(
+                        "data after login ${storage.read('name')} , ${storage.read('campus')}"),
+                  });
           // storage.write('isUsername', emailController.text.trim());
           storage.write('isPassword', passwordController.text.trim());
           EasyLoading.showSuccess('Logged in successfully!');

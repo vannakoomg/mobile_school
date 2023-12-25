@@ -73,7 +73,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 : index == 2
                     ? track = "about us"
                     : track = "profile";
-            tracking("$track");
+            tracking(
+              menuName: track ?? '',
+              campus: storage.read("campus") ?? '',
+              userName: storage.read('name') ?? '',
+            );
             _pageController.animateToPage(
               _currentIndex,
               duration: Duration(milliseconds: 400),

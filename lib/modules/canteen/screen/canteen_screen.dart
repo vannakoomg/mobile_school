@@ -397,7 +397,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                               ],
                             )
                           : Container(
-                              height: 25.h,
+                              height: 15.h,
                               child: Center(
                                 child: Container(
                                     decoration: BoxDecoration(
@@ -406,7 +406,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                             BorderRadius.circular(10)),
                                     padding: EdgeInsets.all(20),
                                     child: Text(
-                                      "Menu for today not yet available !",
+                                      "Coming Soon !!!",
                                       style: TextStyle(
                                           color: Colors.white.withOpacity(0.9),
                                           fontSize: 14,
@@ -428,9 +428,13 @@ class _CanteenScreenState extends State<CanteenScreen>
   _buildItem(int index) {
     return InkWell(
       child: Container(
+          margin: EdgeInsets.only(bottom: 10),
           // color: AppColor.primaryColor,
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 8, right: 8),
+          padding: EdgeInsets.only(
+            left: 8,
+            right: 8,
+          ),
           height: 8.h,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -458,7 +462,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                     children: [
                       Text('${menuCanteenList[index].title}',
                           style: myTextStyleHeader[phoneSize]!
-                              .copyWith(color: Colors.black)),
+                              .copyWith(color: Colors.black, fontSize: 17)),
                       SizedBox(
                         height: 1.h,
                       ),
@@ -470,8 +474,8 @@ class _CanteenScreenState extends State<CanteenScreen>
                               color: Colors.black.withOpacity(0.6),
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
-                                      ? 15
-                                      : 11),
+                                      ? 17
+                                      : 13),
                           minFontSize: 10,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -486,7 +490,11 @@ class _CanteenScreenState extends State<CanteenScreen>
             ],
           )),
       onTap: () {
-        tracking(menuCanteenList[index].title);
+        tracking(
+          menuName: menuCanteenList[index].title.toString(),
+          campus: storage.read("campus") ?? '',
+          userName: storage.read('name') ?? '',
+        );
         if ((_recPosUserData[0].cardId != "" &&
             posSessionOrderId != 0 &&
             index == 0)) {

@@ -38,6 +38,8 @@ class FlowchatState extends State<Flowchat> {
                       Expanded(
                         child: BarChart(
                           BarChartData(
+                            groupsSpace: 20,
+                            alignment: BarChartAlignment.spaceAround,
                             maxY: 10,
                             barTouchData: BarTouchData(
                               touchTooltipData: BarTouchTooltipData(

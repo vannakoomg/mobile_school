@@ -91,12 +91,13 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                   child: Text(
                                     "${controller.gallaryDetail.value.description}",
                                     style: TextStyle(
+                                      fontWeight: FontWeight.w400,
                                       color: AppColor.primaryColor
                                           .withOpacity(0.8),
                                       fontSize: SizerUtil.deviceType ==
                                               DeviceType.tablet
-                                          ? 20
-                                          : 14,
+                                          ? 22
+                                          : 16,
                                     ),
                                   ),
                                 ),
