@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/models/menu_icon_list.dart';
 import 'package:school/repos/exam_schedule.dart';
 import 'package:school/repos/home_slide.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _login();
     if (storage.read('user_token') != null && storage.read('mapUser') != null)
       _fetchProfile().then((value) {
-        scrollController.jumpTo(50);
+        // scrollController.jumpTo(50);
       });
     manager.emptyCache();
   }
@@ -66,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.backgroundColor,
       appBar: _buildAppBar,
       body: _buildBody,
     );
@@ -132,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   get _buildBody {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
       height: double.infinity,
       width: double.infinity,
       child: Column(
@@ -149,25 +151,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       alignment: Alignment.bottomCenter,
       children: [
         CarouselSlider.builder(
-            itemCount: _imageIphoneList.length,
-            itemBuilder: (context, index, realIndex) {
-              final urlImage = SizerUtil.deviceType == DeviceType.tablet
-                  ? _imageIpadList[index]
-                  : _imageIphoneList[index];
-              return _buildUrlImages(urlImage);
-            },
-            options: CarouselOptions(
-                height:
-                    SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
-                viewportFraction: 1,
-                autoPlay: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    activeIndex = index;
-                  });
-                }
-                // reverse: true,
-                )),
+          itemCount: _imageIphoneList.length,
+          itemBuilder: (context, index, realIndex) {
+            final urlImage = SizerUtil.deviceType == DeviceType.tablet
+                ? _imageIpadList[index]
+                : _imageIphoneList[index];
+            return _buildUrlImages(urlImage);
+          },
+          options: CarouselOptions(
+              height:
+                  SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
+              viewportFraction: 1,
+              autoPlay: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  activeIndex = index;
+                });
+              }),
+        ),
         Positioned(
           child: buildIndicator(),
           bottom: 1.h,
@@ -199,13 +200,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Expanded(
       child: Container(
         padding: EdgeInsets.only(left: 2.h, right: 2.h, top: 2.h),
-        color: Colors.white,
         child: GridView.builder(
-          controller: scrollController,
+          // controller: scrollController,
           itemCount: menuIconList.length,
           itemBuilder: (context, index) {
             return Container(
-              // color: Colors.green,
               child: GestureDetector(
                 onTap: () async {
                   tracking(
@@ -280,9 +279,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             );
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: SizerUtil.deviceType == DeviceType.tablet ? 4 : 3,
-              crossAxisSpacing: 1.h,
-              mainAxisSpacing: 1.h),
+            crossAxisCount: SizerUtil.deviceType == DeviceType.tablet ? 4 : 3,
+            crossAxisSpacing: 1.h,
+            mainAxisSpacing: 1.h,
+          ),
         ),
       ),
     );

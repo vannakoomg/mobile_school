@@ -74,7 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ? track = "about us"
                     : track = "profile";
             tracking(
-              menuName: track ?? '',
+              menuName: track,
               campus: storage.read("campus") ?? '',
               userName: storage.read('name') ?? '',
             );

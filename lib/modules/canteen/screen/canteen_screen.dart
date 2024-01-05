@@ -86,7 +86,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                       children: [
                         Container(
                           padding: EdgeInsets.only(left: 10, right: 20, top: 0),
-                          height: 25.h,
+                          height: 23.h,
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
@@ -179,7 +179,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                     height: 40,
                                   ),
                                   Text(
-                                    "Menu Today",
+                                    "Today Menu",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white.withOpacity(0.9),
@@ -316,7 +316,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
-                                    "Menu Today",
+                                    "Today Menu",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.9),
@@ -338,60 +338,61 @@ class _CanteenScreenState extends State<CanteenScreen>
                                     height: 25.h,
                                     width: MediaQuery.of(context).size.width,
                                     child: CarouselSlider.builder(
-                                        itemCount:
-                                            controller.menu.value.image!.length,
-                                        itemBuilder:
-                                            (contestxt, index, realIndex) {
-                                          return Stack(
-                                            children: [
-                                              Container(
-                                                height: 200,
-                                                width: double.infinity,
-                                                color: Colors.white,
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      "${controller.menu.value.image![index]}",
-                                                  fit: BoxFit.cover,
+                                      itemCount:
+                                          controller.menu.value.image!.length,
+                                      itemBuilder:
+                                          (contestxt, index, realIndex) {
+                                        return Stack(
+                                          children: [
+                                            Container(
+                                              height: 200,
+                                              width: double.infinity,
+                                              color: Colors.white,
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "${controller.menu.value.image![index]}",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 0,
+                                              bottom: 0,
+                                              child: CustomPaint(
+                                                painter: StyleCardMeun(),
+                                                child: Stack(
+                                                  children: [
+                                                    Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                    ),
+                                                    Positioned(
+                                                      right: 5,
+                                                      bottom: 5,
+                                                      child: Text(
+                                                        "${index + 1}",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                              Positioned(
-                                                right: 0,
-                                                bottom: 0,
-                                                child: CustomPaint(
-                                                  painter: StyleCardMeun(),
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                      ),
-                                                      Positioned(
-                                                        right: 5,
-                                                        bottom: 5,
-                                                        child: Text(
-                                                          "${index + 1}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                        options: CarouselOptions(
-                                            height: SizerUtil.deviceType ==
-                                                    DeviceType.tablet
-                                                ? 130.sp
-                                                : 180.sp,
-                                            viewportFraction: 1,
-                                            autoPlay:
-                                                !controller.isShowMenu.value,
-                                            onPageChanged: (index, reason) {})),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        height: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 130.sp
+                                            : 180.sp,
+                                        viewportFraction: 1,
+                                        aspectRatio: 1.2,
+                                        autoPlay: !controller.isShowMenu.value,
+                                        onPageChanged: (index, reason) {},
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -428,14 +429,10 @@ class _CanteenScreenState extends State<CanteenScreen>
   _buildItem(int index) {
     return InkWell(
       child: Container(
-          margin: EdgeInsets.only(bottom: 10),
-          // color: AppColor.primaryColor,
+          margin: EdgeInsets.only(bottom: 10, top: 10),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(
-            left: 8,
-            right: 8,
-          ),
-          height: 8.h,
+          padding: EdgeInsets.only(left: 8, right: 8),
+          // height: 8.5.h,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
