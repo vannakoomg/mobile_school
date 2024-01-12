@@ -193,8 +193,8 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                         Spacer(),
                         if (item.view != 0)
                           item.view == 1
-                              ? Text("${item.view}  view")
-                              : Text("${item.view}  views"),
+                              ? Text("${item.view} view")
+                              : Text("${item.view} views"),
                       ],
                     ),
                   ],
