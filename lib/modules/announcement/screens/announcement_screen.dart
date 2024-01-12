@@ -118,7 +118,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                     if (index == _recAnnouncementList.length) {
                       return _buildProgressIndicator();
                     } else {
-                      return _buildItem(_recAnnouncementList[index]);
+                      return _buildItem(_recAnnouncementList[index], index);
                     }
                   },
                 ),
@@ -127,7 +127,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     );
   }
 
-  _buildItem(Datum item) {
+  _buildItem(Datum item, int i) {
     return InkWell(
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -206,8 +206,13 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       ),
       onTap: () {
         Get.to(() => AnnouncementHtml(
-              item: '${item.id}',
-            ));
+                  item: '${item.id}',
+                ))!
+            .then((value) {
+          setState(() {
+            _recAnnouncementList[i].view++;
+          });
+        });
       },
     );
   }
