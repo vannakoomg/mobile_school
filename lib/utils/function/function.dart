@@ -12,7 +12,7 @@ import 'package:screen_protector/screen_protector.dart';
 void tracking(
     {String? menuName = '', String campus = '', String userName = ""}) async {
   try {
-    // debugPrint("menuname $menuName \n username $userName \n campus $campus");
+    debugPrint("menuname $menuName \n username $userName \n campus $campus");
     var response = await Dio(BaseOptions(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",

@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -172,7 +171,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                 sigmaY:
                                     5.0), // Adjust the blur radius as needed
                             child: Container(
-                              color: Colors.black.withOpacity(0.9),
+                              color: AppColor.primaryColor.withOpacity(0.8),
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -191,76 +190,71 @@ class _CanteenScreenState extends State<CanteenScreen>
                                   ),
                                   Expanded(
                                     child: Center(
-                                      child: Container(
-                                        height: 30.h,
-                                        color: Colors.pink,
-                                        child: CarouselSlider.builder(
-                                          itemCount: controller
-                                              .menu.value.image!.length,
-                                          itemBuilder:
-                                              (contestxt, index, realIndex) {
-                                            return Stack(
-                                              children: [
-                                                InteractiveViewer(
-                                                  transformationController:
-                                                      transcontroller,
-                                                  onInteractionEnd: (value) {
-                                                    reset();
-                                                  },
-                                                  maxScale: 5,
-                                                  child: GestureDetector(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      height: 30.h,
-                                                      width: double.infinity,
-                                                      color: Colors.white,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "${controller.menu.value.image![index]}",
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                      child: CarouselSlider.builder(
+                                        itemCount:
+                                            controller.menu.value.image!.length,
+                                        itemBuilder:
+                                            (contestxt, index, realIndex) {
+                                          return Stack(
+                                            children: [
+                                              InteractiveViewer(
+                                                transformationController:
+                                                    transcontroller,
+                                                onInteractionEnd: (value) {
+                                                  reset();
+                                                },
+                                                maxScale: 5,
+                                                child: GestureDetector(
+                                                  onTap: () {},
+                                                  child: Container(
+                                                    // height: 30.h,
+                                                    width: double.infinity,
+                                                    color: Colors.white,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          "${controller.menu.value.image![index]}",
+                                                      // fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
-                                                Positioned(
-                                                  right: 0,
-                                                  bottom: 0,
-                                                  child: CustomPaint(
-                                                    painter: StyleCardMeun(),
-                                                    child: Stack(
-                                                      children: [
-                                                        Container(
-                                                          height: 50,
-                                                          width: 50,
+                                              ),
+                                              Positioned(
+                                                right: 0,
+                                                bottom: 0,
+                                                child: CustomPaint(
+                                                  painter: StyleCardMeun(),
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                      ),
+                                                      Positioned(
+                                                        right: 5,
+                                                        bottom: 5,
+                                                        child: Text(
+                                                          "${index + 1}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16),
                                                         ),
-                                                        Positioned(
-                                                          right: 5,
-                                                          bottom: 5,
-                                                          child: Text(
-                                                            "${index + 1}",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 16),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
+                                                      )
+                                                    ],
                                                   ),
-                                                )
-                                              ],
-                                            );
-                                          },
-                                          options: CarouselOptions(
-                                              height: SizerUtil.deviceType ==
-                                                      DeviceType.tablet
-                                                  ? 130.sp
-                                                  : 180.sp,
-                                              viewportFraction: 1,
-                                              autoPlay: true,
-                                              onPageChanged:
-                                                  (index, reason) {}),
-                                        ),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                        options: CarouselOptions(
+                                            height: SizerUtil.deviceType ==
+                                                    DeviceType.tablet
+                                                ? 130.sp
+                                                : 180.sp,
+                                            viewportFraction: 1,
+                                            autoPlay: true,
+                                            onPageChanged: (index, reason) {}),
                                       ),
                                     ),
                                   ),
@@ -351,7 +345,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                               child: CachedNetworkImage(
                                                 imageUrl:
                                                     "${controller.menu.value.image![index]}",
-                                                fit: BoxFit.cover,
+                                                // fit: BoxFit.cover,
                                               ),
                                             ),
                                             Positioned(

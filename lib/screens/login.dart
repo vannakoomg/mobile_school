@@ -211,10 +211,10 @@ class _LoginScreenState extends State<LoginScreen> {
           storage.write('isActive', value.data.studentId);
           fetchProfile(apiKey: '${value.data.token}')
               .then((value) => {
-                    debugPrint(
-                        "data after login02 ${value.data.data[0].name} "),
                     storage.write('name', value.data.data[0].name),
                     storage.write('campus', value.data.data[0].campus),
+                    debugPrint(
+                        "data after login02 ${value.data.data[0].campus} "),
                   })
               .then((value) => {
                     debugPrint(
