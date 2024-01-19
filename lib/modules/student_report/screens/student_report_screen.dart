@@ -35,7 +35,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      backgroundColor: Color.fromARGB(255, 223, 223, 223),
       appBar: AppBar(
           title: Text(
         "Report Card",
