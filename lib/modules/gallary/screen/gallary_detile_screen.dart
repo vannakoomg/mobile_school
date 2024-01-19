@@ -26,10 +26,10 @@ class _GallaryDetailState extends State<GallaryDetail> {
     Future.delayed(const Duration(milliseconds: 10), () {
       controller.getGallaryDetail(id: '${argument['id']}').then((value) => {
             // wait until widget render already on the screen
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              controller.hightOfDescrition.value =
-                  controller.textKey.currentContext!.size!.height;
-            })
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   controller.hightOfDescrition.value =
+            //       controller.textKey.currentContext!.size!.height;
+            // })
           });
       controller.highList.clear();
     });
@@ -83,24 +83,25 @@ class _GallaryDetailState extends State<GallaryDetail> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (i == 0)
-                                Padding(
-                                  key: controller.textKey,
-                                  padding: const EdgeInsets.only(
-                                      left: 5, top: 10, bottom: 10),
-                                  child: Text(
-                                    "${controller.gallaryDetail.value.description}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.primaryColor
-                                          .withOpacity(0.8),
-                                      fontSize: SizerUtil.deviceType ==
-                                              DeviceType.tablet
-                                          ? 22
-                                          : 16,
-                                    ),
-                                  ),
-                                ),
+                              // if (i == 0)
+                              //   Padding(
+                              //     key: controller.textKey,
+                              //     padding: const EdgeInsets.only(
+                              //         left: 5, top: 10, bottom: 10),
+                              //     child: Text(
+                              //       "${controller.gallaryDetail.value.description}",
+                              //       style: TextStyle(
+                              //         fontWeight: FontWeight.w400,
+                              //         color: AppColor.primaryColor
+                              //             .withOpacity(0.8),
+                              //         fontSize: SizerUtil.deviceType ==
+                              //                 DeviceType.tablet
+                              //             ? 22
+                              //             : 16,
+                              //       ),
+                              //     ),
+                              //   ),
+
                               Container(
                                 child: ImageCard(
                                   tag01: "${2 * (i + 1) - 1 - 1}",

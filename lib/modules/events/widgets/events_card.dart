@@ -45,12 +45,12 @@ class EventCard extends StatelessWidget {
                                   top: 4, bottom: 5, left: 10, right: 10),
                               decoration: BoxDecoration(
                                   color: Color(int.parse(
-                                      element.value.action_color.toString())),
+                                      element.value.action_color!.toString())),
                                   borderRadius: BorderRadius.circular(7)),
                               child: Text(
                                 "${element.value.title}",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize:
                                       SizerUtil.deviceType == DeviceType.tablet
                                           ? 8.sp
@@ -58,18 +58,21 @@ class EventCard extends StatelessWidget {
                                 ),
                               ),
                             ),
+
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 5, bottom: 20),
-                              child: Text(
-                                "${element.value.time}",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: SizerUtil.deviceType ==
-                                            DeviceType.tablet
-                                        ? 6.sp
-                                        : 12),
-                              ),
+                              child: element.value.time != ""
+                                  ? Text(
+                                      "${element.value.time}",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: SizerUtil.deviceType ==
+                                                  DeviceType.tablet
+                                              ? 6.sp
+                                              : 12),
+                                    )
+                                  : SizedBox(),
                             ),
                             // if (data.length < element.key + 1)
                             // SizedBox(

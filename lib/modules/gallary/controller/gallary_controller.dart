@@ -33,7 +33,7 @@ class GallaryController extends GetxController {
   final isviewImageDetile = false.obs;
   final nextPage = 0.obs;
   final currentPage = 1.obs;
-  final textKey = GlobalKey();
+  // final textKey = GlobalKey();
   final hightOfDescrition = 0.0.obs;
   Future getGallary() async {
     try {

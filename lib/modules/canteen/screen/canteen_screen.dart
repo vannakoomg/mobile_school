@@ -73,10 +73,10 @@ class _CanteenScreenState extends State<CanteenScreen>
     ));
     return !isLoading
         ? LoadingCanteen()
-        : Scaffold(
-            backgroundColor: Colors.white,
-            body: SafeArea(
-              child: Stack(
+        : SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: Stack(
                 children: [
                   Container(
                     color: Colors.white,

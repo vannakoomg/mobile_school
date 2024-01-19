@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/models/ProfileDB.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
@@ -62,15 +63,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
   get _buildBody {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              _headerImage,
-              _switchAccount,
-              _studentProfile,
-            ],
+    return Container(
+      color: AppColor.primaryColor,
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                _headerImage,
+                _switchAccount,
+                _studentProfile,
+              ],
+            ),
           ),
         ),
       ),
@@ -140,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Positioned(
           // left:40.w,
-          top: 6.h,
+          top: 4.h,
           child: Text(
             'Student Information',
             style: TextStyle(
@@ -492,6 +497,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             storage.read('device_token'))
         .then((value) {
       try {
+        fetchProfile(apiKey: '${value.data.token}')
+            .then((value) => {
+                  storage.write('name', value.data.data[0].name),
+                  storage.write('campus', value.data.data[0].campus),
+                  debugPrint(
+                      "data after login02 ${value.data.data[0].campus} "),
+                })
+            .then((value) => {
+                  debugPrint(
+                      "data after login ${storage.read('name')} , ${storage.read('campus')}"),
+                });
         print('Success=${value.status}');
         EasyLoading.showSuccess('Logged in successfully!');
         EasyLoading.dismiss();

@@ -36,14 +36,17 @@ class _GallaryScreenState extends State<GallaryScreen> {
               ),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   controller.islist.value = !controller.islist.value;
                   controller.islist.refresh();
                   controller.update();
                 },
-                icon: Icon(
+                child: Icon(
                     !controller.islist.value ? Icons.menu : Icons.list_alt),
+              ),
+              SizedBox(
+                width: 10,
               ),
             ],
           ),

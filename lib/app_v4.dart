@@ -19,8 +19,6 @@ import 'package:school/screens/pages/limit_purchase.dart';
 import 'package:school/screens/pages/notification_detail.dart';
 import 'package:school/screens/pages/notification_page.dart';
 import 'package:school/screens/pages/homeworks_portal.dart';
-import 'package:school/screens/pages/pick_up_card_page.dart';
-import 'package:school/screens/pages/pos_cart_page.dart';
 import 'package:school/screens/pages/pos_history.dart';
 import 'package:school/screens/pages/pos_page.dart';
 import 'package:school/screens/pages/teacher_homeworks.dart';

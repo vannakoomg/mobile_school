@@ -192,7 +192,7 @@ class _EventScreenState extends State<EventScreen> {
                           children: [
                             Text(
                               controller.eventDate.value.data!.isEmpty
-                                  ? "NOTHING"
+                                  ? "No Event"
                                   : controller.eventDate.value.data!.length > 1
                                       ? "Events"
                                       : "Event",

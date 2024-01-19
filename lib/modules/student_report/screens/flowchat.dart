@@ -120,14 +120,14 @@ class FlowchatState extends State<Flowchat> {
                               width: 4.w,
                               color: Color(0xff012a4a),
                             ),
-                            Text("English"),
+                            Text("English Report"),
                             Container(
                               margin: EdgeInsets.only(left: 10, right: 10),
                               height: 4.w,
                               width: 4.w,
                               color: Color(0xff468faf),
                             ),
-                            Text("Khmer"),
+                            Text("Khmer Report"),
                             SizedBox(
                               width: 20,
                             )

@@ -1,9 +1,11 @@
 class GallaryDetailModel {
   List<ImageModel>? data;
   int? lastPage;
-  String? description;
 
-  GallaryDetailModel({this.data, this.lastPage, this.description});
+  GallaryDetailModel({
+    this.data,
+    this.lastPage,
+  });
 
   GallaryDetailModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -13,7 +15,6 @@ class GallaryDetailModel {
       });
     }
     lastPage = json['last_page'];
-    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +23,6 @@ class GallaryDetailModel {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['last_page'] = this.lastPage;
-    data['description'] = this.description;
     return data;
   }
 }

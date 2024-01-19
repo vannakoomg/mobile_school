@@ -215,9 +215,19 @@ class _AddAccountPageState extends State<AddAccountPage> {
             storage.read('device_token'))
         .then((value) {
       try {
-        print('Success=${value.status}');
         storage.write('isPassword', passwordController.text.trim());
-        _fetchProfile(apiKey: value.data.token);
+        fetchProfile(apiKey: '${value.data.token}')
+            .then((value) => {
+                  storage.write('name', value.data.data[0].name),
+                  storage.write('campus', value.data.data[0].campus),
+                  debugPrint(
+                      "data after login02 ${value.data.data[0].campus} "),
+                })
+            .then((value) => {
+                  debugPrint(
+                      "data after login ${storage.read('name')} , ${storage.read('campus')}"),
+                });
+        print('Success=${value.status}');
       } catch (err) {
         EasyLoading.dismiss();
         setState(() {
