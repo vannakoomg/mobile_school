@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               tracking(
                 menuName: "notification",
                 campus: storage.read("campus") ?? '',
-                userName: storage.read('name') ?? '',
+                userName: storage.read('isActive') ?? '',
               );
               if (storage.read('user_token') != null) {
                 Get.toNamed('notification');
@@ -208,9 +208,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: GestureDetector(
                 onTap: () async {
                   tracking(
-                    menuName: "${menuIconList[index].title}",
+                    menuName: "${menuIconList[index].route}",
                     campus: storage.read("campus") ?? '',
-                    userName: storage.read('name') ?? '',
+                    userName: storage.read('isActive') ?? '',
                   );
                   if (storage.read('user_token') != null ||
                       menuIconList[index].isAuthorize) {
@@ -490,7 +490,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             storage.read('device_token'))
         .then((value) {
       try {
-        // print(value.status);
         if (value == 'Unauthorized') {
           Get.defaultDialog(
             title: "Login",

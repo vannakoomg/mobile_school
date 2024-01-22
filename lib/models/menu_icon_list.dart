@@ -58,7 +58,7 @@ List<Menu> menuIconList = [
     img: "assets/icons/home_screen_icon_one_color/event.png",
     title: "Events",
     route: 'events',
-    isAuthorize: true,
+    isAuthorize: false,
   ),
   Menu(
     description: 'Gallery',
@@ -66,7 +66,7 @@ List<Menu> menuIconList = [
     img: "assets/icons/home_screen_icon_one_color/gallery.png",
     title: "Gallery",
     route: 'gallary',
-    isAuthorize: true,
+    isAuthorize: false,
   ),
   Menu(
       description: '',

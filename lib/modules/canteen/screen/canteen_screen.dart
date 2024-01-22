@@ -484,7 +484,7 @@ class _CanteenScreenState extends State<CanteenScreen>
         tracking(
           menuName: menuCanteenList[index].title.toString(),
           campus: storage.read("campus") ?? '',
-          userName: storage.read('name') ?? '',
+          userName: storage.read('isActive') ?? '',
         );
         if ((_recPosUserData[0].cardId != "" &&
             posSessionOrderId != 0 &&

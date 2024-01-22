@@ -12,6 +12,7 @@ import 'package:school/repos/profile_detail.dart';
 import 'package:school/screens/pages/switch_account.dart';
 import 'package:sizer/sizer.dart';
 import '../repos/change_password.dart';
+import '../utils/function/function.dart';
 import 'widgets/pdf_viewer_page.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -499,16 +500,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       try {
         fetchProfile(apiKey: '${value.data.token}')
             .then((value) => {
-                  storage.write('name', value.data.data[0].name),
+                  storage.write('isActive', value.data.data[0].email),
                   storage.write('campus', value.data.data[0].campus),
-                  debugPrint(
-                      "data after login02 ${value.data.data[0].campus} "),
                 })
             .then((value) => {
-                  debugPrint(
-                      "data after login ${storage.read('name')} , ${storage.read('campus')}"),
+                  tracking(
+                    menuName: "profile",
+                    campus: storage.read("campus") ?? '',
+                    userName: storage.read('isActive') ?? '',
+                  ),
                 });
-        print('Success=${value.status}');
         EasyLoading.showSuccess('Logged in successfully!');
         EasyLoading.dismiss();
         setState(() {

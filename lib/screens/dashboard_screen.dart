@@ -76,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             tracking(
               menuName: track,
               campus: storage.read("campus") ?? '',
-              userName: storage.read('name') ?? '',
+              userName: storage.read('isActive') ?? '',
             );
             _pageController.animateToPage(
               _currentIndex,
