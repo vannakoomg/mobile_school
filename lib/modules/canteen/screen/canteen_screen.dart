@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -53,7 +51,6 @@ class _CanteenScreenState extends State<CanteenScreen>
   void initState() {
     super.initState();
     transcontroller = TransformationController();
-
     animatedController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() => transcontroller!.value = animation!.value);
@@ -76,10 +73,10 @@ class _CanteenScreenState extends State<CanteenScreen>
     ));
     return !isLoading
         ? LoadingCanteen()
-        : Scaffold(
-            backgroundColor: Colors.white,
-            body: SafeArea(
-              child: Stack(
+        : SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: Stack(
                 children: [
                   Container(
                     color: Colors.white,
@@ -88,7 +85,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                       children: [
                         Container(
                           padding: EdgeInsets.only(left: 10, right: 20, top: 0),
-                          height: 25.h,
+                          height: 23.h,
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
@@ -132,21 +129,24 @@ class _CanteenScreenState extends State<CanteenScreen>
                                                         : 16.sp)),
                                       ),
                                     ),
-                                    Obx(() => Container(
-                                          child: CupertinoSwitch(
-                                            activeColor: Colors.blue,
-                                            trackColor: Colors.red,
-                                            value: controller
-                                                        .isMuteCanteen.value ==
-                                                    1
-                                                ? true
-                                                : false,
-                                            onChanged: (value) {
-                                              controller.updateNotificationMenu(
-                                                  value: value);
-                                            },
-                                          ),
-                                        ))
+                                    SizedBox(
+                                      width: 50,
+                                    )
+                                    // Obx(() => Container(
+                                    //       child: CupertinoSwitch(
+                                    //         activeColor: Colors.blue,
+                                    //         trackColor: Colors.red,
+                                    //         value: controller
+                                    //                     .isMuteCanteen.value ==
+                                    //                 1
+                                    //             ? true
+                                    //             : false,
+                                    //         onChanged: (value) {
+                                    //           controller.updateNotificationMenu(
+                                    //               value: value);
+                                    //         },
+                                    //       ),
+                                    //     ))
                                   ],
                                 ),
                               ),
@@ -171,14 +171,14 @@ class _CanteenScreenState extends State<CanteenScreen>
                                 sigmaY:
                                     5.0), // Adjust the blur radius as needed
                             child: Container(
-                              color: Colors.black.withOpacity(0.9),
+                              color: AppColor.primary.withOpacity(0.8),
                               child: Column(
                                 children: [
                                   SizedBox(
                                     height: 40,
                                   ),
                                   Text(
-                                    "Menu Today",
+                                    "Today Menu",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white.withOpacity(0.9),
@@ -190,76 +190,71 @@ class _CanteenScreenState extends State<CanteenScreen>
                                   ),
                                   Expanded(
                                     child: Center(
-                                      child: Container(
-                                        height: 30.h,
-                                        color: Colors.pink,
-                                        child: CarouselSlider.builder(
-                                          itemCount: controller
-                                              .menu.value.image!.length,
-                                          itemBuilder:
-                                              (contestxt, index, realIndex) {
-                                            return Stack(
-                                              children: [
-                                                InteractiveViewer(
-                                                  transformationController:
-                                                      transcontroller,
-                                                  onInteractionEnd: (value) {
-                                                    reset();
-                                                  },
-                                                  maxScale: 5,
-                                                  child: GestureDetector(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      height: 30.h,
-                                                      width: double.infinity,
-                                                      color: Colors.white,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            "${controller.menu.value.image![index]}",
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                      child: CarouselSlider.builder(
+                                        itemCount:
+                                            controller.menu.value.image!.length,
+                                        itemBuilder:
+                                            (contestxt, index, realIndex) {
+                                          return Stack(
+                                            children: [
+                                              InteractiveViewer(
+                                                transformationController:
+                                                    transcontroller,
+                                                onInteractionEnd: (value) {
+                                                  reset();
+                                                },
+                                                maxScale: 5,
+                                                child: GestureDetector(
+                                                  onTap: () {},
+                                                  child: Container(
+                                                    // height: 30.h,
+                                                    width: double.infinity,
+                                                    color: Colors.white,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          "${controller.menu.value.image![index]}",
+                                                      // fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
-                                                Positioned(
-                                                  right: 0,
-                                                  bottom: 0,
-                                                  child: CustomPaint(
-                                                    painter: StyleCardMeun(),
-                                                    child: Stack(
-                                                      children: [
-                                                        Container(
-                                                          height: 50,
-                                                          width: 50,
+                                              ),
+                                              Positioned(
+                                                right: 0,
+                                                bottom: 0,
+                                                child: CustomPaint(
+                                                  painter: StyleCardMeun(),
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                      ),
+                                                      Positioned(
+                                                        right: 5,
+                                                        bottom: 5,
+                                                        child: Text(
+                                                          "${index + 1}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16),
                                                         ),
-                                                        Positioned(
-                                                          right: 5,
-                                                          bottom: 5,
-                                                          child: Text(
-                                                            "${index + 1}",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 16),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
+                                                      )
+                                                    ],
                                                   ),
-                                                )
-                                              ],
-                                            );
-                                          },
-                                          options: CarouselOptions(
-                                              height: SizerUtil.deviceType ==
-                                                      DeviceType.tablet
-                                                  ? 130.sp
-                                                  : 180.sp,
-                                              viewportFraction: 1,
-                                              autoPlay: true,
-                                              onPageChanged:
-                                                  (index, reason) {}),
-                                        ),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                        options: CarouselOptions(
+                                            height: SizerUtil.deviceType ==
+                                                    DeviceType.tablet
+                                                ? 130.sp
+                                                : 180.sp,
+                                            viewportFraction: 1,
+                                            autoPlay: true,
+                                            onPageChanged: (index, reason) {}),
                                       ),
                                     ),
                                   ),
@@ -315,7 +310,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
-                                    "Menu Today",
+                                    "Today Menu",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black.withOpacity(0.9),
@@ -337,66 +332,67 @@ class _CanteenScreenState extends State<CanteenScreen>
                                     height: 25.h,
                                     width: MediaQuery.of(context).size.width,
                                     child: CarouselSlider.builder(
-                                        itemCount:
-                                            controller.menu.value.image!.length,
-                                        itemBuilder:
-                                            (contestxt, index, realIndex) {
-                                          return Stack(
-                                            children: [
-                                              Container(
-                                                height: 200,
-                                                width: double.infinity,
-                                                color: Colors.white,
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      "${controller.menu.value.image![index]}",
-                                                  fit: BoxFit.cover,
+                                      itemCount:
+                                          controller.menu.value.image!.length,
+                                      itemBuilder:
+                                          (contestxt, index, realIndex) {
+                                        return Stack(
+                                          children: [
+                                            Container(
+                                              height: 200,
+                                              width: double.infinity,
+                                              color: Colors.white,
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "${controller.menu.value.image![index]}",
+                                                // fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 0,
+                                              bottom: 0,
+                                              child: CustomPaint(
+                                                painter: StyleCardMeun(),
+                                                child: Stack(
+                                                  children: [
+                                                    Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                    ),
+                                                    Positioned(
+                                                      right: 5,
+                                                      bottom: 5,
+                                                      child: Text(
+                                                        "${index + 1}",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                              Positioned(
-                                                right: 0,
-                                                bottom: 0,
-                                                child: CustomPaint(
-                                                  painter: StyleCardMeun(),
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                      ),
-                                                      Positioned(
-                                                        right: 5,
-                                                        bottom: 5,
-                                                        child: Text(
-                                                          "${index + 1}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                        options: CarouselOptions(
-                                            height: SizerUtil.deviceType ==
-                                                    DeviceType.tablet
-                                                ? 130.sp
-                                                : 180.sp,
-                                            viewportFraction: 1,
-                                            autoPlay:
-                                                !controller.isShowMenu.value,
-                                            onPageChanged: (index, reason) {})),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        height: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 130.sp
+                                            : 180.sp,
+                                        viewportFraction: 1,
+                                        aspectRatio: 1.2,
+                                        autoPlay: !controller.isShowMenu.value,
+                                        onPageChanged: (index, reason) {},
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             )
                           : Container(
-                              height: 25.h,
+                              height: 15.h,
                               child: Center(
                                 child: Container(
                                     decoration: BoxDecoration(
@@ -405,7 +401,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                                             BorderRadius.circular(10)),
                                     padding: EdgeInsets.all(20),
                                     child: Text(
-                                      "Menu for today not yet available !",
+                                      "Coming Soon !!!",
                                       style: TextStyle(
                                           color: Colors.white.withOpacity(0.9),
                                           fontSize: 14,
@@ -427,10 +423,10 @@ class _CanteenScreenState extends State<CanteenScreen>
   _buildItem(int index) {
     return InkWell(
       child: Container(
-          // color: AppColor.primaryColor,
+          margin: EdgeInsets.only(bottom: 10, top: 10),
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: 8.h,
+          // height: 8.5.h,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -457,7 +453,7 @@ class _CanteenScreenState extends State<CanteenScreen>
                     children: [
                       Text('${menuCanteenList[index].title}',
                           style: myTextStyleHeader[phoneSize]!
-                              .copyWith(color: Colors.black)),
+                              .copyWith(color: Colors.black, fontSize: 17)),
                       SizedBox(
                         height: 1.h,
                       ),
@@ -469,8 +465,8 @@ class _CanteenScreenState extends State<CanteenScreen>
                               color: Colors.black.withOpacity(0.6),
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.tablet
-                                      ? 15
-                                      : 11),
+                                      ? 17
+                                      : 13),
                           minFontSize: 10,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -485,7 +481,11 @@ class _CanteenScreenState extends State<CanteenScreen>
             ],
           )),
       onTap: () {
-        tracking(menuCanteenList[index].title);
+        tracking(
+          menuName: menuCanteenList[index].route.toString(),
+          campus: storage.read("campus") ?? '',
+          userName: storage.read('isActive') ?? '',
+        );
         if ((_recPosUserData[0].cardId != "" &&
             posSessionOrderId != 0 &&
             index == 0)) {

@@ -26,10 +26,10 @@ class _GallaryDetailState extends State<GallaryDetail> {
     Future.delayed(const Duration(milliseconds: 10), () {
       controller.getGallaryDetail(id: '${argument['id']}').then((value) => {
             // wait until widget render already on the screen
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              controller.hightOfDescrition.value =
-                  controller.textKey.currentContext!.size!.height;
-            })
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   controller.hightOfDescrition.value =
+            //       controller.textKey.currentContext!.size!.height;
+            // })
           });
       controller.highList.clear();
     });
@@ -69,24 +69,11 @@ class _GallaryDetailState extends State<GallaryDetail> {
                 color: AppColor.primary,
               ))
             : Container(
+                // color: Colors.grey,
                 margin: EdgeInsets.only(left: 2.5, right: 2.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      key: controller.textKey,
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 10, bottom: 10),
-                      child: Text(
-                        "${controller.gallaryDetail.value.description}",
-                        style: TextStyle(
-                          color: AppColor.primary.withOpacity(0.8),
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 20
-                              : 16,
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: ListView.builder(
                         physics: AlwaysScrollableScrollPhysics(),
@@ -96,22 +83,25 @@ class _GallaryDetailState extends State<GallaryDetail> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (i == 0)
-                                Padding(
-                                  key: controller.textKey,
-                                  padding: const EdgeInsets.only(
-                                      left: 5, top: 10, bottom: 10),
-                                  child: Text(
-                                    "${controller.gallaryDetail.value.description}",
-                                    style: TextStyle(
-                                      color: AppColor.primary.withOpacity(0.8),
-                                      fontSize: SizerUtil.deviceType ==
-                                              DeviceType.tablet
-                                          ? 20
-                                          : 14,
-                                    ),
-                                  ),
-                                ),
+                              // if (i == 0)
+                              //   Padding(
+                              //     key: controller.textKey,
+                              //     padding: const EdgeInsets.only(
+                              //         left: 5, top: 10, bottom: 10),
+                              //     child: Text(
+                              //       "${controller.gallaryDetail.value.description}",
+                              //       style: TextStyle(
+                              //         fontWeight: FontWeight.w400,
+                              //         color: AppColor.primaryColor
+                              //             .withOpacity(0.8),
+                              //         fontSize: SizerUtil.deviceType ==
+                              //                 DeviceType.tablet
+                              //             ? 22
+                              //             : 16,
+                              //       ),
+                              //     ),
+                              //   ),
+
                               Container(
                                 child: ImageCard(
                                   tag01: "${2 * (i + 1) - 1 - 1}",
@@ -128,18 +118,25 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                   ontap01: () {
                                     controller.tagId.value =
                                         "${2 * (i + 1) - 1 - 1}";
-                                    controller.gallaryDataView.clear();
-                                    for (int i = 0;
-                                        i < controller.gallaryData.length;
-                                        ++i) {
-                                      debugPrint(
-                                          "image : ${controller.gallaryData[i].image}");
-                                      if (controller.gallaryData[i].image != "")
-                                        controller.gallaryDataView
-                                            .add(controller.gallaryData[i]);
+                                    // controller.gallaryDataView.clear();
+                                    // for (int i = 0;
+                                    //     i < controller.gallaryData.length;
+                                    //     ++i) {
+                                    //   debugPrint(
+                                    //       "image : ${controller.gallaryData[i].image}");
+                                    //   if (controller.gallaryData[i].image !=
+                                    //           "" ||
+                                    //       controller.gallaryData[i].image !=
+                                    //           null)
+                                    //     controller.gallaryDataView
+                                    //         .add(controller.gallaryData[i]);
+                                    // }
+                                    if (controller.gallaryData.last.image ==
+                                        "") {
+                                      controller.gallaryData.removeLast();
                                     }
                                     debugPrint(
-                                        "image : ${controller.gallaryDataView.length}");
+                                        "image : ${controller.gallaryData.length}");
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

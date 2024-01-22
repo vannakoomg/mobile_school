@@ -22,6 +22,23 @@ class StudentController extends GetxController {
   final touchedGroupIndex = 0.obs;
   final items = <BarChartGroupData>[].obs;
   final isNoData = false.obs;
+
+  Color colorByGrand(String g) {
+    debugPrint("ddddd$g");
+    if (g == "A") {
+      return Color(0xfffb5607);
+    } else if (g == "B") {
+      return Color(0xffff006e);
+    } else if (g == "C") {
+      return Color(0xffa85311);
+    } else if (g == "D") {
+      return Color(0xff25a244);
+    } else if (g == "E") {
+      return Color(0xff3d5a80);
+    }
+    return Color.fromARGB(255, 0, 0, 0);
+  }
+
   void changeTerm(int index) {
     term.value = index + 1;
     getStudentReport(termname: 'Term ${term.value}', isreload: false);

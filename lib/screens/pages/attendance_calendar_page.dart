@@ -78,7 +78,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                     monthFontSize: size,
                     fontSize: size,
                     borderRadius: 150,
-                    datasets: {},
+                    datasets: datasets,
                     colorMode: ColorMode.color,
                     colorsets: colorSets,
                     onMonthChange: (value) {

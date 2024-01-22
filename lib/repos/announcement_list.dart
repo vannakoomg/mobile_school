@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import '../config/url.dart';
 import '../modules/announcement/models/announcment_model.dart';
 import '../screens/widgets/exceptions.dart';
 
 Future fetchAnnouncement({String pageNo = '1'}) async {
-  debugPrint("base url $baseUrlSchool");
   Map<String, String> parameters = {
     'page': pageNo,
   };

@@ -250,7 +250,7 @@ class _CanteenScreenState extends State<CanteenScreen> {
             ],
           )),
       onTap: () {
-        tracking(menuCanteenList[index].title);
+        // tracking(menuCanteenList[index].title);
         if ((_recPosUserData[0].cardId != "" &&
             posSessionOrderId != 0 &&
             index == 0)) {

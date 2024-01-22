@@ -34,7 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 40),
                     child: Row(
                       children: [
                         SizedBox(
@@ -73,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 25.w,
                     width: 25.w,
                     decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
                         color: AppColor.primary,
                         shape: BoxShape.circle,
                         image: DecorationImage(

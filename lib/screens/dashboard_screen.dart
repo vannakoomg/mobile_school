@@ -67,6 +67,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           setState(() {
             _currentIndex = index;
+            String track = '';
+            index == 1
+                ? track = "contact us"
+                : index == 2
+                    ? track = "about us"
+                    : track = "profile";
             _pageController.animateToPage(
               _currentIndex,
               duration: Duration(milliseconds: 400),

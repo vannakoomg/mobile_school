@@ -88,150 +88,150 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   get _buildBody {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 10.h,
-            left: 0,
-            child: Container(
-              // color: AppColor.background,
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (storage.read('user_token') == null) {
-                          Get.toNamed('login', arguments: 'home_screen');
-                        } else {
-                          tracking("profile");
-                          controller.isShowProfile.value = true;
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: Row(children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white, shape: BoxShape.circle),
-                            height: 7.h,
-                            width: 7.h,
-                            child: Center(
-                              child: Container(
-                                height: 7.h - 5,
-                                width: 7.h - 5,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColor.primary,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            "${storage.read('isPhoto')}"))),
+    return SafeArea(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 11.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Spacer(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Image.asset(
+                              'assets/icons/home_screen_icon_one_color/ICS_International_School.png',
+                              width: SizerUtil.deviceType == DeviceType.tablet
+                                  ? 16.w
+                                  : 33.w,
+                              color: Colors.white,
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                              child: storage.read('notification_badge') != 0 &&
+                                      storage.read('notification_badge') != null
+                                  ? badges.Badge(
+                                      badgeContent: Text(
+                                          '${storage.read('notification_badge')}',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      child: Icon(Icons.notifications),
+                                    )
+                                  : Icon(
+                                      Icons.notifications,
+                                      color: Colors.white,
+                                    ),
+                              onTap: () async {
+                                // tracking("notification");
+                                if (storage.read('user_token') != null) {
+                                  Get.toNamed('notification');
+                                } else {
+                                  var data = await Get.toNamed('login',
+                                      arguments: 'notification');
+                                  if (data == true) {
+                                    setState(() {
+                                      _fetchNotificationCount();
+                                      _fetchExamScheduleCount();
+                                      _fetchAssignment();
+                                      _fetchProfile();
+                                    });
+                                  }
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          if (storage.read('user_token') == null) {
+                            Get.toNamed('login', arguments: 'home_screen');
+                          } else {
+                            // tracking("profile");
+                            controller.isShowProfile.value = true;
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          child: Row(children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white, shape: BoxShape.circle),
+                              height: 7.h,
+                              width: 7.h,
+                              child: Center(
+                                child: Container(
+                                  height: 7.h - 5,
+                                  width: 7.h - 5,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColor.primary,
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              "${storage.read('isPhoto')}"))),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "${controller.helloFromIcs()}  ${storage.read('isName') ?? ''}",
-                            style: TextStyle(
-                              color: AppColor.mainColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  SizerUtil.deviceType == DeviceType.tablet
-                                      ? 11.sp
-                                      : 14.sp,
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                        ]),
+                            Text(
+                              "${controller.helloFromIcs()}  ${storage.read('isName') ?? ''}",
+                              style: TextStyle(
+                                color: AppColor.mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 11.sp
+                                        : 14.sp,
+                              ),
+                            ),
+                          ]),
+                        ),
                       ),
-                    ),
-                    _buildGridMenu,
-                    _buildImageSlider,
-                    SizedBox(
-                      height: 200,
-                    ),
-                  ],
+                      _buildGridMenu,
+                      // _buildImageSlider,
+                      SizedBox(
+                        height: 200,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            height: 11.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Spacer(),
-                SizedBox(
-                  width: 20,
-                ),
-                Image.asset(
-                  'assets/icons/home_screen_icon_one_color/ICS_International_School.png',
-                  width:
-                      SizerUtil.deviceType == DeviceType.tablet ? 16.w : 33.w,
-                  color: Colors.white,
-                ),
-                Spacer(),
-                GestureDetector(
-                  child: storage.read('notification_badge') != 0 &&
-                          storage.read('notification_badge') != null
-                      ? badges.Badge(
-                          badgeContent: Text(
-                              '${storage.read('notification_badge')}',
-                              style: TextStyle(color: Colors.white)),
-                          child: Icon(Icons.notifications),
-                        )
-                      : Icon(
-                          Icons.notifications,
-                          color: Colors.white,
-                        ),
-                  onTap: () async {
-                    tracking("notification");
-                    if (storage.read('user_token') != null) {
-                      Get.toNamed('notification');
-                    } else {
-                      var data =
-                          await Get.toNamed('login', arguments: 'notification');
-                      if (data == true) {
-                        setState(() {
-                          _fetchNotificationCount();
-                          _fetchExamScheduleCount();
-                          _fetchAssignment();
-                          _fetchProfile();
-                        });
-                      }
-                    }
-                  },
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          ),
-          AnimatedPositioned(
-              top: controller.isShowProfile.value == false ? 100.h : 0.h,
-              left: 0,
-              curve: Curves.easeOutCirc,
-              duration: Duration(milliseconds: 350),
-              child: AnimatedOpacity(
-                  duration: Duration(milliseconds: 350),
-                  curve: Curves.linear,
-                  opacity: controller.isShowProfile.value == false ? 0 : 1,
-                  child: ProfileScreen(
-                    id: '${storage.read('isActive')}',
-                    profile: '${storage.read('isPhoto')}',
-                    studentName: '${storage.read('isName')}',
-                  )))
-        ],
+            AnimatedPositioned(
+                top: controller.isShowProfile.value == false ? 100.h : 0.h,
+                left: 0,
+                curve: Curves.easeOutCirc,
+                duration: Duration(milliseconds: 350),
+                child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 350),
+                    curve: Curves.linear,
+                    opacity: controller.isShowProfile.value == false ? 0 : 1,
+                    child: ProfileScreen(
+                      id: '${storage.read('isActive')}',
+                      profile: '${storage.read('isPhoto')}',
+                      studentName: '${storage.read('isName')}',
+                    )))
+          ],
+        ),
       ),
     );
   }
@@ -326,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 return GestureDetector(
                   onTap: () async {
                     debugPrint("route : ${menuIconList[e.key].route}");
-                    tracking("${menuIconList[e.key].title}");
+                    // tracking("${menuIconList[e.key].title}");
                     if (storage.read('user_token') != null ||
                         menuIconList[e.key].isAuthorize) {
                       var data = await Get.toNamed(menuIconList[e.key].route);
@@ -415,8 +415,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               (e) {
                 return GestureDetector(
                   onTap: () async {
-                    debugPrint("route : ${menuIconList[e.key].route}");
-                    tracking("${menuIconList[e.key].title}");
+                    debugPrint("campus ====>  ${storage.read("campus")}");
+                    tracking(
+                      menuName: menuIconList[e.key].route.toString(),
+                      campus: storage.read("campus") ?? '',
+                      userName: storage.read('isActive') ?? '',
+                    );
                     if (storage.read('user_token') != null ||
                         menuSubIconList[e.key].isAuthorize) {
                       var data =
@@ -507,10 +511,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  void _fetchProfile() {
+  Future _fetchProfile() async {
     fetchProfile(apiKey: storage.read('user_token')).then((value) {
       debugPrint(
           "khmer sl khmer ${value.data.data[0].fullImage} ${value.data.data[0].name} ${value.data.data[0].email}");
+      storage.write('isPhoto', value.data.data[0].fullImage);
+      debugPrint("w${storage.read('isPhoto')}");
       setState(() {
         try {
           if (storage.read('mapUser') == null) {
@@ -525,13 +531,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 "photo": "${value.data.data[0].fullImage}",
               },
             };
+
             storage.write('mapUser', _mapUser);
             storage.write('isActive', value.data.data[0].email);
             storage.write('isName', value.data.data[0].name);
             storage.write('isClassId', value.data.data[0].classId);
             storage.write('isUserId', value.data.data[0].id);
             storage.write('isGradeLevel', value.data.data[0].className);
-            storage.write('isPhoto', value.data.data[0].fullImage);
           } else {
             _mapUser = storage.read('mapUser');
             for (dynamic type in _mapUser.keys) {
@@ -541,6 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 _mapUser[type]['userId'] = value.data.data[0].id;
                 _mapUser[type]['gradeLevel'] = value.data.data[0].className;
                 _mapUser[type]['photo'] = value.data.data[0].fullImage;
+
                 storage.write('isActive', type);
                 storage.write('isName', value.data.data[0].name);
                 storage.write('user_token', _mapUser[type]['token']);
@@ -548,14 +555,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 storage.write('isUserId', value.data.data[0].id);
                 storage.write('isGradeLevel', value.data.data[0].className);
                 storage.write('isPassword', _mapUser[type]['password']);
-                storage.write('isPhoto', value.data.data[0].fullImage);
               }
             }
           }
           if (value.data.data[0].version != storage.read("isVersion"))
             _updateVersion(version: storage.read("isVersion"));
-          storage.write('isPhoto', value.data.data[0].fullImage);
         } catch (err) {
+          print('Error=$err');
           Get.defaultDialog(
             title: "Error",
             middleText: "$value",

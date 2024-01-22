@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/modules/student_report/controller/student_report_controller.dart';
 import 'package:school/modules/student_report/screens/flowchat.dart';
+import 'package:school/modules/student_report/screens/report_table.dart';
 import 'package:school/utils/widgets/blank_screen.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../utils/function/function.dart';
 
 class StudentReportScreen extends StatefulWidget {
   const StudentReportScreen({Key? key}) : super(key: key);
@@ -18,15 +21,21 @@ final controller = Get.put(StudentController());
 class _StudentReportScreenState extends State<StudentReportScreen> {
   @override
   void initState() {
+    disablescreenShot();
     controller.getSummery().then((value) {
       controller.getStudentReport(termname: "Term ${controller.term.value}");
     });
     super.initState();
   }
 
+  void dispose() {
+    ablescreenShot();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      backgroundColor: Color.fromARGB(255, 223, 223, 223),
       appBar: AppBar(
           title: Text(
         "Report Card",
@@ -48,7 +57,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                             children: [
                               Center(
                                 child: Text(
-                                  "School Year : ${controller.studentReport.value.data!.schoolyear}",
+                                  "School Year  ${controller.studentReport.value.data!.schoolyear}",
                                   style: TextStyle(
                                       fontSize: SizerUtil.deviceType ==
                                               DeviceType.tablet
@@ -68,16 +77,15 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Taught in English Language",
+                                      "Term ",
                                       style: TextStyle(
                                           fontSize: SizerUtil.deviceType ==
                                                   DeviceType.tablet
                                               ? 18
                                               : 16,
                                           color: AppColor.primary,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Spacer(),
                                     Row(
                                       children: [
                                         for (int i = 0;
@@ -87,7 +95,6 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                             ++i)
                                           GestureDetector(
                                             onTap: () {
-                                              debugPrint("i ====$i");
                                               controller.changeTerm(i);
                                             },
                                             child: Container(
@@ -136,244 +143,60 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                               ),
                               if (controller.studentReport.value.data!.en !=
                                   null)
-                                Column(
-                                  children: [
-                                    Container(
-                                      width: 100.w,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Column(
-                                        children: controller
-                                            .studentReport.value.data!.en!
-                                            .asMap()
-                                            .entries
-                                            .map((element) {
-                                          return Container(
-                                            padding: EdgeInsets.only(
-                                                top: 8, bottom: 8),
-                                            decoration: BoxDecoration(
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: element.key == 0
-                                                      ? Colors.transparent
-                                                      : Colors.grey,
-                                                  width: 0.5,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    "${element.value.subject}",
-                                                    style: TextStyle(
-                                                      color: AppColor.primary,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: SizerUtil
-                                                                  .deviceType ==
-                                                              DeviceType.tablet
-                                                          ? 16
-                                                          : 13,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Text(
-                                                    "${element.value.totalwithletter}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: SizerUtil
-                                                                    .deviceType ==
-                                                                DeviceType
-                                                                    .tablet
-                                                            ? 16
-                                                            : 13,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    // Container(
-                                    //   padding: EdgeInsets.only(left: 20, right: 20),
-                                    //   height:
-                                    //       SizerUtil.deviceType == DeviceType.tablet
-                                    //           ? 50
-                                    //           : 40,
-                                    //   width: double.infinity,
-                                    //   decoration: BoxDecoration(
-                                    //       color: AppColor.mainColor,
-                                    //       borderRadius: BorderRadius.circular(50)),
-                                    //   child: Row(children: [
-                                    //     Text(
-                                    //       "Total",
-                                    //       style: TextStyle(
-                                    //         fontWeight: FontWeight.w600,
-                                    //         fontSize: SizerUtil.deviceType ==
-                                    //                 DeviceType.tablet
-                                    //             ? 17
-                                    //             : 15,
-                                    //       ),
-                                    //     ),
-                                    //     Spacer(),
-                                    //     Text(
-                                    //       "${controller.studentReport.value.data!.language!.total!.en ?? ''}",
-                                    //       style: TextStyle(
-                                    //         fontWeight: FontWeight.w600,
-                                    //         fontSize: SizerUtil.deviceType ==
-                                    //                 DeviceType.tablet
-                                    //             ? 17
-                                    //             : 15,
-                                    //       ),
-                                    //     ),
-                                    //   ]),
-                                    // ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    bottom: 20,
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  width: 100.w,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Column(
+                                    children: controller
+                                        .studentReport.value.data!.en!
+                                        .asMap()
+                                        .entries
+                                        .map((element) {
+                                      return CustomReportTable(
+                                          title: "Taught in English Language",
+                                          color: Color(0xff012a4a),
+                                          index: element.key,
+                                          subject: element.value.subject ?? "",
+                                          totalwithletter:
+                                              element.value.totalwithletter ??
+                                                  "");
+                                    }).toList(),
+                                  ),
                                 ),
                               if (controller.studentReport.value.data!.kh !=
                                   null)
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Taught in Khmer Language",
-                                      style: TextStyle(
-                                          fontSize: SizerUtil.deviceType ==
-                                                  DeviceType.tablet
-                                              ? 18
-                                              : 16,
-                                          color: AppColor.primary,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 100.w,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Column(
-                                        children: controller
-                                            .studentReport.value.data!.kh!
-                                            .asMap()
-                                            .entries
-                                            .map((element) {
-                                          return Container(
-                                            padding: EdgeInsets.only(
-                                                top: 8, bottom: 8),
-                                            decoration: BoxDecoration(
-                                              border: Border(
-                                                top: BorderSide(
-                                                  color: element.key == 0
-                                                      ? Colors.transparent
-                                                      : Colors.grey,
-                                                  width: 0.5,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    "${element.value.subject}",
-                                                    style: TextStyle(
-                                                        color: AppColor.primary,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: SizerUtil
-                                                                    .deviceType ==
-                                                                DeviceType
-                                                                    .tablet
-                                                            ? 16
-                                                            : 13,
-                                                        overflow: TextOverflow
-                                                            .ellipsis),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // width: 60,
-                                                  child: Text(
-                                                    "${element.value.totalwithletter}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        fontSize: SizerUtil
-                                                                    .deviceType ==
-                                                                DeviceType
-                                                                    .tablet
-                                                            ? 16
-                                                            : 13,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    // Container(
-                                    //   padding: EdgeInsets.only(left: 10, right: 10),
-                                    //   height:
-                                    //       SizerUtil.deviceType == DeviceType.tablet
-                                    //           ? 50
-                                    //           : 40,
-                                    //   width: double.infinity,
-                                    //   decoration: BoxDecoration(
-                                    //       color: AppColor.mainColor,
-                                    //       borderRadius: BorderRadius.circular(50)),
-                                    //   child: Row(children: [
-                                    //     Text(
-                                    //       "Total",
-                                    //       style: TextStyle(
-                                    //         fontWeight: FontWeight.w600,
-                                    //         fontSize: SizerUtil.deviceType ==
-                                    //                 DeviceType.tablet
-                                    //             ? 17
-                                    //             : 15,
-                                    //       ),
-                                    //     ),
-                                    //     Spacer(),
-                                    //     Text(
-                                    //       "${controller.studentReport.value.data!.language!.total!.kh}",
-                                    //       style: TextStyle(
-                                    //           fontWeight: FontWeight.w600,
-                                    //           fontSize: SizerUtil.deviceType ==
-                                    //                   DeviceType.tablet
-                                    //               ? 17
-                                    //               : 15,
-                                    //           overflow: TextOverflow.ellipsis),
-                                    //     ),
-                                    //   ]),
-                                    // ),
-                                    // SizedBox(
-                                    //   height: 20,
-                                    // ),
-                                  ],
-                                )
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    bottom: 10,
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  width: 100.w,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Column(
+                                    children: controller
+                                        .studentReport.value.data!.kh!
+                                        .asMap()
+                                        .entries
+                                        .map((element) {
+                                      return CustomReportTable(
+                                          title: "Taught in Khmer Language",
+                                          color: Color(0xff468faf),
+                                          index: element.key,
+                                          subject: element.value.subject ?? "",
+                                          totalwithletter:
+                                              element.value.totalwithletter ??
+                                                  "");
+                                    }).toList(),
+                                  ),
+                                ),
                             ],
                           ),
                         ),

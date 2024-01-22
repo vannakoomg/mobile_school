@@ -9,7 +9,7 @@ import '../../../screens/pages/switch_account.dart';
 class ProfileController extends GetxController {
   final isShowProfile = false.obs;
   void ontaplist({required String route, required track}) {
-    tracking(track);
+    tracking(campus: "", menuName: route, userName: "");
     Get.toNamed("${route}");
   }
 
@@ -61,7 +61,6 @@ class ProfileController extends GetxController {
   late Map<String, dynamic> _mapUser;
   final storage = GetStorage();
   void logout() {
-    tracking("logout");
     _mapUser = storage.read('mapUser');
     bool isValue = false;
     userLogout().then((value) {

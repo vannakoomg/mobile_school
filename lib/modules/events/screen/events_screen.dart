@@ -31,7 +31,7 @@ class _EventScreenState extends State<EventScreen> {
         backgroundColor: AppColor.background,
         appBar: AppBar(
             title: Text(
-          "Event",
+          "Events",
           style: TextStyle(
               color: Colors.white,
               fontSize: SizerUtil.deviceType == DeviceType.tablet ? 10.sp : 16),
@@ -191,8 +191,10 @@ class _EventScreenState extends State<EventScreen> {
                           children: [
                             Text(
                               controller.eventDate.value.data!.isEmpty
-                                  ? "NOTHING"
-                                  : "UPCOMING",
+                                  ? "No Event"
+                                  : controller.eventDate.value.data!.length > 1
+                                      ? "Events"
+                                      : "Event",
                               style: TextStyle(
                                 color: AppColor.primary,
                                 fontWeight: FontWeight.bold,

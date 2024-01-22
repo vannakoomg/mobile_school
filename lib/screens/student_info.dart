@@ -5,12 +5,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/models/ProfileDB.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/screens/pages/switch_account.dart';
 import 'package:sizer/sizer.dart';
 import '../repos/change_password.dart';
+import '../utils/function/function.dart';
 import 'widgets/pdf_viewer_page.dart';
 
 class StudentInfo extends StatefulWidget {
@@ -62,14 +64,20 @@ class _StudentInfoState extends State<StudentInfo> {
       );
 
   get _buildBody {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            _headerImage,
-            _switchAccount,
-            _studentProfile,
-          ],
+    return Container(
+      color: AppColor.primary,
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                _headerImage,
+                _switchAccount,
+                _studentProfile,
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -138,7 +146,7 @@ class _StudentInfoState extends State<StudentInfo> {
         ),
         Positioned(
           // left:40.w,
-          top: 6.h,
+          top: 4.h,
           child: Text(
             'Student Information',
             style: TextStyle(
@@ -490,7 +498,18 @@ class _StudentInfoState extends State<StudentInfo> {
             storage.read('device_token'))
         .then((value) {
       try {
-        print('Success=${value.status}');
+        fetchProfile(apiKey: '${value.data.token}')
+            .then((value) => {
+                  storage.write('isActive', value.data.data[0].email),
+                  storage.write('campus', value.data.data[0].campus),
+                })
+            .then((value) => {
+                  tracking(
+                    menuName: "profile",
+                    campus: storage.read("campus") ?? '',
+                    userName: storage.read('isActive') ?? '',
+                  ),
+                });
         EasyLoading.showSuccess('Logged in successfully!');
         EasyLoading.dismiss();
         setState(() {

@@ -23,6 +23,7 @@ class _ViewimageState extends State<Viewimage>
   @override
   void initState() {
     super.initState();
+
     transcontroller = TransformationController();
     controller.urlImage.value =
         "${controller.gallaryData[int.parse(controller.tagId.value)].image}";
@@ -61,7 +62,7 @@ class _ViewimageState extends State<Viewimage>
                         child: PageView(
                           onPageChanged: (value) {
                             controller.urlImage.value =
-                                controller.gallaryDataView[value].image!;
+                                controller.gallaryData[value].image!;
                             controller.tagId.value = "$value";
                             double jumpScrll = 0;
                             // get scroll pixel by the [high of image index]
@@ -74,10 +75,8 @@ class _ViewimageState extends State<Viewimage>
                             controller.scrllcontroller.value.jumpTo(jumpScrll);
                           },
                           controller: pageViewController,
-                          children: controller.gallaryDataView
-                              .asMap()
-                              .entries
-                              .map((e) {
+                          children:
+                              controller.gallaryData.asMap().entries.map((e) {
                             return GestureDetector(
                               onTap: () {
                                 controller.isTapImage.value =
@@ -152,7 +151,7 @@ class _ViewimageState extends State<Viewimage>
                             )),
                         Spacer(),
                         Text(
-                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryDataView.length}",
+                          "${int.parse(controller.tagId.value) + 1} / ${controller.gallaryData.last.image != "" ? controller.gallaryData.length : controller.gallaryData.length - 1}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -217,7 +216,7 @@ class _ViewimageState extends State<Viewimage>
                         SizedBox(
                           height: 10,
                         ),
-                        if (controller.gallaryDataView.length > 1)
+                        if (controller.gallaryData.length > 1)
                           GestureDetector(
                             onTap: () async {
                               controller.saveAllPhoto();
@@ -231,7 +230,7 @@ class _ViewimageState extends State<Viewimage>
                                   borderRadius: BorderRadius.circular(70)),
                               child: Center(
                                   child: Text(
-                                "Download All Photos (${controller.gallaryDataView.length})",
+                                "Download All Photos (${controller.gallaryData.length})",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

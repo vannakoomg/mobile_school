@@ -38,6 +38,8 @@ class FlowchatState extends State<Flowchat> {
                       Expanded(
                         child: BarChart(
                           BarChartData(
+                            groupsSpace: 20,
+                            alignment: BarChartAlignment.spaceAround,
                             maxY: 10,
                             barTouchData: BarTouchData(
                               touchTooltipData: BarTouchTooltipData(
@@ -118,14 +120,14 @@ class FlowchatState extends State<Flowchat> {
                               width: 4.w,
                               color: Color(0xff012a4a),
                             ),
-                            Text("English"),
+                            Text("English Report"),
                             Container(
                               margin: EdgeInsets.only(left: 10, right: 10),
                               height: 4.w,
                               width: 4.w,
-                              color: Color(0xffe76f51),
+                              color: Color(0xff468faf),
                             ),
-                            Text("Khmer"),
+                            Text("Khmer Report"),
                             SizedBox(
                               width: 20,
                             )

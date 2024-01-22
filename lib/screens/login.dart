@@ -3,6 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
+import 'package:school/repos/profile_detail.dart';
+import 'package:school/utils/function/function.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -197,32 +199,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     EasyLoading.show(status: 'Loading');
-    debugPrint(
-        "data 01 : ${emailController.text.trim()} , ${passwordController.text.trim()} , ${storage.read('device_token')}");
     userLogin(emailController.text.trim(), passwordController.text.trim(),
             storage.read('device_token'))
         .then((value) {
       try {
-        setState(() {
-          print('Success=${value.status}');
+        setState(() async {
           storage.write('user_token', value.data.token);
-          debugPrint("token ${value.data.token}");
           storage.write('isActive', value.data.studentId);
-
-          // storage.write('isUsername', emailController.text.trim());
+          await fetchProfile(apiKey: '${value.data.token}')
+              .then((value) => {
+                    storage.write('campus', value.data.data[0].campus),
+                  })
+              .then((value) => {
+                    tracking(
+                      menuName: _route ?? "",
+                      campus: storage.read("campus") ?? '',
+                      userName: storage.read('isActive') ?? '',
+                    )
+                  });
           storage.write('isPassword', passwordController.text.trim());
           EasyLoading.showSuccess('Logged in successfully!');
           EasyLoading.dismiss();
-          // Navigator.pop(context);
-
           Get.back(result: true);
           if (_route == 'no route' || _route == 'pick_up_card') {
-            // print("no route");
           } else if (_route == 'dashboard') {
             Get.offAllNamed(_route!);
           } else {
             Get.toNamed(_route!);
           }
+          debugPrint("route $_route");
         });
       } catch (err) {
         EasyLoading.dismiss();

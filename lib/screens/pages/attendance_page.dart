@@ -126,7 +126,6 @@ class _AttendancePageState extends State<AttendancePage> {
           height: SizerUtil.deviceType == DeviceType.tablet ? 25.sp : 40.sp,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 child: Text(

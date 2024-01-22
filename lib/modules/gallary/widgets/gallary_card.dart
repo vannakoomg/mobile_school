@@ -52,13 +52,13 @@ class GallaryCard extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(bottom: 10),
                           clipBehavior: Clip.antiAlias,
                           width: double.infinity,
-                          height: 30.h,
+                          height: 50.w,
                           decoration: BoxDecoration(
-                            color: controller.getColor(),
-                          ),
+                              color: controller.getColor(),
+                              borderRadius: BorderRadius.circular(15)),
                           child: Stack(
                             children: [
                               CachedNetworkImage(
@@ -118,7 +118,7 @@ class GallaryCard extends StatelessWidget {
                           width: (100.w - 50) / 3,
                           height: 30.w + 30.w / 3,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(0),
+                            borderRadius: BorderRadius.circular(10),
                             color: controller.getColor(),
                           ),
                           child: Stack(

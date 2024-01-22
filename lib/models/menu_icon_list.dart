@@ -57,7 +57,7 @@ List<Menu> menuSubIconList = [
     img: "assets/icons/home_screen_icon_one_color/event.png",
     title: "Events",
     route: 'events',
-    isAuthorize: true,
+    isAuthorize: false,
   ),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/e_learning.png",
@@ -68,7 +68,7 @@ List<Menu> menuSubIconList = [
     img: "assets/icons/home_screen_icon_one_color/feedback.png",
     title: "Gallary",
     route: 'gallary',
-    isAuthorize: true,
+    isAuthorize: false,
   ),
   Menu(
       img: "assets/icons/home_screen_icon_one_color/feedback.png",
