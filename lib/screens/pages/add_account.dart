@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
+import 'package:school/screens/home_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class AddAccountPage extends StatefulWidget {
@@ -216,17 +217,18 @@ class _AddAccountPageState extends State<AddAccountPage> {
         .then((value) {
       try {
         storage.write('isPassword', passwordController.text.trim());
-        fetchProfile(apiKey: '${value.data.token}')
-            .then((value) => {
-                  storage.write('name', value.data.data[0].name),
-                  storage.write('campus', value.data.data[0].campus),
-                  debugPrint(
-                      "data after login02 ${value.data.data[0].campus} "),
-                })
-            .then((value) => {
-                  debugPrint(
-                      "data after login ${storage.read('name')} , ${storage.read('campus')}"),
-                });
+        _fetchProfile(apiKey: '${value.data.token}');
+        // .then((value) => {
+        // storage.write('name', value.data.data[0].name),
+        // storage.write('campus', value.data.data[0].campus),
+        //       debugPrint(
+        //           "data after login02 ${value.data.data[0].campus} "),
+        //     })
+        // .then((value) => {
+        //       EasyLoading.dismiss(),
+        //       debugPrint(
+        //           "data after login ${storage.read('name')} , ${storage.read('campus')}"),
+        //     });
         print('Success=${value.status}');
       } catch (err) {
         EasyLoading.dismiss();
@@ -260,8 +262,11 @@ class _AddAccountPageState extends State<AddAccountPage> {
               "gradeLevel": "${value.data.data[0].className}",
               "password": "${storage.read('isPassword')}",
               "photo": "${value.data.data[0].fullImage}",
+              "campus": "${value.data.data[0].campus}",
             },
           };
+          storage.write('name', value.data.data[0].name);
+          storage.write('campus', value.data.data[0].campus);
 
           Get.back(result: user);
           EasyLoading.showSuccess('Logged in successfully!');

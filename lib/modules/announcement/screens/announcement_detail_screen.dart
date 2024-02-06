@@ -66,12 +66,16 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
   get _buildBody1 {
     return !isLoading
         ? Center(child: CircularProgressIndicator())
-        : WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              this.controller = controller;
-              loadLocalHtml();
-            },
+        : Container(
+            color: Colors.white,
+            child: WebView(
+              backgroundColor: Colors.white,
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (controller) {
+                this.controller = controller;
+                loadLocalHtml();
+              },
+            ),
           );
   }
 
@@ -97,7 +101,7 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudfl are.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       </head>
       <body style="margin: 0; padding: 0;">
         <img src="${_announcementDetail.fullImage}" class="img-responsive" alt="Responsive image" style="width: auto; width: 100%;">

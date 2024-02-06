@@ -41,7 +41,7 @@ class _ExamSchedulePageState extends State<ExamSchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Exam Schedules"),
+        title: Text("Exam Schedule"),
       ),
       body: _buildBody,
     );

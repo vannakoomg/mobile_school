@@ -10,7 +10,6 @@ import 'package:sizer/sizer.dart';
 
 class ELearningVideoDetail extends StatefulWidget {
   final String name, url, id;
-
   const ELearningVideoDetail(
       {Key? key, required this.name, required this.url, required this.id})
       : super(key: key);

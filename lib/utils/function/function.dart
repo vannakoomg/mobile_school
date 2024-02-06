@@ -12,7 +12,7 @@ import 'package:screen_protector/screen_protector.dart';
 void tracking(
     {String? menuName = '', String campus = '', String userName = ""}) async {
   try {
-    debugPrint("menuname $menuName \n username $userName \n campus $campus");
+    debugPrint("menuname:$menuName\nusername:$userName\ncampus:$campus");
     if (userName == "") {
       debugPrint("we do not trick ");
     } else {

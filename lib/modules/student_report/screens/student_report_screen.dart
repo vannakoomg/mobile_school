@@ -4,6 +4,7 @@ import 'package:school/config/app_colors.dart';
 import 'package:school/modules/student_report/controller/student_report_controller.dart';
 import 'package:school/modules/student_report/screens/flowchat.dart';
 import 'package:school/modules/student_report/screens/report_table.dart';
+import 'package:school/modules/student_report/widgets/total.dart';
 import 'package:school/utils/widgets/blank_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,10 +22,8 @@ final controller = Get.put(StudentController());
 class _StudentReportScreenState extends State<StudentReportScreen> {
   @override
   void initState() {
-    disablescreenShot();
-    controller.getSummery().then((value) {
-      controller.getStudentReport(termname: "Term ${controller.term.value}");
-    });
+    // disablescreenShot();
+    controller.getSummery();
     super.initState();
   }
 
@@ -45,163 +44,183 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                 controller.isloadingSummary.value == false
             ? controller.isNoData.value
                 ? BlankPage()
-                : Stack(
-                    children: [
-                      SingleChildScrollView(
-                        child: Container(
-                          margin: SizerUtil.deviceType == DeviceType.tablet
-                              ? EdgeInsets.only(left: 20, right: 20, top: 20)
-                              : EdgeInsets.only(left: 10, right: 10, top: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Text(
-                                  "School Year  ${controller.studentReport.value.data!.schoolyear}",
+                : SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        left:
+                            SizerUtil.deviceType == DeviceType.tablet ? 20 : 10,
+                        right:
+                            SizerUtil.deviceType == DeviceType.tablet ? 20 : 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 20, top: 20),
+                            child: Center(
+                              child: Text(
+                                "School Year  ${controller.studentReport.value.data!.schoolyear}",
+                                style: TextStyle(
+                                    fontSize: SizerUtil.deviceType ==
+                                            DeviceType.tablet
+                                        ? 20
+                                        : 18,
+                                    color: AppColor.primaryColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          Flowchat(),
+                          Container(
+                            padding: EdgeInsets.only(top: 15, bottom: 15),
+                            width: 100.w,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Term ",
                                   style: TextStyle(
                                       fontSize: SizerUtil.deviceType ==
                                               DeviceType.tablet
-                                          ? 20
-                                          : 18,
+                                          ? 18
+                                          : 16,
                                       color: AppColor.primaryColor,
-                                      fontWeight: FontWeight.w600),
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Flowchat(),
-                              Container(
-                                padding: EdgeInsets.only(top: 15, bottom: 15),
-                                width: 100.w,
-                                child: Row(
+                                Row(
                                   children: [
-                                    Text(
-                                      "Term ",
-                                      style: TextStyle(
-                                          fontSize: SizerUtil.deviceType ==
+                                    for (int i = 0;
+                                        i < controller.term.value;
+                                        ++i)
+                                      GestureDetector(
+                                        onTap: () {
+                                          controller.changeTerm(i);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          height: SizerUtil.deviceType ==
                                                   DeviceType.tablet
-                                              ? 18
-                                              : 16,
-                                          color: AppColor.primaryColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Row(
-                                      children: [
-                                        for (int i = 0;
-                                            i <
-                                                controller.summayReport.value
-                                                    .data!.en!.length;
-                                            ++i)
-                                          GestureDetector(
-                                            onTap: () {
-                                              controller.changeTerm(i);
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              height: SizerUtil.deviceType ==
-                                                      DeviceType.tablet
-                                                  ? 40
-                                                  : 30,
-                                              width: SizerUtil.deviceType ==
-                                                      DeviceType.tablet
-                                                  ? 40
-                                                  : 30,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    controller.term.value - 1 ==
-                                                            i
-                                                        ? Color(0xff2a9d8f)
-                                                        : Colors.transparent,
-                                                border: Border.all(
-                                                    color: Color(0xff2a9d8f)),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "${i + 1}",
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: controller.term
-                                                                      .value -
-                                                                  1 ==
-                                                              i
-                                                          ? Colors.white
-                                                          : Color(0xff274c77),
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      overflow: TextOverflow
-                                                          .ellipsis),
-                                                ),
-                                              ),
+                                              ? 45
+                                              : 35,
+                                          width: SizerUtil.deviceType ==
+                                                  DeviceType.tablet
+                                              ? 45
+                                              : 35,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                controller.term.value - 1 == i
+                                                    ? Color(0xff2a9d8f)
+                                                    : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color(0xff2a9d8f)),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "${controller.listOfTerm[i]}",
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: controller.term.value -
+                                                              1 ==
+                                                          i
+                                                      ? Colors.white
+                                                      : Color(0xff274c77),
+                                                  fontWeight: FontWeight.w500,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                             ),
                                           ),
-                                      ],
-                                    ),
+                                        ),
+                                      ),
                                   ],
                                 ),
+                              ],
+                            ),
+                          ),
+                          if (controller.studentReport.value.data!.en != null &&
+                              !controller.studentReport.value.data!.en!.any(
+                                  (element) => element.totalwithletter == null))
+                            Container(
+                              margin: EdgeInsets.only(
+                                bottom: 20,
                               ),
-                              if (controller.studentReport.value.data!.en !=
-                                  null)
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    bottom: 20,
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 100.w,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Column(
+                              clipBehavior: Clip.antiAlias,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
                                     children: controller
                                         .studentReport.value.data!.en!
                                         .asMap()
                                         .entries
                                         .map((element) {
-                                      return CustomReportTable(
-                                          title: "Taught in English Language",
-                                          color: Color(0xff012a4a),
-                                          index: element.key,
-                                          subject: element.value.subject ?? "",
-                                          totalwithletter:
-                                              element.value.totalwithletter ??
-                                                  "");
+                                      return element.value.totalwithletter !=
+                                              null
+                                          ? CustomReportTable(
+                                              title: "International Programme",
+                                              color: Color(0xff012a4a),
+                                              index: element.key,
+                                              subject:
+                                                  element.value.subject ?? "",
+                                              totalwithletter: element
+                                                      .value.totalwithletter ??
+                                                  "")
+                                          : SizedBox();
                                     }).toList(),
                                   ),
-                                ),
-                              if (controller.studentReport.value.data!.kh !=
-                                  null)
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    bottom: 10,
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 100.w,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Column(
+                                  TotalWidget(
+                                      letterGrade:
+                                          "${controller.summayReport.value.data!.en![controller.term.value - 1].letter_grade}",
+                                      total:
+                                          "${controller.summayReport.value.data!.en![controller.term.value - 1].total}")
+                                ],
+                              ),
+                            ),
+                          if (controller.studentReport.value.data!.kh != null &&
+                              !controller.studentReport.value.data!.kh!.any(
+                                  (element) => element.totalwithletter == null))
+                            Container(
+                              margin: EdgeInsets.only(
+                                bottom: 10,
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
                                     children: controller
                                         .studentReport.value.data!.kh!
                                         .asMap()
                                         .entries
                                         .map((element) {
                                       return CustomReportTable(
-                                          title: "Taught in Khmer Language",
-                                          color: Color(0xff468faf),
-                                          index: element.key,
-                                          subject: element.value.subject ?? "",
-                                          totalwithletter:
-                                              element.value.totalwithletter ??
-                                                  "");
+                                        title: "National Programme",
+                                        color: Color(0xff468faf),
+                                        index: element.key,
+                                        subject: element.value.subject ?? "",
+                                        totalwithletter:
+                                            element.value.totalwithletter ?? "",
+                                      );
                                     }).toList(),
                                   ),
-                                ),
-                            ],
-                          ),
-                        ),
+                                  TotalWidget(
+                                      letterGrade:
+                                          "${controller.summayReport.value.data!.kh![controller.term.value - 1].letter_grade}",
+                                      total:
+                                          "${controller.summayReport.value.data!.kh![controller.term.value - 1].total}")
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
-                    ],
+                    ),
                   )
             : Center(
                 child: CircularProgressIndicator(color: AppColor.primaryColor),

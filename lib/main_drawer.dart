@@ -295,11 +295,9 @@ class _MainDrawerState extends State<MainDrawer> {
   get _buildFooter {
     return Container(
       color: Colors.grey.shade200,
-      // color: Colors.red,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Column(
-          // mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
@@ -356,6 +354,7 @@ class _MainDrawerState extends State<MainDrawer> {
               "gradeLevel": "${value.data.data[0].className}",
               "password": "${storage.read('isPassword')}",
               "photo": "${value.data.data[0].fullImage}",
+              "campus": "${value.data.data[0].campus}",
             },
           };
 

@@ -32,35 +32,50 @@ class CustomReportTable extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    "$title",
-                    style: TextStyle(
-                      color: AppColor.mainColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 17 : 13.5,
+                  flex: 2,
+                  child: Container(
+                    child: Text(
+                      "$title",
+                      style: TextStyle(
+                        color: AppColor.mainColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: SizerUtil.deviceType == DeviceType.tablet
+                            ? 17
+                            : 13.5,
+                      ),
                     ),
                   ),
                 ),
-                Text(
-                  "Percentage",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 16 : 13,
-                      color: AppColor.mainColor),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  "Grade",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 16 : 13,
-                      color: AppColor.mainColor),
-                ),
+                Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Grade",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 16
+                                        : 13,
+                                color: AppColor.mainColor,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                        Text(
+                          "Percentage",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 16
+                                      : 13,
+                              color: AppColor.mainColor),
+                        ),
+                      ],
+                    ))
               ],
             ),
           ),
@@ -77,39 +92,56 @@ class CustomReportTable extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  "$subject",
-                  style: TextStyle(
-                    color: AppColor.primaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize:
-                        SizerUtil.deviceType == DeviceType.tablet ? 16 : 13,
+                flex: 2,
+                child: Container(
+                  child: Text(
+                    "$subject",
+                    style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize:
+                          SizerUtil.deviceType == DeviceType.tablet ? 16 : 13,
+                    ),
                   ),
                 ),
               ),
-              Text(
-                "${totalwithletter.replaceRange(0, 2, '')}",
-                style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize:
-                        SizerUtil.deviceType == DeviceType.tablet ? 16 : 13,
-                    color: AppColor.primaryColor.withOpacity(0.8)),
-              ),
-              Container(
-                margin: SizerUtil.deviceType == DeviceType.tablet
-                    ? EdgeInsets.only(left: 35, right: 20)
-                    : EdgeInsets.only(left: 30, right: 12),
-                child: Text(
-                  "${totalwithletter[0]}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize:
-                        SizerUtil.deviceType == DeviceType.tablet ? 16 : 14,
-                    color: controller
-                        .colorByGrand("${totalwithletter[0].toUpperCase()}"),
-                  ),
-                ),
-              ),
+              Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: SizerUtil.deviceType == DeviceType.tablet
+                              ? EdgeInsets.only(
+                                  left: 20,
+                                )
+                              : EdgeInsets.only(left: 15),
+                          child: Text(
+                            "${totalwithletter[0]}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.tablet
+                                      ? 16
+                                      : 14,
+                              color: controller.colorByGrand(
+                                  "${totalwithletter[0].toUpperCase()}"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "${totalwithletter.replaceRange(0, 2, '')}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: SizerUtil.deviceType == DeviceType.tablet
+                                ? 16
+                                : 13,
+                            color: AppColor.primaryColor.withOpacity(0.8)),
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),

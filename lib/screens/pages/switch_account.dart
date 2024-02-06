@@ -210,6 +210,7 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
           for (dynamic type in _mapUser.keys) {
             setState(() {
               if (type == studentId[index]) {
+                debugPrint("value ${_mapUser[type]['campus']}");
                 storage.write('isActive', type);
                 storage.write('isName', _mapUser[type]['name']);
                 storage.write('user_token', _mapUser[type]['token']);
@@ -218,6 +219,8 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                 storage.write('isGradeLevel', _mapUser[type]['gradeLevel']);
                 storage.write('isPassword', _mapUser[type]['password']);
                 storage.write('isPhoto', _mapUser[type]['photo']);
+                storage.write('name', _mapUser[type]['name']);
+                // storage.write('campus', '');
                 // storage.write('isUsername', _mapUser[type]['name']);
                 // print("isActive=${storage.read('isActive')}");
                 Get.offAllNamed('dashboard');

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -113,21 +114,43 @@ class FlowchatState extends State<Flowchat> {
                             // Spacer(),
                             Container(
                               margin: EdgeInsets.only(
-                                right: 10,
+                                right: 5,
                                 left: 10,
                               ),
                               height: 4.w,
                               width: 4.w,
                               color: Color(0xff012a4a),
                             ),
-                            Text("English Report"),
+                            Expanded(
+                                child: Text(
+                              "International Programme",
+                              style: TextStyle(
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.tablet
+                                        ? 15
+                                        : 12,
+                              ),
+                            )),
+
                             Container(
-                              margin: EdgeInsets.only(left: 10, right: 10),
+                              margin: EdgeInsets.only(left: 10, right: 5),
                               height: 4.w,
                               width: 4.w,
                               color: Color(0xff468faf),
                             ),
-                            Text("Khmer Report"),
+                            Expanded(
+                              child: AutoSizeText(
+                                "National Programme",
+                                style: TextStyle(
+                                  fontSize:
+                                      SizerUtil.deviceType == DeviceType.tablet
+                                          ? 15
+                                          : 12,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                             SizedBox(
                               width: 20,
                             )

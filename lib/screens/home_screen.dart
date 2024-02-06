@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/models/menu_icon_list.dart';
@@ -59,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-
-    debugPrint("b sl soy ");
     super.dispose();
   }
 
@@ -134,7 +133,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   get _buildBody {
     return Container(
-      // color: Colors.white,
+      margin: EdgeInsets.only(
+        top: 1.5.h,
+      ),
       height: double.infinity,
       width: double.infinity,
       child: Column(
@@ -159,15 +160,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             return _buildUrlImages(urlImage);
           },
           options: CarouselOptions(
-              height:
-                  SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
-              viewportFraction: 1,
-              autoPlay: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  activeIndex = index;
-                });
-              }),
+            // height:
+            //     SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
+            // viewportFraction: 1,
+            // autoPlay: true,
+            // onPageChanged: (index, reason) {
+            //   setState(() {
+            //     activeIndex = index;
+            //   });
+            // }
+            onPageChanged: (index, reason) {
+              setState(() {
+                activeIndex = index;
+              });
+            },
+            height: MediaQuery.sizeOf(context).width / 2.3,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            aspectRatio: 16 / 9.8,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enableInfiniteScroll: true,
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            viewportFraction: 0.8,
+          ),
         ),
         Positioned(
           child: buildIndicator(),
@@ -179,29 +194,47 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   _buildUrlImages(urlImage) {
     return CachedNetworkImage(
-      width: double.infinity,
       imageUrl: urlImage,
-      fit: BoxFit.cover,
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          borderRadius:
+              BorderRadius.circular(20.0), // Set your desired border radius
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
       errorWidget: (context, url, error) => SizedBox(),
     );
   }
 
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: activeIndex,
-        count: _imageIphoneList.length,
-        effect: SlideEffect(
-            dotColor: Colors.white,
-            activeDotColor: Colors.lightBlue,
-            dotHeight: 1.h,
-            dotWidth: 1.h),
+  Widget buildIndicator() => Container(
+        padding: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.black.withOpacity(0.3)),
+        child: AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: _imageIphoneList.length,
+          effect: SlideEffect(
+              spacing: 5,
+              dotColor: const Color.fromARGB(255, 194, 194, 194),
+              activeDotColor: Colors.white,
+              dotHeight: 0.7.h,
+              dotWidth: 0.7.h),
+        ),
       );
 
   get _buildGridMenu {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.only(left: 2.h, right: 2.h, top: 2.h),
+        padding: EdgeInsets.only(
+          left: 2.h,
+          right: 2.h,
+          top: 1.5.h,
+        ),
         child: GridView.builder(
-          // controller: scrollController,
           itemCount: menuIconList.length,
           itemBuilder: (context, index) {
             return Container(
@@ -233,12 +266,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     }
                   }
                 },
-                child: Card(
-                  elevation: 10,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      menuIconList[index].title == 'Exam Schedules' &&
+                      menuIconList[index].title == 'Exam Schedule' &&
                               (storage.read('exam_schedule_badge') != 0 &&
                                   storage.read('exam_schedule_badge') != null)
                           ? badges.Badge(
@@ -256,10 +292,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                       '${storage.read('assignment_badge')}',
                                       style: TextStyle(color: Colors.white)),
                                   child: Image.asset(menuIconList[index].img,
-                                      height: 8.h, width: 8.h),
+                                      height: 7.h, width: 7.h),
                                 )
                               : Image.asset(menuIconList[index].img,
-                                  height: 8.h, width: 8.h),
+                                  height: 7.h, width: 7.h),
                       SizedBox(
                         height: 5.sp,
                       ),
@@ -270,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             fontWeight: FontWeight.bold,
                             fontSize: SizerUtil.deviceType == DeviceType.tablet
                                 ? 7.sp
-                                : 9.sp),
+                                : 10.sp),
                       ),
                     ],
                   ),
@@ -280,8 +316,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: SizerUtil.deviceType == DeviceType.tablet ? 4 : 3,
-            crossAxisSpacing: 1.h,
-            mainAxisSpacing: 1.h,
+            crossAxisSpacing: 1.2.h,
+            mainAxisSpacing: 1.2.h,
           ),
         ),
       ),
@@ -330,6 +366,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 "gradeLevel": "${value.data.data[0].className}",
                 "password": "${storage.read('isPassword')}",
                 "photo": "${value.data.data[0].fullImage}",
+                "campus": "${value.data.data[0].campus}",
               },
             };
 
@@ -485,7 +522,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _login() {
     if (storage.read('user_token') == null) return;
-
     userLogin(storage.read('isActive'), storage.read('isPassword'),
             storage.read('device_token'))
         .then((value) {
@@ -508,7 +544,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     fetchHomeSlide().then((value) {
       setState(() {
         try {
-          // print("value.link1=${value.data[0].link1}");
           _recData.addAll(value.data);
           _imageIphoneList.clear();
           _imageIpadList.clear();
@@ -525,15 +560,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget reloadBtn(String message) {
     return ElevatedButton(
-        onPressed: () {
-          if (message == 'Unauthenticated.') {
-            _removeUser;
-            Get.offAll(() => SwitchAccountPage(),
-                arguments: 'Unauthenticated.');
-          } else {
-            Get.back();
-          }
-        },
-        child: Text("OK"));
+      onPressed: () {
+        if (message == 'Unauthenticated.') {
+          _removeUser;
+          Get.offAll(() => SwitchAccountPage(), arguments: 'Unauthenticated.');
+        } else {
+          Get.back();
+        }
+      },
+      child: Text("OK"),
+    );
   }
 }

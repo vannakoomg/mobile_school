@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class SummeryReport {
   int? status;
   String? message;
@@ -58,18 +60,21 @@ class Data {
 class En {
   String? term;
   String? total;
+  String? letter_grade;
 
   En({this.term, this.total});
 
   En.fromJson(Map<String, dynamic> json) {
     term = json['term'];
     total = json['total'];
+    letter_grade = json['letter_grade'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['term'] = this.term;
     data['total'] = this.total;
+    data['letter_grade'] = this.letter_grade;
     return data;
   }
 }

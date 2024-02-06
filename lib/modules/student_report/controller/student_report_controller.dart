@@ -22,21 +22,20 @@ class StudentController extends GetxController {
   final touchedGroupIndex = 0.obs;
   final items = <BarChartGroupData>[].obs;
   final isNoData = false.obs;
-
+  final listOfTerm = ["One", "Two", "Three", "Four"];
   Color colorByGrand(String g) {
-    debugPrint("ddddd$g");
-    if (g == "A") {
-      return Color(0xfffb5607);
-    } else if (g == "B") {
-      return Color(0xffff006e);
-    } else if (g == "C") {
-      return Color(0xffa85311);
-    } else if (g == "D") {
-      return Color(0xff25a244);
-    } else if (g == "E") {
-      return Color(0xff3d5a80);
+    if (g.toUpperCase() == "A") {
+      return Color.fromARGB(255, 0, 185, 89);
+    } else if (g.toUpperCase() == "B") {
+      return Color.fromARGB(255, 151, 238, 0);
+    } else if (g.toUpperCase() == "C") {
+      return Color.fromARGB(255, 227, 201, 3);
+    } else if (g.toUpperCase() == "D") {
+      return Color.fromARGB(255, 200, 94, 6);
+    } else if (g.toUpperCase() == "E") {
+      return Color.fromARGB(255, 35, 104, 194);
     }
-    return Color.fromARGB(255, 0, 0, 0);
+    return Color.fromARGB(255, 194, 3, 3);
   }
 
   void changeTerm(int index) {
@@ -54,49 +53,72 @@ class StudentController extends GetxController {
       })).post(
           '${baseUrlOpensis}getReportCardSummary.php?id=${storage.read("isActive")}');
       summayReport.value = SummeryReport();
-      debugPrint("get summery status Code : ${response.data["status"]}");
       if (response.data["status"] == 200 && response.data["data"] != []) {
+        debugPrint("khmer sl khmer");
         isNoData.value = false;
         summayReport.value = SummeryReport.fromJson(response.data);
         items.clear();
-        term.value = summayReport.value.data!.en == null
-            ? summayReport.value.data!.kh!.length
-            : summayReport.value.data!.en!.length;
-        for (int i = 0; i < term.value; ++i) {
-          items.add(
-            makeGroupData(
-              i,
-              summayReport.value.data!.en != null
-                  ? summayReport.value.data!.en![i].total == null
-                      ? 0
-                      : double.parse(summayReport.value.data!.en![i].total!) /
-                          10
-                  : 0.0,
-              summayReport.value.data!.kh != null
-                  ? summayReport.value.data!.kh![i].total == null
-                      ? 0
-                      : double.parse(summayReport.value.data!.kh![i].total!) /
-                          10
-                  : 0.0,
-            ),
-          );
+        if (summayReport.value.data!.kh != null &&
+            summayReport.value.data!.en != null) {
+          term.value = summayReport.value.data!.kh!.length >
+                  summayReport.value.data!.en!.length
+              ? summayReport.value.data!.kh!.length
+              : summayReport.value.data!.en!.length;
+        } else {
+          if (summayReport.value.data!.kh == null) {
+            term.value = summayReport.value.data!.en!.length;
+          } else {
+            term.value = summayReport.value.data!.kh!.length;
+          }
         }
-        isloadingSummary.value = false;
+
+        // check the last term of each term is already or not
+        getStudentReport(termname: "Term ${term.value}").then((value) {
+          if ((studentReport.value.data!.en!
+                      .any((element) => element.totalwithletter == null) ||
+                  studentReport.value.data!.en == null) &&
+              (studentReport.value.data!.kh!
+                      .any((element) => element.totalwithletter == null) ||
+                  studentReport.value.data!.kh == null)) {
+            term.value = term.value - 1;
+          }
+          for (int i = 0; i < term.value; ++i) {
+            items.add(
+              makeGroupData(
+                i,
+                summayReport.value.data!.en != null
+                    ? summayReport.value.data!.en![i].total == null
+                        ? 0
+                        : double.parse(summayReport.value.data!.en![i].total!) /
+                            10
+                    : 0.0,
+                summayReport.value.data!.kh != null &&
+                        i <= summayReport.value.data!.kh!.length - 1
+                    ? double.parse(summayReport.value.data!.kh![i].total!) / 10
+                    : 0.0,
+              ),
+            );
+          }
+          getStudentReport(termname: "Term ${term.value}");
+          isloadingSummary.value = false;
+        });
       } else {
         isNoData.value = true;
       }
       isloadingSummary.value = false;
     } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
       isloadingSummary.value = false;
+      isloading.value = false;
       isNoData.value = true;
-      debugPrint("you have been catched2222 $errorMessage");
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      debugPrint("you have been b sl soy catched $errorMessage");
     }
   }
 
   Future<void> getStudentReport(
       {required String termname, bool isreload = true}) async {
-    debugPrint("term :: $termname");
+    debugPrint(
+        "term :: ${baseUrlOpensis}getReportCard.php?id=${storage.read("isActive")}&term=$termname");
     isloading.value = isreload;
     var response;
     try {
@@ -107,11 +129,13 @@ class StudentController extends GetxController {
           '${baseUrlOpensis}getReportCard.php?id=${storage.read("isActive")}&term=$termname');
       studentReport.value = StudentReportModel();
       studentReport.value = StudentReportModel.fromJson(response.data);
+      debugPrint("value ${studentReport.value.data}");
       isloading.value = false;
     } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
       isloading.value = false;
       isNoData.value = true;
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+
       debugPrint("you have been catched111333 $errorMessage");
     }
   }

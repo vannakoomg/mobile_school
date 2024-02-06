@@ -99,6 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               "gradeLevel": "${value.data.data[0].className}",
               "password": "${storage.read('isPassword')}",
               "photo": "${value.data.data[0].fullImage}",
+              "campus": "${value.data.data[0].campus}",
             },
           };
           if (storage.read('mapUser') == null) {

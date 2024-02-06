@@ -89,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         selectedItemColor: Color(0xff1d1a56),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_filled),
             label: '${LocaleKeys.bot_nav_home.tr()}',
           ),
           BottomNavigationBarItem(
