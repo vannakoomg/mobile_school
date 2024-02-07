@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    debugPrint("user token ${storage.read('user_token')}");
     _fetchHomeSlide();
     WidgetsBinding.instance.addObserver(this);
     _fetchNotificationCount();

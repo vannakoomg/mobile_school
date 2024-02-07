@@ -15,6 +15,7 @@ class StudentController extends GetxController {
   final isloading = true.obs;
   final isloadingSummary = true.obs;
   final term = 0.obs;
+  final allTerm = 0.obs;
   final sortEnglish = false.obs;
   final studentReport = StudentReportModel().obs;
   final summayReport = SummeryReport().obs;
@@ -22,7 +23,7 @@ class StudentController extends GetxController {
   final touchedGroupIndex = 0.obs;
   final items = <BarChartGroupData>[].obs;
   final isNoData = false.obs;
-  final listOfTerm = ["One", "Two", "Three", "Four"];
+  final listOfTerm = ["One", "Two", "Three", "Four"].obs;
   Color colorByGrand(String g) {
     if (g.toUpperCase() == "A") {
       return Color.fromARGB(255, 0, 185, 89);
@@ -40,7 +41,7 @@ class StudentController extends GetxController {
 
   void changeTerm(int index) {
     term.value = index + 1;
-    getStudentReport(termname: 'Term ${term.value}', isreload: false);
+    getStudentReport(termname: 'Term $term', isreload: false);
   }
 
   Future<void> getSummery() async {
@@ -99,6 +100,7 @@ class StudentController extends GetxController {
               ),
             );
           }
+          allTerm.value = term.value;
           getStudentReport(termname: "Term ${term.value}");
           isloadingSummary.value = false;
         });
@@ -129,7 +131,7 @@ class StudentController extends GetxController {
           '${baseUrlOpensis}getReportCard.php?id=${storage.read("isActive")}&term=$termname');
       studentReport.value = StudentReportModel();
       studentReport.value = StudentReportModel.fromJson(response.data);
-      debugPrint("value ${studentReport.value.data}");
+      debugPrint("value $term");
       isloading.value = false;
     } on DioError catch (e) {
       isloading.value = false;

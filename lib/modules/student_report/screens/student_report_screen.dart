@@ -34,11 +34,12 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 223, 223, 223),
+      backgroundColor: Color.fromARGB(255, 233, 233, 233),
       appBar: AppBar(
-          title: Text(
-        "Report Card",
-      )),
+        title: Text(
+          "Report Card",
+        ),
+      ),
       body: Obx(
         () => controller.isloading.value == false &&
                 controller.isloadingSummary.value == false
@@ -89,7 +90,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                 Row(
                                   children: [
                                     for (int i = 0;
-                                        i < controller.term.value;
+                                        i < controller.allTerm.value;
                                         ++i)
                                       GestureDetector(
                                         onTap: () {
@@ -99,31 +100,33 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                           margin: EdgeInsets.only(left: 10),
                                           height: SizerUtil.deviceType ==
                                                   DeviceType.tablet
-                                              ? 45
-                                              : 35,
+                                              ? 40
+                                              : 30,
                                           width: SizerUtil.deviceType ==
                                                   DeviceType.tablet
-                                              ? 45
-                                              : 35,
+                                              ? 70
+                                              : 50,
                                           decoration: BoxDecoration(
                                             color:
                                                 controller.term.value - 1 == i
                                                     ? Color(0xff2a9d8f)
                                                     : Colors.transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                                 color: Color(0xff2a9d8f)),
-                                            shape: BoxShape.circle,
                                           ),
                                           child: Center(
                                             child: Text(
                                               "${controller.listOfTerm[i]}",
                                               style: TextStyle(
-                                                  fontSize: 11,
+                                                  fontSize: 12,
                                                   color: controller.term.value -
                                                               1 ==
                                                           i
                                                       ? Colors.white
-                                                      : Color(0xff274c77),
+                                                      : Color.fromARGB(
+                                                          255, 118, 117, 117),
                                                   fontWeight: FontWeight.w500,
                                                   overflow:
                                                       TextOverflow.ellipsis),
