@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
-import 'package:school/screens/home_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class AddAccountPage extends StatefulWidget {

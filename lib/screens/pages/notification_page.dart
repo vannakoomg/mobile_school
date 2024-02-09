@@ -111,7 +111,10 @@ class _NotificationPageState extends State<NotificationPage> {
               onTap: () {
                 _markAsRead();
               },
-              child: Text("Mark as read"),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text("Mark as read"),
+              ),
             ),
           ),
         ],

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:get/get.dart';
 import 'package:school/config/app_colors.dart';
 import 'package:school/models/menu_icon_list.dart';
@@ -135,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   get _buildBody {
     return Container(
       margin: EdgeInsets.only(
-        top: 1.5.h,
-      ),
+          // top: 1.5.h,
+          ),
       height: double.infinity,
       width: double.infinity,
       child: Column(
@@ -161,29 +160,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             return _buildUrlImages(urlImage);
           },
           options: CarouselOptions(
-            // height:
-            //     SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
-            // viewportFraction: 1,
-            // autoPlay: true,
-            // onPageChanged: (index, reason) {
-            //   setState(() {
-            //     activeIndex = index;
-            //   });
-            // }
-            onPageChanged: (index, reason) {
-              setState(() {
-                activeIndex = index;
-              });
-            },
-            height: MediaQuery.sizeOf(context).width / 2.3,
-            enlargeCenterPage: true,
-            autoPlay: true,
-            aspectRatio: 16 / 9.8,
-            autoPlayCurve: Curves.fastOutSlowIn,
-            enableInfiniteScroll: true,
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
-            viewportFraction: 0.8,
-          ),
+              height:
+                  SizerUtil.deviceType == DeviceType.tablet ? 130.sp : 180.sp,
+              viewportFraction: 1,
+              autoPlay: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  activeIndex = index;
+                });
+              }
+              // onPageChanged: (index, reason) {
+              //   setState(() {
+              //     activeIndex = index;
+              //   });
+              // },
+              // height: MediaQuery.sizeOf(context).width / 2.3,
+              // enlargeCenterPage: true,
+              // autoPlay: true,
+              // aspectRatio: 16 / 9.8,
+              // autoPlayCurve: Curves.fastOutSlowIn,
+              // enableInfiniteScroll: true,
+              // autoPlayAnimationDuration: Duration(milliseconds: 800),
+              // viewportFraction: 0.8,
+              ),
         ),
         Positioned(
           child: buildIndicator(),
@@ -198,8 +197,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       imageUrl: urlImage,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.circular(20.0), // Set your desired border radius
+          // borderRadius:
+          //     BorderRadius.circular(20.0), // Set your desired border radius
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
@@ -268,6 +267,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   }
                 },
                 child: Container(
+                  margin: EdgeInsets.only(
+                      // top: 1.2.h,
+                      ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
