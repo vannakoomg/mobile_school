@@ -13,7 +13,7 @@ class PopupNewVersion {
         return AlertDialog(
           title: const Text('Update Available'),
           content: const Text(
-              'A new version of ICS APP is available.\nPlease update to version 3.0 now.'),
+              'A new version of ICS APP is available.\nPlease update now.'),
           actions: <Widget>[
             // TextButton(
             //   style: TextButton.styleFrom(

@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    String version = "Version 3.0";
+    String version = "Version 4.0";
     storage.write('isVersion', version);
     _fetchVersion();
 
