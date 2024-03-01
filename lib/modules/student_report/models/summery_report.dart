@@ -61,6 +61,7 @@ class En {
   String? term;
   String? total;
   String? letter_grade;
+  String? is_null;
 
   En({this.term, this.total});
 
@@ -68,6 +69,7 @@ class En {
     term = json['term'];
     total = json['total'];
     letter_grade = json['letter_grade'];
+    is_null = json['is_null'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +77,7 @@ class En {
     data['term'] = this.term;
     data['total'] = this.total;
     data['letter_grade'] = this.letter_grade;
+    data["is_null"] = this.is_null;
     return data;
   }
 }

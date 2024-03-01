@@ -144,7 +144,7 @@ class _StudentReportScreenState extends State<StudentReportScreen> {
                                   (element) => element.totalwithletter == null))
                             Container(
                               margin: EdgeInsets.only(
-                                bottom: 20,
+                                bottom: 10,
                               ),
                               clipBehavior: Clip.antiAlias,
                               width: 100.w,

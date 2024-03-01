@@ -13,6 +13,7 @@ class Flowchat extends StatefulWidget {
 
 class FlowchatState extends State<Flowchat> {
   final controller = Get.put(StudentController());
+
   late List<BarChartGroupData> showingBarGroups;
   @override
   void initState() {
@@ -47,49 +48,6 @@ class FlowchatState extends State<Flowchat> {
                                 tooltipBgColor: Colors.grey,
                                 getTooltipItem: (a, b, c, d) => null,
                               ),
-                              // touchCallback: (FlTouchEvent event, response) {
-                              //   if (response == null || response.spot == null) {
-                              //     setState(() {
-                              //       controller.touchedGroupIndex.value = -1;
-                              //       showingBarGroups =
-                              //           List.of(controller.rawBarGroups);
-                              //     });
-                              //     return;
-                              //   }
-                              //   controller.touchedGroupIndex.value =
-                              //       response.spot!.touchedBarGroupIndex;
-                              //   setState(() {
-                              //     showingBarGroups =
-                              //         List.of(controller.rawBarGroups);
-                              //     if (controller.touchedGroupIndex.value !=
-                              //         -1) {
-                              //       var sum = 0.0;
-                              //       for (final rod in showingBarGroups[
-                              //               controller.touchedGroupIndex.value]
-                              //           .barRods) {
-                              //         sum += rod.toY;
-                              //       }
-                              //       final avg = sum /
-                              //           showingBarGroups[controller
-                              //                   .touchedGroupIndex.value]
-                              //               .barRods
-                              //               .length;
-                              //       showingBarGroups[controller
-                              //           .touchedGroupIndex
-                              //           .value] = showingBarGroups[
-                              //               controller.touchedGroupIndex.value]
-                              //           .copyWith(
-                              //         barRods: showingBarGroups[controller
-                              //                 .touchedGroupIndex.value]
-                              //             .barRods
-                              //             .map((rod) {
-                              //           return rod.copyWith(
-                              //               toY: avg, color: Color(0xff61a5c2));
-                              //         }).toList(),
-                              //       );
-                              //     }
-                              //   });
-                              // },
                             ),
                             titlesData: FlTitlesData(
                               show: true,
@@ -112,45 +70,61 @@ class FlowchatState extends State<Flowchat> {
                         child: Row(
                           children: [
                             // Spacer(),
-                            Container(
-                              margin: EdgeInsets.only(
-                                right: 5,
-                                left: 10,
-                              ),
-                              height: 4.w,
-                              width: 4.w,
-                              color: Color(0xff012a4a),
-                            ),
-                            Expanded(
-                                child: Text(
-                              "International Programme",
-                              style: TextStyle(
-                                fontSize:
-                                    SizerUtil.deviceType == DeviceType.tablet
-                                        ? 15
-                                        : 12,
-                              ),
-                            )),
 
-                            Container(
-                              margin: EdgeInsets.only(left: 10, right: 5),
-                              height: 4.w,
-                              width: 4.w,
-                              color: Color(0xff468faf),
-                            ),
-                            Expanded(
-                              child: AutoSizeText(
-                                "National Programme",
-                                style: TextStyle(
-                                  fontSize:
-                                      SizerUtil.deviceType == DeviceType.tablet
-                                          ? 15
-                                          : 12,
+                            if (controller.summayReport.value.data!.en != null)
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        right: 5,
+                                        left: 10,
+                                      ),
+                                      height: 4.w,
+                                      width: 4.w,
+                                      color: Color(0xff012a4a),
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      "International Programme",
+                                      style: TextStyle(
+                                        fontSize: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 15
+                                            : 12,
+                                      ),
+                                    )),
+                                  ],
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
+
+                            if (controller.summayReport.value.data!.kh != null)
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, right: 5),
+                                      height: 4.w,
+                                      width: 4.w,
+                                      color: Color(0xff468faf),
+                                    ),
+                                    Expanded(
+                                      child: AutoSizeText(
+                                        "National Programme",
+                                        style: TextStyle(
+                                          fontSize: SizerUtil.deviceType ==
+                                                  DeviceType.tablet
+                                              ? 15
+                                              : 12,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             SizedBox(
                               width: 20,
                             )

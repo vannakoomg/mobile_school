@@ -22,23 +22,33 @@ class GallaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(GallaryController());
     return Container(
+      width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "$yearMonth",
-            style: TextStyle(
-              color: AppColor.primaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
+          if (yearMonth != "")
+            Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "$yearMonth",
+                  style: TextStyle(
+                    color: AppColor.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize:
+                        SizerUtil.deviceType == DeviceType.tablet ? 22 : 14,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
           isList == false
               ? Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  // margin: EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: listOfGallary.map((data) {
                       return GestureDetector(
@@ -62,7 +72,7 @@ class GallaryCard extends StatelessWidget {
                           child: Stack(
                             children: [
                               CachedNetworkImage(
-                                height: 30.h,
+                                height: 50.w,
                                 width: 100.w,
                                 imageUrl: "${data.image}",
                                 fit: BoxFit.cover,
@@ -73,8 +83,8 @@ class GallaryCard extends StatelessWidget {
                                 margin: EdgeInsets.only(
                                     left: 10, top: 10, right: 10),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.black.withOpacity(0.5)),
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.black.withOpacity(0.7)),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, right: 10, top: 5, bottom: 5),
@@ -88,6 +98,7 @@ class GallaryCard extends StatelessWidget {
                                           ? 18
                                           : 12,
                                     ),
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -100,6 +111,7 @@ class GallaryCard extends StatelessWidget {
                   ),
                 )
               : Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.start,
                   children: listOfGallary.map((data) {
                     return GestureDetector(
                       onTap: () {
@@ -135,8 +147,8 @@ class GallaryCard extends StatelessWidget {
                                 margin:
                                     EdgeInsets.only(left: 5, right: 5, top: 5),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.black.withOpacity(0.5)),
+                                    borderRadius: BorderRadius.circular(9),
+                                    color: Colors.black.withOpacity(0.7)),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, right: 10, top: 5, bottom: 5),

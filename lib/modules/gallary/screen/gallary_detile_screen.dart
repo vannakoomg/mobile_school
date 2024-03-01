@@ -24,13 +24,7 @@ class _GallaryDetailState extends State<GallaryDetail> {
     controller.flex01.clear();
     controller.flex02.clear();
     Future.delayed(const Duration(milliseconds: 10), () {
-      controller.getGallaryDetail(id: '${argument['id']}').then((value) => {
-            // wait until widget render already on the screen
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   controller.hightOfDescrition.value =
-            //       controller.textKey.currentContext!.size!.height;
-            // })
-          });
+      controller.getGallaryDetail(id: '${argument['id']}').then((value) => {});
       controller.highList.clear();
     });
     controller.scrllcontroller.value.addListener(() {

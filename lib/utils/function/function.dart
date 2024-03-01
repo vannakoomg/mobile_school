@@ -25,7 +25,7 @@ void tracking(
           'campus': campus,
         },
       );
-      debugPrint("Tracking : ${response.statusCode}");
+      // debugPrint("Tracking : ${response.data}");
     }
   } catch (value) {
     debugPrint("You have been on catch [ Tracking ] $value");

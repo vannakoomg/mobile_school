@@ -1,14 +1,17 @@
 class GallaryModel {
-  List<Data>? data;
+  List<GalleryByMount>? data;
   List<Gallary>? data02;
+  int? lastPage;
 
   GallaryModel({this.data, this.data02});
 
   GallaryModel.fromJson(Map<String, dynamic> json) {
+    lastPage = json['last_page'];
+
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <GalleryByMount>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new GalleryByMount.fromJson(v));
       });
     }
     if (json['data02'] != null) {
@@ -21,6 +24,8 @@ class GallaryModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['last_page'] = this.lastPage;
+
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -31,13 +36,13 @@ class GallaryModel {
   }
 }
 
-class Data {
+class GalleryByMount {
   String? yearMonth;
   List<Gallary>? gallary;
 
-  Data({this.yearMonth, this.gallary});
+  GalleryByMount({this.yearMonth, this.gallary});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  GalleryByMount.fromJson(Map<String, dynamic> json) {
     yearMonth = json['year_month'];
     if (json['gallary'] != null) {
       gallary = <Gallary>[];

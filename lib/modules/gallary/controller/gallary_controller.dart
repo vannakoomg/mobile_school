@@ -22,7 +22,9 @@ class GallaryController extends GetxController {
   final flex01 = [].obs;
   final flex02 = [].obs;
   final hight = [].obs;
+
   final gallary = GallaryModel().obs;
+  final galleryByMount = <GalleryByMount>[].obs;
   final gallaryDetail = GallaryDetailModel().obs;
   final gallaryData = <ImageModel>[].obs;
   final gallaryDataView = <ImageModel>[].obs;
@@ -31,18 +33,44 @@ class GallaryController extends GetxController {
   final isTapImage = false.obs;
   final isTapSave = false.obs;
   final isviewImageDetile = false.obs;
+  final nectPageBymount = 0.obs;
+  final currentPageBymount = 1.obs;
   final nextPage = 0.obs;
   final currentPage = 1.obs;
-  // final textKey = GlobalKey();
   final hightOfDescrition = 0.0.obs;
-  Future getGallary() async {
+  Future refreshIndicator() async {
+    nectPageBymount.value = 0;
+    currentPageBymount.value = 1;
+    getGallary(isClear: true);
+  }
+
+  Future getGallary({int page = 1, bool isClear = false}) async {
     try {
       isloading.value = true;
       var response = await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-      })).get('${baseUrlSchool}api/gallary');
+      })).get('${baseUrlSchool}api/gallary?page=$page');
+      String endMount = '';
+      if (galleryByMount.isNotEmpty) {
+        endMount = galleryByMount.last.yearMonth!;
+      }
+      if (isClear) {
+        galleryByMount.clear();
+      }
       gallary.value = GallaryModel.fromJson(response.data);
+      debugPrint("gallery Page = ${gallary.value.lastPage}");
+      if (galleryByMount.isNotEmpty) {
+        if (endMount == gallary.value.data!.first.yearMonth) {
+          gallary.value.data!.first.yearMonth = "";
+        }
+      }
+
+      for (int i = 0; i < gallary.value.data!.length; ++i) {
+        galleryByMount.add(gallary.value.data![i]);
+      }
+
+      debugPrint("value ======>${galleryByMount.length}");
       isloading.value = false;
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
@@ -58,6 +86,7 @@ class GallaryController extends GetxController {
         "Accept": "application/json",
         "Content-Type": "application/json",
       })).get('${baseUrlSchool}api/gallary?id=$id&page=$page');
+      debugPrint("url : '${baseUrlSchool}api/gallary?id=$id&page=$page'");
       gallaryDetail.value = GallaryDetailModel();
       gallaryDetail.value = GallaryDetailModel.fromJson(response.data);
       for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {

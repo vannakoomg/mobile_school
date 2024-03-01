@@ -40,8 +40,12 @@ class StudentController extends GetxController {
   }
 
   void changeTerm(int index) {
-    term.value = index + 1;
-    getStudentReport(termname: 'Term $term', isreload: false);
+    if (term.value == index + 1 || term.value == index - 1) {
+      debugPrint("you in current term ");
+    } else {
+      term.value = index + 1;
+      getStudentReport(termname: 'Term $term', isreload: false);
+    }
   }
 
   Future<void> getSummery() async {
@@ -55,7 +59,6 @@ class StudentController extends GetxController {
           '${baseUrlOpensis}getReportCardSummary.php?id=${storage.read("isActive")}');
       summayReport.value = SummeryReport();
       if (response.data["status"] == 200 && response.data["data"] != []) {
-        debugPrint("khmer sl khmer");
         isNoData.value = false;
         summayReport.value = SummeryReport.fromJson(response.data);
         items.clear();
@@ -72,38 +75,28 @@ class StudentController extends GetxController {
             term.value = summayReport.value.data!.kh!.length;
           }
         }
-
-        // check the last term of each term is already or not
-        getStudentReport(termname: "Term ${term.value}").then((value) {
-          if ((studentReport.value.data!.en!
-                      .any((element) => element.totalwithletter == null) ||
-                  studentReport.value.data!.en == null) &&
-              (studentReport.value.data!.kh!
-                      .any((element) => element.totalwithletter == null) ||
-                  studentReport.value.data!.kh == null)) {
-            term.value = term.value - 1;
-          }
-          for (int i = 0; i < term.value; ++i) {
-            items.add(
-              makeGroupData(
-                i,
-                summayReport.value.data!.en != null
-                    ? summayReport.value.data!.en![i].total == null
-                        ? 0
-                        : double.parse(summayReport.value.data!.en![i].total!) /
-                            10
-                    : 0.0,
-                summayReport.value.data!.kh != null &&
-                        i <= summayReport.value.data!.kh!.length - 1
-                    ? double.parse(summayReport.value.data!.kh![i].total!) / 10
-                    : 0.0,
-              ),
-            );
-          }
-          allTerm.value = term.value;
-          getStudentReport(termname: "Term ${term.value}");
-          isloadingSummary.value = false;
-        });
+        allTerm.value = term.value;
+        for (int i = 0; i < term.value; ++i) {
+          items.add(
+            makeGroupData(
+              i,
+              summayReport.value.data!.en == null
+                  ? 0
+                  : summayReport.value.data!.en![i].is_null != "0"
+                      ? 0
+                      : double.parse(summayReport.value.data!.en![i].total!) /
+                          10,
+              summayReport.value.data!.kh == null
+                  ? 0
+                  : summayReport.value.data!.kh![i].is_null != "0"
+                      ? 0
+                      : double.parse(summayReport.value.data!.kh![i].total!) /
+                          10,
+            ),
+          );
+        }
+        getStudentReport(termname: "Term ${term.value}");
+        isloadingSummary.value = false;
       } else {
         isNoData.value = true;
       }
@@ -131,7 +124,6 @@ class StudentController extends GetxController {
           '${baseUrlOpensis}getReportCard.php?id=${storage.read("isActive")}&term=$termname');
       studentReport.value = StudentReportModel();
       studentReport.value = StudentReportModel.fromJson(response.data);
-      debugPrint("value $term");
       isloading.value = false;
     } on DioError catch (e) {
       isloading.value = false;

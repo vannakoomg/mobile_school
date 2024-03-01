@@ -389,7 +389,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 _mapUser[type]['userId'] = value.data.data[0].id;
                 _mapUser[type]['gradeLevel'] = value.data.data[0].className;
                 _mapUser[type]['photo'] = value.data.data[0].fullImage;
-
                 storage.write('isActive', type);
                 storage.write('isName', value.data.data[0].name);
                 storage.write('user_token', _mapUser[type]['token']);

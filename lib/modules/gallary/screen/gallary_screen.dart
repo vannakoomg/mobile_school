@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/modules/gallary/controller/gallary_controller.dart';
 import 'package:sizer/sizer.dart';
 import '../widgets/gallary_card.dart';
@@ -13,12 +16,34 @@ class GallaryScreen extends StatefulWidget {
 
 class _GallaryScreenState extends State<GallaryScreen> {
   final controller = Get.put(GallaryController());
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
+    controller.islist.value = false;
+    controller.isloading.value;
+    controller.galleryByMount.clear();
+    controller.nectPageBymount.value = 0;
+    controller.currentPageBymount.value = 1;
     Future.delayed(const Duration(milliseconds: 10), () {
       controller.getGallary().then((value) => {
             controller.update(),
+            debugPrint("end scrooler ${controller.gallary.value.lastPage} "),
           });
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        controller.nectPageBymount.value =
+            controller.currentPageBymount.value + 1;
+        debugPrint("end scrooler ${controller.nectPageBymount} ");
+        if (controller.nectPageBymount.value <=
+            controller.gallary.value.lastPage!) {
+          debugPrint("fetch gallery ");
+          controller.getGallary(page: controller.nectPageBymount.value);
+          controller.currentPageBymount.value =
+              controller.nectPageBymount.value;
+        }
+      }
     });
     super.initState();
   }
@@ -26,11 +51,12 @@ class _GallaryScreenState extends State<GallaryScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<GallaryController>(builder: (controller) {
-      return Scaffold(
+      return Obx(
+        () => Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              "Gallary",
+              "Gallery",
               style: TextStyle(
                 fontSize: SizerUtil.deviceType == DeviceType.tablet ? 24 : 16,
               ),
@@ -39,8 +65,6 @@ class _GallaryScreenState extends State<GallaryScreen> {
               GestureDetector(
                 onTap: () {
                   controller.islist.value = !controller.islist.value;
-                  controller.islist.refresh();
-                  controller.update();
                 },
                 child: Icon(
                     !controller.islist.value ? Icons.menu : Icons.list_alt),
@@ -50,33 +74,61 @@ class _GallaryScreenState extends State<GallaryScreen> {
               ),
             ],
           ),
-          body: controller.isloading.value
+          body: controller.isloading.value && controller.galleryByMount.isEmpty
               ? Center(
                   child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: AppColor.primaryColor,
                 ))
-              : controller.gallary.value.data!.isEmpty
+              : controller.galleryByMount.isEmpty
                   ? Center(
-                      child: Text("No Gallary"),
+                      child: Text("No Gallery"),
                     )
                   : Container(
                       padding: EdgeInsets.only(
                         left: 10,
                         right: 10,
                       ),
-                      child: ListView.builder(
-                        itemCount: controller.gallary.value.data!.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              padding: EdgeInsets.only(top: 10),
-                              child: GallaryCard(
-                                  isList: controller.islist.value,
-                                  listOfGallary: controller
-                                      .gallary.value.data![index].gallary!,
-                                  yearMonth: controller
-                                      .gallary.value.data![index].yearMonth!));
-                        },
-                      )));
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: RefreshIndicator(
+                              onRefresh: () => controller.refreshIndicator(),
+                              child: ListView.builder(
+                                controller: scrollController,
+                                itemCount: controller.galleryByMount.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      if (index == 0)
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      Container(
+                                          // padding: EdgeInsets.only(top: 10),
+                                          child: GallaryCard(
+                                              isList: controller.islist.value,
+                                              listOfGallary: controller
+                                                  .galleryByMount[index]
+                                                  .gallary!,
+                                              yearMonth: controller
+                                                  .galleryByMount[index]
+                                                  .yearMonth!)),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          if (controller.isloading.value &&
+                              controller.galleryByMount.isNotEmpty)
+                            CircularProgressIndicator(
+                              color: AppColor.primaryColor,
+                            )
+                        ],
+                      ),
+                    ),
+        ),
+      );
     });
   }
 }
