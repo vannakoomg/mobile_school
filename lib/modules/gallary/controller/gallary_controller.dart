@@ -38,6 +38,8 @@ class GallaryController extends GetxController {
   final nextPage = 0.obs;
   final currentPage = 1.obs;
   final hightOfDescrition = 0.0.obs;
+  final colorOfImage01 = [].obs;
+  final colorOfImage02 = [].obs;
   Future refreshIndicator() async {
     nectPageBymount.value = 0;
     currentPageBymount.value = 1;
@@ -94,6 +96,8 @@ class GallaryController extends GetxController {
         flex02.add(Random().nextInt(3) + 2);
         hight.add(getHigh());
         gallaryData.add(gallaryDetail.value.data![i]);
+        colorOfImage01.add(getColor());
+        colorOfImage02.add(getColor());
       }
       if (gallaryDetail.value.data!.length.floor().isOdd) {
         gallaryData.add(ImageModel(image: ""));
@@ -168,10 +172,11 @@ class GallaryController extends GetxController {
   final imageSave = 0.obs;
   final saveDone = false.obs;
   Future<void> saveAllPhoto() async {
+    debugPrint("khmer sl mherkejr${gallaryData.length}");
     isTapSave.value = false;
     saveDone.value = false;
-    for (int i = 0; i < gallaryDetail.value.data!.length; ++i) {
-      await GallerySaver.saveImage("${gallaryDetail.value.data![i].image}");
+    for (int i = 0; i < gallaryData.length; ++i) {
+      await GallerySaver.saveImage("${gallaryData[i].image}");
       imageSave.value = imageSave.value + 1;
     }
     saveDone.value = true;

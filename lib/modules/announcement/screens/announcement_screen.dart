@@ -226,6 +226,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
         imageUrl: urlImage,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 0.5),
             image: DecorationImage(
               image: imageProvider,
               fit: BoxFit.cover,

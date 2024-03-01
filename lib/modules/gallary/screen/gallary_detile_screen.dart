@@ -77,25 +77,6 @@ class _GallaryDetailState extends State<GallaryDetail> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // if (i == 0)
-                              //   Padding(
-                              //     key: controller.textKey,
-                              //     padding: const EdgeInsets.only(
-                              //         left: 5, top: 10, bottom: 10),
-                              //     child: Text(
-                              //       "${controller.gallaryDetail.value.description}",
-                              //       style: TextStyle(
-                              //         fontWeight: FontWeight.w400,
-                              //         color: AppColor.primaryColor
-                              //             .withOpacity(0.8),
-                              //         fontSize: SizerUtil.deviceType ==
-                              //                 DeviceType.tablet
-                              //             ? 22
-                              //             : 16,
-                              //       ),
-                              //     ),
-                              //   ),
-
                               Container(
                                 child: ImageCard(
                                   tag01: "${2 * (i + 1) - 1 - 1}",
@@ -104,8 +85,10 @@ class _GallaryDetailState extends State<GallaryDetail> {
                                       .gallaryData[2 * (i + 1) - 1 - 1].image!,
                                   image02: controller
                                       .gallaryData[2 * (i + 1) - 1].image!,
-                                  colors01: controller.getColor(),
-                                  colors02: controller.getColor(),
+                                  colors01: controller.colorOfImage01[i] ??
+                                      const Color.fromARGB(255, 255, 85, 142),
+                                  colors02: controller.colorOfImage02[i] ??
+                                      const Color.fromARGB(255, 255, 85, 142),
                                   flex01: controller.flex01[i],
                                   flex02: controller.flex02[i],
                                   high: controller.hight[i],
