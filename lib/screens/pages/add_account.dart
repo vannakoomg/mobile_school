@@ -6,6 +6,8 @@ import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../repos/exam_schedule.dart';
+
 class AddAccountPage extends StatefulWidget {
   @override
   _AddAccountPageState createState() => _AddAccountPageState();
@@ -210,13 +212,18 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   void _login() {
+    debugPrint("sadfffffffffffffffffffffffffffffff");
     EasyLoading.show(status: 'Loading');
     userLogin(emailController.text.trim(), passwordController.text.trim(),
             storage.read('device_token'))
         .then((value) {
+      debugPrint("dhfgjhkjlkl;';[kjkhvjghcgjkbnlm]");
       try {
         storage.write('isPassword', passwordController.text.trim());
-        _fetchProfile(apiKey: '${value.data.token}');
+        storage.write("user_token", value.data.token);
+        _fetchProfile(apiKey: '${value.data.token}').then((value) {
+          _fetchExamScheduleCount();
+        });
         // .then((value) => {
         // storage.write('name', value.data.data[0].name),
         // storage.write('campus', value.data.data[0].campus),
@@ -246,11 +253,24 @@ class _AddAccountPageState extends State<AddAccountPage> {
     });
   }
 
-  void _fetchProfile({required String apiKey}) {
+  void _fetchExamScheduleCount() {
+    if (storage.read('user_token') == null) return;
+    fetchExamSchedule().then((value) {
+      try {
+        // setState(() {
+        storage.write('exam_schedule_badge', value.data.total);
+        // });
+      } catch (err) {
+        print('err=$err');
+      }
+    });
+  }
+
+  Future _fetchProfile({required String apiKey}) async {
     fetchProfile(apiKey: apiKey).then((value) {
       setState(() {
         try {
-          print("value.data.list=${value.data.data}");
+          print("value.data.listdddd=${value.data.data}");
           storage.write('isPhoto', value.data.data[0].fullImage);
           var user = {
             "${value.data.data[0].email}": {
