@@ -13,7 +13,10 @@ class TopUpHistory extends StatefulWidget {
   _TopUpHistoryState createState() => _TopUpHistoryState();
 }
 
-class _TopUpHistoryState extends State<TopUpHistory> {
+class _TopUpHistoryState extends State<TopUpHistory>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final PhoneSize phoneSize;
   late List<TopUpHistoryData> _recTopUpHistoryData = [];
   bool isLoading = false;
@@ -30,6 +33,7 @@ class _TopUpHistoryState extends State<TopUpHistory> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       // appBar: AppBar(title: Text("History")),
       body:
@@ -39,8 +43,8 @@ class _TopUpHistoryState extends State<TopUpHistory> {
 
   get _buildBody {
     return Container(
-      // height: 50,
       child: ListView.builder(
+          padding: EdgeInsets.only(top: 10),
           physics: PageScrollPhysics(),
           shrinkWrap: true,
           itemCount: _recTopUpHistoryData.length,
@@ -51,79 +55,75 @@ class _TopUpHistoryState extends State<TopUpHistory> {
   }
 
   _buildItem(item) {
-    return InkWell(
-      child: Card(
-        elevation: 3,
-        child: Container(
-          padding: EdgeInsets.all(8),
-          // height: 10.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                      height: 5.h,
-                      child:
-                          Image.asset('assets/icons/canteen/iwallet_card.png')),
-                  SizedBox(
-                    width: 3.w,
+    return Card(
+      elevation: 3,
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                    height: 5.h,
+                    child:
+                        Image.asset('assets/icons/canteen/iwallet_card.png')),
+                SizedBox(
+                  width: 3.w,
+                ),
+                Container(
+                  // width: 300,
+                  // color: Colors.red,
+                  height: 7.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "${item.posReference}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: myTextStyleHeader[phoneSize],
+                      ),
+                      Text(
+                        "${item.date}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: myTextStyleBody[phoneSize],
+                      )
+                    ],
                   ),
-                  Container(
-                    // width: 300,
-                    // color: Colors.red,
-                    height: 7.h,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "${item.posReference}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: myTextStyleHeader[phoneSize],
-                        ),
-                        Text(
-                          "${item.date}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: myTextStyleBody[phoneSize],
-                        )
-                      ],
-                    ),
+                )
+              ],
+            ),
+            item.statePreOrder == "draft"
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "\$${item.amountPaid}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: myTextStyleBodyBlueGray[phoneSize],
+                      ),
+                      Text('On Hold',
+                          textAlign: TextAlign.right,
+                          style: myTextStyleHeaderGreenItalic[phoneSize])
+                    ],
                   )
-                ],
-              ),
-              item.statePreOrder == "draft"
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "\$${item.amountPaid}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: myTextStyleBodyBlueGray[phoneSize],
-                        ),
-                        Text('On Hold',
-                            textAlign: TextAlign.right,
-                            style: myTextStyleHeaderGreenItalic[phoneSize])
-                      ],
-                    )
-                  : Text(
-                      "\$${item.amountPaid}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: myTextStyleHeader[phoneSize],
-                    )
-            ],
-          ),
+                : Text(
+                    "\$${item.amountPaid}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: myTextStyleHeader[phoneSize],
+                  )
+          ],
         ),
       ),
-      onTap: () => viewImage(urlImage: ''),
     );
   }
 

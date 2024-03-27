@@ -73,198 +73,205 @@ class _CanteenScreenState extends State<CanteenScreen>
     ));
     return !isLoading
         ? LoadingCanteen()
-        : SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              body: Stack(
-                children: [
-                  Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(top: 20),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 10, right: 20, top: 0),
-                          height: 23.h,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.black, // Left border color
-                                width: 0.1, // Left border width
+        : Container(
+            color: AppColor.primaryColor,
+            child: SafeArea(
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                body: Stack(
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.only(top: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 20, top: 0),
+                            height: 23.h,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black, // Left border color
+                                  width: 0.1, // Left border width
+                                ),
                               ),
                             ),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                // color: AppColor.primaryColor,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 20),
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            Navigator.of(context).pop(),
-                                        child: Icon(
-                                          device == 'iOS'
-                                              ? Icons.arrow_back_ios
-                                              : Icons.arrow_back,
-                                          size: 25,
-                                          color: AppColor.primaryColor,
+                            child: Column(
+                              children: [
+                                Container(
+                                  // color: AppColor.primaryColor,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 20),
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              Navigator.of(context).pop(),
+                                          child: Icon(
+                                            device == 'iOS'
+                                                ? Icons.arrow_back_ios
+                                                : Icons.arrow_back,
+                                            size: 25,
+                                            color: AppColor.primaryColor,
+                                          ),
                                         ),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Text(
+                                              '${storage.read("isName")}',
+                                              style: TextStyle(
+                                                  color: AppColor.primaryColor
+                                                      .withOpacity(0.9),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize:
+                                                      SizerUtil.deviceType ==
+                                                              DeviceType.tablet
+                                                          ? 14.sp
+                                                          : 16.sp)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 50,
+                                      )
+                                      // Obx(() => Container(
+                                      //       child: CupertinoSwitch(
+                                      //         activeColor: Colors.blue,
+                                      //         trackColor: Colors.red,
+                                      //         value: controller
+                                      //                     .isMuteCanteen.value ==
+                                      //                 1
+                                      //             ? true
+                                      //             : false,
+                                      //         onChanged: (value) {
+                                      //           controller.updateNotificationMenu(
+                                      //               value: value);
+                                      //         },
+                                      //       ),
+                                      //     ))
+                                    ],
+                                  ),
+                                ),
+                                Spacer(),
+                                _buildMainBalance,
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                          _buildBodyListExtend,
+                        ],
+                      ),
+                    ),
+                    Obx(() => controller.isShowMenu.value
+                        ? GestureDetector(
+                            onTap: () {
+                              controller.ontapMenu();
+                            },
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(
+                                  sigmaX: 5.0,
+                                  sigmaY:
+                                      5.0), // Adjust the blur radius as needed
+                              child: Container(
+                                color: AppColor.primaryColor.withOpacity(0.8),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 40,
+                                    ),
+                                    Text(
+                                      "Today Menu",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white.withOpacity(0.9),
+                                        fontSize: SizerUtil.deviceType ==
+                                                DeviceType.tablet
+                                            ? 10.sp
+                                            : 18.sp,
                                       ),
                                     ),
                                     Expanded(
                                       child: Center(
-                                        child: Text('${storage.read("isName")}',
-                                            style: TextStyle(
-                                                color: AppColor.primaryColor
-                                                    .withOpacity(0.9),
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize:
-                                                    SizerUtil.deviceType ==
-                                                            DeviceType.tablet
-                                                        ? 14.sp
-                                                        : 16.sp)),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 50,
-                                    )
-                                    // Obx(() => Container(
-                                    //       child: CupertinoSwitch(
-                                    //         activeColor: Colors.blue,
-                                    //         trackColor: Colors.red,
-                                    //         value: controller
-                                    //                     .isMuteCanteen.value ==
-                                    //                 1
-                                    //             ? true
-                                    //             : false,
-                                    //         onChanged: (value) {
-                                    //           controller.updateNotificationMenu(
-                                    //               value: value);
-                                    //         },
-                                    //       ),
-                                    //     ))
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              _buildMainBalance,
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                        _buildBodyListExtend,
-                      ],
-                    ),
-                  ),
-                  Obx(() => controller.isShowMenu.value
-                      ? GestureDetector(
-                          onTap: () {
-                            controller.ontapMenu();
-                          },
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                                sigmaX: 5.0,
-                                sigmaY:
-                                    5.0), // Adjust the blur radius as needed
-                            child: Container(
-                              color: AppColor.primaryColor.withOpacity(0.8),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    "Today Menu",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white.withOpacity(0.9),
-                                      fontSize: SizerUtil.deviceType ==
-                                              DeviceType.tablet
-                                          ? 10.sp
-                                          : 18.sp,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: CarouselSlider.builder(
-                                        itemCount:
-                                            controller.menu.value.image!.length,
-                                        itemBuilder:
-                                            (contestxt, index, realIndex) {
-                                          return Stack(
-                                            children: [
-                                              InteractiveViewer(
-                                                transformationController:
-                                                    transcontroller,
-                                                onInteractionEnd: (value) {
-                                                  reset();
-                                                },
-                                                maxScale: 5,
-                                                child: GestureDetector(
-                                                  onTap: () {},
-                                                  child: Container(
-                                                    // height: 30.h,
-                                                    width: double.infinity,
-                                                    color: Colors.white,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          "${controller.menu.value.image![index]}",
-                                                      // fit: BoxFit.cover,
+                                        child: CarouselSlider.builder(
+                                          itemCount: controller
+                                              .menu.value.image!.length,
+                                          itemBuilder:
+                                              (contestxt, index, realIndex) {
+                                            return Stack(
+                                              children: [
+                                                InteractiveViewer(
+                                                  transformationController:
+                                                      transcontroller,
+                                                  onInteractionEnd: (value) {
+                                                    reset();
+                                                  },
+                                                  maxScale: 5,
+                                                  child: GestureDetector(
+                                                    onTap: () {},
+                                                    child: Container(
+                                                      // height: 30.h,
+                                                      width: double.infinity,
+                                                      color: Colors.white,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "${controller.menu.value.image![index]}",
+                                                        // fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              Positioned(
-                                                right: 0,
-                                                bottom: 0,
-                                                child: CustomPaint(
-                                                  painter: StyleCardMeun(),
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                      ),
-                                                      Positioned(
-                                                        right: 5,
-                                                        bottom: 5,
-                                                        child: Text(
-                                                          "${index + 1}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16),
+                                                Positioned(
+                                                  right: 0,
+                                                  bottom: 0,
+                                                  child: CustomPaint(
+                                                    painter: StyleCardMeun(),
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          height: 50,
+                                                          width: 50,
                                                         ),
-                                                      )
-                                                    ],
+                                                        Positioned(
+                                                          right: 5,
+                                                          bottom: 5,
+                                                          child: Text(
+                                                            "${index + 1}",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 16),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                        options: CarouselOptions(
-                                            height: SizerUtil.deviceType ==
-                                                    DeviceType.tablet
-                                                ? 130.sp
-                                                : 180.sp,
-                                            viewportFraction: 1,
-                                            autoPlay: true,
-                                            onPageChanged: (index, reason) {}),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                          options: CarouselOptions(
+                                              height: SizerUtil.deviceType ==
+                                                      DeviceType.tablet
+                                                  ? 130.sp
+                                                  : 180.sp,
+                                              viewportFraction: 1,
+                                              autoPlay: true,
+                                              onPageChanged:
+                                                  (index, reason) {}),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : SizedBox())
-                ],
+                          )
+                        : SizedBox())
+                  ],
+                ),
               ),
             ),
           );
@@ -392,22 +399,18 @@ class _CanteenScreenState extends State<CanteenScreen>
                               ],
                             )
                           : Container(
-                              height: 15.h,
-                              child: Center(
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Color(0xffe85d04),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    padding: EdgeInsets.all(20),
-                                    child: Text(
-                                      "Coming Soon !!!",
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.9),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                              )),
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Container(
+                                  height: 25.h,
+                                  clipBehavior: Clip.antiAlias,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  // padding: EdgeInsets.all(20),
+                                  child: Image.asset(
+                                    "assets/icons/canteen/coming_soon.jpg",
+                                    fit: BoxFit.cover,
+                                  ))),
                     ),
                     SizedBox(
                       height: 20,

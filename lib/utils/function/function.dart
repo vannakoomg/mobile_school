@@ -13,7 +13,7 @@ void tracking(
     if (userName == "") {
       debugPrint("we do not trick ");
     } else {
-      var response = await Dio(BaseOptions(headers: {
+      await Dio(BaseOptions(headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
         'Authorization': storage.read('user_token'),

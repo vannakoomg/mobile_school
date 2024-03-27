@@ -13,7 +13,10 @@ class PosHistory extends StatefulWidget {
   _PosHistoryState createState() => _PosHistoryState();
 }
 
-class _PosHistoryState extends State<PosHistory> {
+class _PosHistoryState extends State<PosHistory>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final PhoneSize phoneSize;
   late List<PosOrderHistoryData> _recPosOrderHistoryData = [];
   bool isLoading = false;
@@ -30,6 +33,8 @@ class _PosHistoryState extends State<PosHistory> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       // appBar: AppBar(title: Text("History")),
       body:
@@ -41,52 +46,56 @@ class _PosHistoryState extends State<PosHistory> {
     return Container(
       // height: 50,
       child: ListView.builder(
-          // physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: _recPosOrderHistoryData.length,
-          itemBuilder: (context, index) => Column(
+        padding: EdgeInsets.only(top: 10),
+        // physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: _recPosOrderHistoryData.length,
+        itemBuilder: (context, index) => Column(
+          children: [
+            Container(
+              height: 8.h,
+              color: Colors.grey.shade300,
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    height: 8.h,
-                    color: Colors.grey.shade300,
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              '${_recPosOrderHistoryData[index].receipt}',
-                              style: myTextStyleHeader[phoneSize],
-                            ),
-                            Text(
-                              '${_recPosOrderHistoryData[index].date}',
-                              style: myTextStyleHeader[phoneSize],
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '\$${_recPosOrderHistoryData[index].amountPaid}',
-                          style: myTextStyleHeader[phoneSize],
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        '${_recPosOrderHistoryData[index].receipt}',
+                        style: myTextStyleHeader[phoneSize],
+                      ),
+                      Text(
+                        '${_recPosOrderHistoryData[index].date}',
+                        style: myTextStyleHeader[phoneSize],
+                      ),
+                    ],
                   ),
-                  Container(
-                    child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: _recPosOrderHistoryData[index].list.length,
-                        itemBuilder: (context, index2) => Container(
-                              child: _buildItem(
-                                  _recPosOrderHistoryData[index].list[index2]),
-                            )),
+                  Text(
+                    '\$${_recPosOrderHistoryData[index].amountPaid}',
+                    style: myTextStyleHeader[phoneSize],
                   ),
                 ],
-              )),
+              ),
+            ),
+            Container(
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 10),
+                itemCount: _recPosOrderHistoryData[index].list.length,
+                itemBuilder: (context, index2) => Container(
+                  child:
+                      _buildItem(_recPosOrderHistoryData[index].list[index2]),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
