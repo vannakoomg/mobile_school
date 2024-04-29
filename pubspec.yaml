@@ -68,6 +68,9 @@ dependencies:
   showcaseview: ^2.0.3
   flutter_native_splash: ^2.3.3
   flutter_slidable: ^3.1.0
+  gap: ^3.0.1
+  connectivity_plus: ^6.0.1
+  another_flushbar: ^1.12.30
 
 
   # screen_protector: ^1.4.1

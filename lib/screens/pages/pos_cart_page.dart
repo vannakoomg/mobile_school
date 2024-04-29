@@ -6,6 +6,8 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/utils/widgets/custom_botton.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../../repos/pos_create_order.dart';
 import '../../config/theme/theme.dart';
@@ -75,11 +77,8 @@ class _PosCartState extends State<PosCart> {
     return Container(
       height: 13.h,
       decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10),
-            topLeft: Radius.circular(10),
-          )),
+        color: Colors.grey.shade300,
+      ),
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
@@ -96,14 +95,10 @@ class _PosCartState extends State<PosCart> {
                 ],
               ),
               SizedBox(
-                height: 6.h,
-                width: 100.w,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 8.0,
-                      backgroundColor: Color(0xff1d1a56),
-                    ),
-                    onPressed: () {
+                  height: 6.h,
+                  width: 100.w,
+                  child: CustomButton(
+                    onTap: () {
                       var _checkTime = timeCheck();
                       if (!_checkTime)
                         message(
@@ -125,9 +120,8 @@ class _PosCartState extends State<PosCart> {
                         }
                       }
                     },
-                    child: Text("ORDER NOW",
-                        style: myTextStyleHeaderWhite[phoneSize])),
-              ),
+                    title: "ORDER NOW",
+                  )),
             ],
           ),
         ),
@@ -151,47 +145,6 @@ class _PosCartState extends State<PosCart> {
                 itemBuilder: (context, index) => Container(
                       child: _buildItem(_elements[index], index),
                     )),
-            // Padding(
-            //     padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-            //     child: Text('Pick Up', style: myTextStyleHeader[phoneSize])),
-            // SizedBox(
-            //   height: 8.h,
-            //   // width: 100.w,
-            //   child: ListView.builder(
-            //     // reverse: true,
-            //     shrinkWrap: true,
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: _strDate.length,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.all(6.0),
-            //         child: SizedBox(
-            //           width: 27.w,
-            //           child: ElevatedButton(
-            //             style: ElevatedButton.styleFrom(
-            //               elevation: 8.0,
-            //               backgroundColor: selectedIndex == index
-            //                   ? Color(0xff1d1a56)
-            //                   : Colors.white,
-            //               foregroundColor: selectedIndex == index
-            //                   ? Colors.white
-            //                   : Color(0xff1d1a56),
-            //             ),
-            //             child: Text('${_strDate[index]}',
-            //                 style: TextStyle(
-            //                     fontSize: 11.sp, fontWeight: FontWeight.bold)),
-            //             onPressed: () {
-            //               setState(() {
-            //                 selectedIndex = index;
-            //                 pickUpTime = _strDate[index];
-            //               });
-            //             },
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
             Padding(
                 padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
                 child: Text('Remark', style: myTextStyleHeader[phoneSize])),
@@ -380,23 +333,17 @@ class _PosCartState extends State<PosCart> {
           _isDisableButton = false;
         });
         EasyLoading.dismiss();
-        Get.defaultDialog(
-          title: "Error",
-          middleText: "$value",
-          barrierDismissible: true,
-          confirm: reloadBtn(),
-        );
+        CustomDialog.error(
+            title: "Error",
+            message: "$value",
+            barrierDismissible: true,
+            context: context,
+            ontap: () {
+              Get.back();
+              Navigator.of(context).pop();
+            });
       }
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          Navigator.of(context).pop();
-        },
-        child: Text("OK"));
   }
 
   bool timeCheck() {

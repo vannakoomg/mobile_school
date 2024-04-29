@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../models/PosOrderHistoryDB.dart';
@@ -199,24 +199,17 @@ class _PosHistoryState extends State<PosHistory>
           isLoading = true;
         } catch (err) {
           print("err=$err");
-          Get.defaultDialog(
-            title: "Oops!",
-            middleText: "Something went wrong.\nPlease try again later.",
-            barrierDismissible: false,
-            confirm: reloadBtn(),
-          );
+
+          CustomDialog.error(
+              title: "Oops!",
+              message: "Something went wrong.\nPlease try again later.",
+              context: context,
+              ontap: () {
+                Navigator.of(context).pop();
+                _fetchPosOrderHistory();
+              });
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          // Get.back();
-          Navigator.of(context).pop();
-          _fetchPosOrderHistory();
-        },
-        child: Text("OK"));
   }
 }

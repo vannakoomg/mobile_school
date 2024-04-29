@@ -11,6 +11,7 @@ import 'package:school/repos/notification_list.dart';
 import 'package:school/repos/notification_mark_as_read_one_by_one.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sizer/sizer.dart';
 
@@ -48,24 +49,18 @@ class _FeedbackDetailState extends State<FeedbackDetail> {
           _feedbackDetail = value.data;
           isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "$value",
+              context: context,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchFeedbackDetail(_item);
+              });
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchFeedbackDetail(_item);
-        },
-        child: Text("Reload"));
   }
 
   get _buildBody {

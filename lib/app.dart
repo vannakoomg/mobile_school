@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/config/route.dart';
+import 'package:school/config/theme/new_theme.dart';
 import 'package:school/modules/announcement/screens/announcement_detail_screen.dart';
 import 'package:school/modules/canteen/screen/canteen_screen.dart';
 import 'package:school/repos/notification_list.dart';
@@ -16,6 +17,9 @@ import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/homework_detail.dart';
 import 'package:school/screens/pages/iwallet.dart';
 import 'package:school/screens/pages/notification_detail.dart';
+import 'package:school/utils/function/context_unity.dart';
+import 'package:school/utils/function/function.dart';
+import 'package:school/utils/function/handel_connection.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'models/AssignmentListDB.dart';
 import 'repos/assignment_list.dart';
@@ -72,27 +76,29 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     return Sizer(builder: (context, orientation, deviceType) {
-      return GetMaterialApp(
-        supportedLocales: context.supportedLocales,
-        localizationsDelegates: context.localizationDelegates,
-        locale: context.locale,
-        debugShowCheckedModeBanner: false,
-        theme: new ThemeData(
-          useMaterial3: false,
-          appBarTheme: Theme.of(context).appBarTheme,
-          primarySwatch: MaterialColor(0xff1d1a56, color),
-        ),
-        home: storage.read('user_token') == null &&
-                (storage.read('mapUser') != null &&
-                    storage.read('mapUser').length != 0)
-            ? _switchAccountPage
-            : ShowCaseWidget(
-                builder: Builder(
-                  builder: (context) => DashboardScreen(),
+      return GestureDetector(
+        onTap: () {
+          unFocus(context);
+        },
+        child: GetMaterialApp(
+          navigatorKey: ContextUtility.navigatorKey,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
+          locale: context.locale,
+          debugShowCheckedModeBanner: false,
+          theme: lightMode,
+          home: storage.read('user_token') == null &&
+                  (storage.read('mapUser') != null &&
+                      storage.read('mapUser').length != 0)
+              ? _switchAccountPage
+              : ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => DashboardScreen(),
+                  ),
                 ),
-              ),
-        routes: route02,
-        builder: EasyLoading.init(),
+          routes: route02,
+          builder: EasyLoading.init(),
+        ),
       );
     });
   }

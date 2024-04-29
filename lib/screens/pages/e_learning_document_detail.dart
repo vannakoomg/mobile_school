@@ -6,6 +6,7 @@ import 'package:school/models/eLearningCourseDB.dart';
 import 'package:school/repos/e_learning_course.dart';
 import 'package:school/screens/widgets/pdf_api.dart';
 import 'package:school/screens/widgets/pdf_viewer_page.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
@@ -100,11 +101,15 @@ class _ELearningDocumentDetailState extends State<ELearningDocumentDetail> {
           isMoreLoading = false;
         } catch (err) {
           isMoreLoading = false;
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
+            message: "$value",
+            context: context,
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _firstLoad();
+            },
           );
         }
       });
@@ -185,14 +190,5 @@ class _ELearningDocumentDetailState extends State<ELearningDocumentDetail> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _firstLoad();
-        },
-        child: Text("Reload"));
   }
 }

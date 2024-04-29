@@ -13,6 +13,8 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:school/utils/widgets/custom_botton.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/dom.dart' as dom;
@@ -237,13 +239,9 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
             },
             onLinkTap: (String? url, RenderContext context,
                 Map<String, String> attributes, dom.Element? element) {
-              // print(url);
               customLaunch(url);
               //open URL in webview, or launch URL in browser, or any other logic here
             },
-            // onImageTap: (img){
-            //   print('Image $img');
-            // },
             onImageError: (exception, stacktrace) {
               print(exception);
             },
@@ -275,19 +273,11 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
                 color: Color(0xff1d1a56),
                 height: 7.h,
                 width: 100.w,
-                child: ElevatedButton(
-                  onPressed: () {
+                child: CustomButton(
+                  onTap: () {
                     _showImageSourceActionSheet;
                   },
-                  child: Text(
-                    'UPLOAD YOUR RECEIPT',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: SizerUtil.deviceType == DeviceType.tablet
-                            ? 9.sp
-                            : 11.sp),
-                  ),
+                  title: "UPLOAD YOUR RECEIPT",
                 ))
       ],
     );
@@ -374,54 +364,47 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
           ),
         ),
         Container(
-            color: Color(0xff1d1a56),
-            height: 7.h,
-            width: 100.w,
-            child: ElevatedButton(
-              onPressed: () async {
-                setState(() {
-                  _textEditingController.text.isEmpty
-                      ? _validate = true
-                      : _validate = false;
-                });
-                if (_textEditingController.text.isNotEmpty) {
-                  if (_isDisableButton == false) {
-                    setState(() {
-                      _isDisableButton = true;
-                    });
-                    value = {
-                      "qty": 1,
-                      "price_unit": _textEditingController.text,
-                      "price_subtotal": _textEditingController.text,
-                      "price_subtotal_incl": _textEditingController.text,
-                      "product_id": storage.read("product_id"),
-                      "line_id": 1
-                    };
-                    lines.add(value);
-                    String image = await compressAndGetFile(_file!);
-                    _createOrder(
-                        lines: lines,
-                        amountPaid: double.parse(_textEditingController.text),
-                        pickUp: "",
-                        comment: "Top Up",
-                        topUpAmount: double.parse(_textEditingController.text),
-                        statePreOrder: "draft",
-                        imageEncode: image);
-                  }
-                } else {
-                  message(title: "", body: "Please select amount");
+          color: Color(0xff1d1a56),
+          height: 7.h,
+          width: 100.w,
+          child: CustomButton(
+            onTap: () async {
+              setState(() {
+                _textEditingController.text.isEmpty
+                    ? _validate = true
+                    : _validate = false;
+              });
+              if (_textEditingController.text.isNotEmpty) {
+                if (_isDisableButton == false) {
+                  setState(() {
+                    _isDisableButton = true;
+                  });
+                  value = {
+                    "qty": 1,
+                    "price_unit": _textEditingController.text,
+                    "price_subtotal": _textEditingController.text,
+                    "price_subtotal_incl": _textEditingController.text,
+                    "product_id": storage.read("product_id"),
+                    "line_id": 1
+                  };
+                  lines.add(value);
+                  String image = await compressAndGetFile(_file!);
+                  _createOrder(
+                      lines: lines,
+                      amountPaid: double.parse(_textEditingController.text),
+                      pickUp: "",
+                      comment: "Top Up",
+                      topUpAmount: double.parse(_textEditingController.text),
+                      statePreOrder: "draft",
+                      imageEncode: image);
                 }
-              },
-              child: Text(
-                'SUBMIT',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: SizerUtil.deviceType == DeviceType.tablet
-                        ? 9.sp
-                        : 11.sp),
-              ),
-            )),
+              } else {
+                message(title: "", body: "Please select amount");
+              }
+            },
+            title: "SUBMIT",
+          ),
+        ),
       ],
     );
   }
@@ -643,11 +626,16 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
             _isDisableButton = false;
           });
           EasyLoading.dismiss();
-          Get.defaultDialog(
+
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
+            message: "$value",
+            context: context,
             barrierDismissible: true,
-            confirm: reloadBtn(),
+            ontap: () {
+              Get.back();
+              Navigator.of(context).pop();
+            },
           );
         }
       });
@@ -662,26 +650,18 @@ class _TopUpState extends State<TopUp> with TickerProviderStateMixin {
 
           // isLoading = true;
         } catch (err) {
-          print("err=$err");
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Oops!",
-            middleText: "Something went wrong.\nPlease try again later.",
-            barrierDismissible: false,
-            confirm: reloadBtn(),
+            message: "Something went wrong.\nPlease try again later.",
+            context: context,
+            ontap: () {
+              Get.back();
+              Navigator.of(context).pop();
+            },
           );
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          Navigator.of(context).pop();
-          // _fetchPos();
-        },
-        child: Text("OK"));
   }
 
   Future<String> compressAndGetFile(File file) async {

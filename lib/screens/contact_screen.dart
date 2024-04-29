@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:school/config/app_colors.dart';
 import 'package:school/models/contact_list.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,7 +38,9 @@ class _ContactScreenState extends State<ContactScreen>
         title: Text("Contact Us"),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
+          indicatorColor: AppColor.primaryColor,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey,
           tabs: [
             Tab(
               text: "Main Campus",
@@ -67,14 +70,17 @@ class _ContactScreenState extends State<ContactScreen>
       child: ListView.builder(
           itemCount: mainCampusList.length,
           itemBuilder: (BuildContext context, int index) {
-            return Card(
-              margin: EdgeInsets.all(5),
-              elevation: 5,
+            return Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  // color: Color.fromARGB(255, 164, 200, 250),
+                  border: Border.all(color: AppColor.primaryColor, width: 0.5)),
+              margin: EdgeInsets.only(left: 10, right: 10, top: 10),
               child: ListTile(
                 leading: Image.asset(
                   mainCampusList[index].img,
-                  height: 40,
-                  width: 40,
+                  height: 35,
+                  width: 35,
                 ),
                 title: Text(mainCampusList[index].title,
                     style: myTextStyleBody[phoneSize]),

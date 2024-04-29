@@ -6,6 +6,7 @@ import 'package:school/models/AnnouncementDetailDB.dart';
 import 'package:school/modules/announcement/controller/announcement_controller.dart';
 import 'package:school/repos/announcement_detail.dart';
 import 'package:school/config/theme/theme.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -43,24 +44,18 @@ class _AnnouncementHtmlState extends State<AnnouncementHtml> {
           _announcementDetail = value.data;
           isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "${value}",
+              context: context,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchAnnouncementDetail(_item);
+              });
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchAnnouncementDetail(_item);
-        },
-        child: Text("Reload"));
   }
 
   get _buildBody1 {

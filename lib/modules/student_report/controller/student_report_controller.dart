@@ -75,6 +75,7 @@ class StudentController extends GetxController {
             term.value = summayReport.value.data!.kh!.length;
           }
         }
+        debugPrint("term ${term.value}");
         allTerm.value = term.value;
         for (int i = 0; i < term.value; ++i) {
           items.add(

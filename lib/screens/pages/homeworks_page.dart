@@ -5,6 +5,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/AssignmentListDB.dart';
 import '../../repos/assignment_list.dart';
@@ -269,11 +270,16 @@ class _HomeworksPageState extends State<HomeworksPage>
           storage.write('assignment_badge', _emptyAssigned + _emptyMissing);
           isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
+            message: "$value",
+            context: context,
             barrierDismissible: true,
-            confirm: reloadBtn(),
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _fetchAssignment();
+            },
           );
         }
       });
@@ -285,14 +291,5 @@ class _HomeworksPageState extends State<HomeworksPage>
     if (mounted) {
       super.setState(fn);
     }
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchAssignment();
-        },
-        child: Text("Reload"));
   }
 }

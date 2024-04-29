@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:open_document/open_document.dart';
 import 'package:open_document/open_document_exception.dart';
 import 'package:school/screens/pages/panel_wiget.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -127,12 +128,16 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage>
           _recAssignedAttachment.addAll(value.attachments);
           isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "$value",
+              context: context,
+              barrierDismissible: true,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchAssignmentDetail('$_assignmentId');
+              });
         }
       });
     });
@@ -151,15 +156,6 @@ class _HomeworkDetailPageState extends State<HomeworkDetailPage>
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchAssignmentDetail('$_assignmentId');
-        },
-        child: Text("Reload"));
   }
 
   get _buildTitle {

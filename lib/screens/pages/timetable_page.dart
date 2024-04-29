@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/models/TimetableDB.dart';
 import 'package:school/repos/timetable.dart';
 import 'package:school/config/theme/theme.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 class TimetablePage extends StatefulWidget {
@@ -901,12 +902,17 @@ class _TimetablePageState extends State<TimetablePage>
 
           // isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "${value}",
+              context: context,
+              barrierDismissible: true,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchTimetableOdd();
+                _fetchTimetableEven();
+              });
         }
       });
     });
@@ -929,27 +935,8 @@ class _TimetablePageState extends State<TimetablePage>
             _isShift = false;
 
           isLoading = true;
-        } catch (err) {
-          // Get.defaultDialog(
-          //   title: "Error",
-          //   middleText: "$value",
-          //   barrierDismissible: true,
-          //   confirm: reloadBtn(),
-          // );
-        }
+        } catch (err) {}
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return Container(
-      child: ElevatedButton(
-          onPressed: () {
-            Get.back();
-            _fetchTimetableOdd();
-            _fetchTimetableEven();
-          },
-          child: Text("Reload")),
-    );
   }
 }

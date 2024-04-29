@@ -2,9 +2,15 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:school/config/url.dart';
 import 'package:school/repos/aba.dart';
+
+Future unFocus(BuildContext context) async {
+  final FocusScopeNode currentFocus = FocusScope.of(context);
+  if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+    FocusManager.instance.primaryFocus!.unfocus();
+  }
+}
 
 void tracking(
     {String? menuName = '', String campus = '', String userName = ""}) async {

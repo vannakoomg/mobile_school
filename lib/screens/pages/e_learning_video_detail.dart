@@ -8,6 +8,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/widgets/custom_dialog.dart';
+
 class ELearningVideoDetail extends StatefulWidget {
   final String name, url, id;
   const ELearningVideoDetail(
@@ -244,11 +246,15 @@ class _ELearningVideoDetailState extends State<ELearningVideoDetail> {
           isMoreLoading = false;
         } catch (err) {
           isMoreLoading = false;
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
+            message: "$value",
+            context: context,
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _firstLoad();
+            },
           );
         }
       });
@@ -326,14 +332,5 @@ class _ELearningVideoDetailState extends State<ELearningVideoDetail> {
             Image.asset("assets/icons/login_icon/logo_no_background.png"),
       ),
     );
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _firstLoad();
-        },
-        child: Text("Reload"));
   }
 }

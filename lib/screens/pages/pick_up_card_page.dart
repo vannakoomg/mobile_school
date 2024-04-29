@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart' as str;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:school/repos/collection_card.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
@@ -404,26 +405,21 @@ class _ScanScreenState extends State<ScanScreen> {
           _recData = value.data;
           isLoading = true;
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "$value",
+              context: context,
+              barrierDismissible: true,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchCollectionCard(
+                    userToken:
+                        '${_mapAllUser['${storage.read('isActive')}']['token']}');
+              });
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchCollectionCard(
-              userToken:
-                  '${_mapAllUser['${storage.read('isActive')}']['token']}');
-        },
-        child: Text("Reload"));
   }
 }
 

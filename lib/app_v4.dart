@@ -189,12 +189,6 @@ class _MyAppState extends State<MyApp> {
         print('Success=${value.status}');
       } catch (err) {
         print("err=$err");
-        // Get.defaultDialog(
-        //   title: "Error",
-        //   middleText: "$value",
-        //   barrierDismissible: false,
-        //   confirm: reloadBtn(),
-        // );
       }
     });
 
@@ -324,14 +318,6 @@ class _MyAppState extends State<MyApp> {
       if (data == null) _fetchNotificationCount();
     }
   }
-
-  // Widget reloadBtn() {
-  //   return ElevatedButton(
-  //       onPressed: () {
-  //         Get.back();
-  //       },
-  //       child: Text("OK"));
-  // }
 
   Future<void> initPlatformState() async {
     Map<String, dynamic> deviceData = <String, dynamic>{};

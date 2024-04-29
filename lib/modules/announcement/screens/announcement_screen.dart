@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school/modules/announcement/models/announcment_model.dart';
 import 'package:school/repos/announcement_list.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
@@ -35,24 +36,17 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           isMoreLoading = false;
         } catch (err) {
           isMoreLoading = false;
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "$value",
+              context: context,
+              ontap: () {
+                Get.back();
+                _firstLoad();
+              });
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _firstLoad();
-        },
-        child: Text("Reload"));
   }
 
   @override

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
+import 'package:school/utils/widgets/custom_botton_auth.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../repos/exam_schedule.dart';
@@ -154,20 +156,17 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 horizontal:
                     SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40,
                 vertical: 10),
-            child: ElevatedButton(
-              onPressed: () {
+            child: CustomBottonAuth(
+              ontap: () {
                 for (dynamic type in _mapUser.keys) {
                   if (emailController.text.toUpperCase().trim() == type) {
-                    Get.defaultDialog(
-                      title: "",
-                      middleText: "User already logged in!",
-                      barrierDismissible: false,
-                      confirm: reloadBtn(),
-                    );
+                    CustomDialog.info(
+                        title: "User",
+                        message: "User already logged in!",
+                        context: context);
                     return;
                   }
                 }
-                // _displayTextInputDialog(context);
                 if (_isDisableButton == false) {
                   setState(() {
                     _isDisableButton = true;
@@ -175,35 +174,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                   _login();
                 }
               },
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                padding:
-                    MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  // side: BorderSide(color: Colors.red)
-                )),
-              ),
-              child: Container(
-                alignment: Alignment.center,
-                height: SizerUtil.deviceType == DeviceType.tablet ? 60.0 : 50.0,
-                width: 100.w,
-                decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    gradient: new LinearGradient(
-                      colors: [Color(0xff1a237e), Colors.lightBlueAccent],
-                    )),
-                padding: const EdgeInsets.all(0),
-                child: Text(
-                  "LOGIN",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 18 : 14),
-                ),
-              ),
+              title: "LOGIN",
             ),
           ),
         ],
@@ -224,17 +195,6 @@ class _AddAccountPageState extends State<AddAccountPage> {
         _fetchProfile(apiKey: '${value.data.token}').then((value) {
           _fetchExamScheduleCount();
         });
-        // .then((value) => {
-        // storage.write('name', value.data.data[0].name),
-        // storage.write('campus', value.data.data[0].campus),
-        //       debugPrint(
-        //           "data after login02 ${value.data.data[0].campus} "),
-        //     })
-        // .then((value) => {
-        //       EasyLoading.dismiss(),
-        //       debugPrint(
-        //           "data after login ${storage.read('name')} , ${storage.read('campus')}"),
-        //     });
         print('Success=${value.status}');
       } catch (err) {
         EasyLoading.dismiss();
@@ -243,11 +203,10 @@ class _AddAccountPageState extends State<AddAccountPage> {
         });
         value =
             value == 'Unauthorized' ? 'Username/Password is incorrect!' : value;
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
-          barrierDismissible: false,
-          confirm: reloadBtn(),
+          message: "${value}",
+          context: context,
         );
       }
     });
@@ -291,22 +250,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
           EasyLoading.showSuccess('Logged in successfully!');
           EasyLoading.dismiss();
         } catch (err) {
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: false,
-            confirm: reloadBtn(),
+            message: "${value}",
+            context: context,
           );
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("OK"));
   }
 }

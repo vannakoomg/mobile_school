@@ -6,6 +6,7 @@ import 'package:school/repos/feedback_category.dart';
 import 'package:school/repos/feedback_list.dart';
 import 'package:school/screens/pages/feedback_detail.dart';
 import 'package:school/screens/pages/feedback_send.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:school/config/theme/theme.dart';
 import 'package:sizer/sizer.dart';
@@ -39,11 +40,17 @@ class _FeedbackPageState extends State<FeedbackPage> {
           isMoreLoading = false;
         } catch (err) {
           isMoreLoading = false;
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
+          CustomDialog.error(
             barrierDismissible: true,
-            confirm: reloadBtn(),
+            title: "Error",
+            message: "$value",
+            context: context,
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _firstLoad();
+              _fetchFeedbackCategory();
+            },
           );
         }
       });
@@ -70,16 +77,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
         _firstLoad();
       });
     }
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _firstLoad();
-          _fetchFeedbackCategory();
-        },
-        child: Text("Reload"));
   }
 
   @override

@@ -144,25 +144,13 @@
 //           // print("value.data.list=${value.data.list}");
 //           _eLearningCourseList.addAll(value.data.list);
 //         } catch (err) {
-//           Get.defaultDialog(
-//             title: "Error",
-//             middleText: "$value",
-//             barrierDismissible: false,
-//             confirm: reloadBtn(),
-//           );
+
 //         }
 //       });
 //     });
 //   }
 //
-//   Widget reloadBtn() {
-//     return ElevatedButton(
-//         onPressed: () {
-//           Get.back();
-//           _fetchELearningCourse();
-//         },
-//         child: Text("Reload"));
-//   }
+
 //
 //   _buildListView(List<ListElement> items) {
 //     return ListView.builder(

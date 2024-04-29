@@ -14,6 +14,8 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:open_document/my_files/init.dart';
 import 'package:school/repos/assignment_remove_file.dart';
+import 'package:school/utils/widgets/custom_botton_auth.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -111,42 +113,19 @@ class _PanelWidgetState extends State<PanelWidget> {
 
   Widget uploadButton() {
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
           horizontal: SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 10,
           vertical: 10),
-      child: ElevatedButton(
-        onPressed: () {
-          _assignmentTextSubmit(
-              answer: _textEditingController.text,
-              resultId: '${_recAssignedDetail.mResult.id}');
-        },
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          )),
-        ),
-        child: Container(
-          alignment: Alignment.center,
-          height: SizerUtil.deviceType == DeviceType.tablet ? 60.0 : 50.0,
-          width: 100.w,
-          decoration: new BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              gradient: new LinearGradient(
-                colors: [Color(0xff1a237e), Colors.lightBlueAccent],
-              )),
-          padding: const EdgeInsets.all(0),
-          child: Text(
+      child: CustomBottonAuth(
+        title:
             _recAssignedDetail.mResult.turnedin == "1" ? 'RESUBMIT' : "SUBMIT",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 18 : 14),
-          ),
-        ),
+        ontap: () {
+          _assignmentTextSubmit(
+            answer: _textEditingController.text,
+            resultId: '${_recAssignedDetail.mResult.id}',
+          );
+        },
       ),
     );
   }
@@ -403,11 +382,12 @@ class _PanelWidgetState extends State<PanelWidget> {
         EasyLoading.dismiss();
       } catch (err) {
         EasyLoading.dismiss();
-        Get.defaultDialog(
+
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
+          message: "$value",
+          context: context,
           barrierDismissible: true,
-          confirm: reloadBtn(),
         );
       }
     });
@@ -430,11 +410,11 @@ class _PanelWidgetState extends State<PanelWidget> {
         //   _isDisableButton = false;
         // });
         EasyLoading.dismiss();
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
+          message: "$value",
+          context: context,
           barrierDismissible: true,
-          confirm: reloadBtn(),
         );
       }
     });
@@ -462,22 +442,14 @@ class _PanelWidgetState extends State<PanelWidget> {
         EasyLoading.dismiss();
       } catch (err) {
         EasyLoading.dismiss();
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
+          message: "$value",
+          context: context,
           barrierDismissible: true,
-          confirm: reloadBtn(),
         );
       }
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("OK"));
   }
 
   void _onClickImageGallery() async {

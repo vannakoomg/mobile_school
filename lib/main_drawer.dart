@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -508,11 +509,10 @@ class _MainDrawerState extends State<MainDrawer> {
           });
         }
       } catch (err) {
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
-          barrierDismissible: false,
-          confirm: reloadBtn(),
+          message: "$value",
+          context: context,
         );
       }
     });
@@ -520,17 +520,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   void dispose() {
-    // print("disposedispose");
-    // Navigator.pop(context);
     super.dispose();
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("OK"));
   }
 
   Widget get _spaceHeight => const SizedBox(height: 10);

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:school/models/eLearningSubjectDB.dart';
 import 'package:school/repos/e_learning_subject.dart';
 import 'package:school/screens/pages/e_learning_video_detail.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'e_learning_document_detail.dart';
 
@@ -186,23 +187,18 @@ class _ELearningSubjectPageState extends State<ELearningSubjectPage> {
         try {
           _eLearningSubjectList.addAll(value.data);
         } catch (err) {
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
+            message: "$value",
+            context: context,
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _fetchELearningSubject();
+            },
           );
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchELearningSubject();
-        },
-        child: Text("Reload"));
   }
 }

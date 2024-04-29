@@ -4,4 +4,8 @@ extension AppColor on Color {
   static var primaryColor = Color(0xff1d1a56);
   static var mainColor = Colors.white;
   static var backgroundColor = Color.fromARGB(255, 234, 234, 234);
+  static var error = Color.fromARGB(255, 188, 21, 26);
+  static var wanring = Color.fromARGB(255, 225, 158, 57);
+  static var success = Color(0xff538d22);
+  static var info = Color(0xff0096c7);
 }

@@ -8,6 +8,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:school/screens/pages/pos_cart_page.dart';
+import 'package:school/utils/widgets/custom_botton.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -111,11 +112,8 @@ class _PosOrderState extends State<PosOrder> with TickerProviderStateMixin {
       height: 10.h,
       // padding: EdgeInsets.only(top: 30, bottom: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10),
-            topLeft: Radius.circular(10),
-          )),
+        color: Colors.grey.shade300,
+      ),
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Row(
@@ -126,33 +124,28 @@ class _PosOrderState extends State<PosOrder> with TickerProviderStateMixin {
               style: myTextStyleHeader[phoneSize],
             ),
             Container(
-              height: 8.h,
+              height: 7.h,
               width: 50.w,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 8.0,
-                    backgroundColor: Colors.white,
-                  ),
-                  onPressed: () {
-                    List<Map<String, dynamic>> _itemSelected = [];
-                    _recPosData.forEach((element) {
-                      var items = element.list
-                          .where((item) => item.amount > 0)
-                          .toList();
-                      items.forEach((element) {
-                        _itemSelected.add({
-                          'id': element.id,
-                          'name': element.name,
-                          'lst_price': element.lstPrice,
-                          'image': element.image,
-                          'amount': element.amount
-                        });
+              child: CustomButton(
+                onTap: () {
+                  List<Map<String, dynamic>> _itemSelected = [];
+                  _recPosData.forEach((element) {
+                    var items =
+                        element.list.where((item) => item.amount > 0).toList();
+                    items.forEach((element) {
+                      _itemSelected.add({
+                        'id': element.id,
+                        'name': element.name,
+                        'lst_price': element.lstPrice,
+                        'image': element.image,
+                        'amount': element.amount
                       });
                     });
-                    handleReturnData(itemSelected: _itemSelected);
-                  },
-                  child: Text("ADD TO CART : \$${f.format(subTotal)}",
-                      style: myTextStyleHeader[phoneSize])),
+                  });
+                  handleReturnData(itemSelected: _itemSelected);
+                },
+                title: "ADD TO CART : \$${f.format(subTotal)}",
+              ),
             ),
           ],
         ),
@@ -345,8 +338,7 @@ class _PosOrderState extends State<PosOrder> with TickerProviderStateMixin {
   Widget _addButton(item) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          elevation: 8.0,
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff0077b6),
           shape: CircleBorder(),
         ),
         onPressed: () {
@@ -358,7 +350,8 @@ class _PosOrderState extends State<PosOrder> with TickerProviderStateMixin {
         },
         child: Icon(
           Icons.add,
-          color: Color(0xff1d1a56),
+          color: Colors.white,
+          // color: Color(0xff1d1a56),
         ));
   }
 
@@ -394,45 +387,48 @@ class _PosOrderState extends State<PosOrder> with TickerProviderStateMixin {
             content: SingleChildScrollView(
               child: InteractiveViewer(
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
                   width: 85.w,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          height: 4.h,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          // padding: EdgeInsets.only(bottom: 10, top: 10),
+                          height: 5.5.h,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(''),
-                              Center(
-                                  child: Text('     Instructions',
-                                      style: myTextStyleHeader[phoneSize])),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: CircleAvatar(
-                                    key: const Key('closeIconKey'),
-                                    radius: 15,
-                                    backgroundColor: Colors.white,
-                                    child: Icon(
-                                      Icons.close,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              )
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.transparent,
+                                  )),
+                              Text(
+                                'Instructions',
+                                style: myTextStyleHeader[phoneSize],
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(
+                                    Icons.close,
+                                  ))
                             ],
                           )),
-                      new Divider(
-                        color: Colors.grey.shade700,
+                      Container(
+                        height: 0.5,
+                        width: double.infinity,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       Container(
-                        // padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(10),
                         child: Html(
                           data: storage.read("pre_order_instruction"),
                           tagsList: Html.tags,

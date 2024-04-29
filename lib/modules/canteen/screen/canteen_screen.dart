@@ -14,6 +14,7 @@ import 'package:school/modules/canteen/controller/canteen_controller.dart';
 import 'package:school/modules/canteen/screen/style_card.dart';
 import 'package:school/modules/canteen/widget/loading_canteen.dart';
 import 'package:school/utils/function/function.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../../../models/PosUserDB.dart';
 import '../../../models/menu_icon_list.dart';
@@ -619,23 +620,17 @@ class _CanteenScreenState extends State<CanteenScreen>
         });
       } catch (err) {
         print("err=$err");
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Oops!",
-          middleText: "Something went wrong.\nPlease try again later.",
-          barrierDismissible: false,
-          confirm: reloadBtn(),
+          message: "Something went wrong.\nPlease try again later.",
+          context: context,
+          ontap: () {
+            Get.back();
+            Navigator.of(context).pop();
+          },
         );
       }
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          Navigator.of(context).pop();
-        },
-        child: Text("OK"));
   }
 
   void message({required String title, required String body}) {

@@ -10,6 +10,8 @@ import 'package:school/models/ProfileDB.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/screens/pages/switch_account.dart';
+import 'package:school/utils/widgets/custom_botton_auth.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../repos/change_password.dart';
 import '../utils/function/function.dart';
@@ -113,12 +115,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           //print("_mapUser=${storage.read('mapUser')}");
           // print("_isPassword=${storage.read('isPassword')}");
         } catch (err) {
-          print("value=$value");
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: false,
-            confirm: reloadBtn(value),
+            message: "${value}",
+            context: context,
+            ontap: () {
+              if (value == 'Unauthenticated.') {
+                _removeUser;
+                Get.offAll(() => SwitchAccountPage(),
+                    arguments: 'Unauthenticated.');
+              } else {
+                Get.back();
+              }
+            },
           );
         }
       });
@@ -434,58 +443,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 3.h),
               Container(
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.symmetric(
-                    horizontal:
-                        SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40,
-                    vertical: 10),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_isDisableButton == false) {
-                      setState(() {
-                        _isDisableButton = true;
-                      });
-                      _login();
-                    }
-                  },
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.all(0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      // side: BorderSide(color: Colors.red)
-                    )),
-                  ),
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(15.0)),
-                  // textColor: Colors.white,
-                  // padding: const EdgeInsets.all(0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height:
-                        SizerUtil.deviceType == DeviceType.tablet ? 60.0 : 50.0,
-                    width: 100.w,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        gradient: new LinearGradient(
-                          colors: [Color(0xff1a237e), Colors.lightBlueAccent],
-                        )),
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "LOGIN",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 18
-                              : 14),
-                    ),
-                  ),
-                ),
-              ),
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.symmetric(
+                      horizontal: SizerUtil.deviceType == DeviceType.tablet
+                          ? 30.sp
+                          : 40,
+                      vertical: 10),
+                  child: CustomBottonAuth(
+                    ontap: () {
+                      if (_isDisableButton == false) {
+                        setState(() {
+                          _isDisableButton = true;
+                        });
+                        _login();
+                      }
+                    },
+                    title: "LOGIN",
+                  )),
             ],
           ),
         ),
@@ -514,7 +488,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         EasyLoading.showSuccess('Logged in successfully!');
         EasyLoading.dismiss();
         setState(() {
-          //storage.write('isUsername', emailController.text.trim());
           storage.write('isPassword', passwordController.text.trim());
           storage.write('user_token', value.data.token);
           _fetchProfile(apiKey: value.data.token);
@@ -527,11 +500,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
         value =
             value == 'Unauthorized' ? 'Username/Password is incorrect!' : value;
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
-          barrierDismissible: false,
-          confirm: reloadBtn(value),
+          bottonTitle: "Try again",
+          message: value,
+          context: context,
         );
       }
     });
@@ -578,11 +551,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
         value =
             value == 'Unauthorized' ? 'Username/Password is incorrect!' : value;
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
-          barrierDismissible: false,
-          confirm: reloadBtn(value),
+          message: "${value}",
+          context: context,
+          ontap: () {
+            if (value == 'Unauthenticated.') {
+              _removeUser;
+              Get.offAll(() => SwitchAccountPage(),
+                  arguments: 'Unauthenticated.');
+            } else {
+              Get.back();
+            }
+          },
         );
       }
     });
@@ -723,8 +704,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     horizontal:
                         SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40,
                     vertical: 10),
-                child: ElevatedButton(
-                  onPressed: () {
+                child: CustomBottonAuth(
+                  ontap: () {
                     if (formKey.currentState!.validate()) {
                       print("Validation");
                       if (_isDisableButton == false) {
@@ -735,42 +716,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     }
                   },
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.all(0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      // side: BorderSide(color: Colors.red)
-                    )),
-                  ),
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(15.0)),
-                  // textColor: Colors.white,
-                  // padding: const EdgeInsets.all(0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height:
-                        SizerUtil.deviceType == DeviceType.tablet ? 60.0 : 50.0,
-                    width: 60.w,
-                    decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        gradient: new LinearGradient(
-                          colors: [Color(0xff1a237e), Colors.lightBlueAccent],
-                        )),
-                    padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "CHANGE PASSWORD",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: SizerUtil.deviceType == DeviceType.tablet
-                              ? 18
-                              : 14),
-                    ),
-                  ),
+                  title: "CHANGE PASSWORDdfd",
                 ),
               ),
             ],
@@ -780,23 +726,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ));
   }
 
-  Widget reloadBtn(String message) {
-    return ElevatedButton(
-        onPressed: () {
-          if (message == 'Unauthenticated.') {
-            _removeUser;
-            Get.offAll(() => SwitchAccountPage(),
-                arguments: 'Unauthenticated.');
-          } else {
-            Get.back();
-          }
-        },
-        child: Text("OK"));
-  }
-
   get _removeUser {
     _mapUser = storage.read('mapUser');
-    // print("_mapUser.length=${_mapUser.length}");
     if (_mapUser.length >= 1) {
       for (dynamic type in _mapUser.keys) {
         if (type == storage.read('isActive')) {

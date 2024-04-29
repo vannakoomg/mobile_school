@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/login.dart';
 import 'package:school/repos/profile_detail.dart';
 import 'package:school/utils/function/function.dart';
+import 'package:school/utils/widgets/custom_botton_auth.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -143,55 +145,22 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(height: 3.h),
           Container(
-            alignment: Alignment.centerRight,
-            margin: EdgeInsets.symmetric(
-                horizontal:
-                    SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40,
-                vertical: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                if (_isDisableButton == false) {
-                  setState(() {
-                    _isDisableButton = true;
-                  });
-                  _login();
-                }
-              },
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                padding:
-                    MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  // side: BorderSide(color: Colors.red)
-                )),
-              ),
-              // shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(15.0)),
-              // textColor: Colors.white,
-              // padding: const EdgeInsets.all(0),
-              child: Container(
-                alignment: Alignment.center,
-                height: SizerUtil.deviceType == DeviceType.tablet ? 60.0 : 50.0,
-                width: 100.w,
-                decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    gradient: new LinearGradient(
-                      colors: [Color(0xff1a237e), Colors.lightBlueAccent],
-                    )),
-                padding: const EdgeInsets.all(0),
-                child: Text(
-                  "LOGIN",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize:
-                          SizerUtil.deviceType == DeviceType.tablet ? 18 : 14),
-                ),
-              ),
-            ),
-          ),
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.symmetric(
+                  horizontal:
+                      SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40,
+                  vertical: 10),
+              child: CustomBottonAuth(
+                ontap: () {
+                  if (_isDisableButton == false) {
+                    setState(() {
+                      _isDisableButton = true;
+                    });
+                    _login();
+                  }
+                },
+                title: "LOGIN",
+              )),
         ],
       ),
     );
@@ -236,11 +205,10 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         value =
             value == 'Unauthorized' ? 'Username/Password is incorrect!' : value;
-        Get.defaultDialog(
+        CustomDialog.error(
           title: "Error",
-          middleText: "$value",
-          barrierDismissible: false,
-          confirm: reloadBtn(),
+          message: value,
+          context: context,
         );
       }
     });
@@ -276,12 +244,4 @@ class _LoginScreenState extends State<LoginScreen> {
   //     },
   //   );
   // }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("OK"));
-  }
 }

@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../utils/widgets/blank_screen.dart';
+import '../../utils/widgets/custom_dialog.dart';
 
 class ExamSchedulePage extends StatefulWidget {
   const ExamSchedulePage({Key? key}) : super(key: key);
@@ -59,24 +60,19 @@ class _ExamSchedulePageState extends State<ExamSchedulePage> {
           isMoreLoading = false;
         } catch (err) {
           isMoreLoading = false;
-          Get.defaultDialog(
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
+            message: "$value",
+            context: context,
+            bottonTitle: "Reload",
+            ontap: () {
+              Get.back();
+              _firstLoad();
+            },
           );
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _firstLoad();
-        },
-        child: Text("Reload"));
   }
 
   @override

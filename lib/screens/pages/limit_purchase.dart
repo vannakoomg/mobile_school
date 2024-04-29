@@ -7,9 +7,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:school/repos/pos_set_purchase_limit.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../config/theme/theme.dart';
+import '../../utils/widgets/custom_botton.dart';
 
 class LimitPurchase extends StatefulWidget {
   const LimitPurchase({Key? key}) : super(key: key);
@@ -155,27 +157,21 @@ class _LimitPurchaseState extends State<LimitPurchase> {
             ),
           ),
           Container(
-              color: Color(0xff1d1a56),
+              // padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              color: Colors.transparent,
               height: 7.h,
               width: 100.w,
-              child: ElevatedButton(
-                onPressed: () {
+              child: CustomButton(
+                radius: 0,
+                onTap: () {
+                  debugPrint("khmer  sl khmer ");
                   var value = _textEditingController.text.isNotEmpty
                       ? double.parse(_textEditingController.text)
                       : 0.0;
-                  // print("value=$value");
                   if (!_isDisableButton)
                     _setPurchaseLimit(purchaseLimit: value);
-                  // if(_isDisableButton == false){
-                  //   setState(() {
-                  //     _isDisableButton = true;
-                  //   });
-                  //   var value = _textEditingController.text.isNotEmpty ? double.parse(_textEditingController.text) : 0.0;
-                  //   print("value=$value");
-                  //   // _setPurchaseLimit(purchaseLimit: value);
-                  // }
                 },
-                child: Text('SAVE'),
+                title: "SAVE",
               ))
         ],
       ),
@@ -202,22 +198,15 @@ class _LimitPurchaseState extends State<LimitPurchase> {
             _isDisableButton = false;
           });
           EasyLoading.dismiss();
-          Get.defaultDialog(
+
+          CustomDialog.error(
             title: "Error",
-            middleText: "$value",
+            message: "$value",
+            context: context,
             barrierDismissible: true,
-            confirm: reloadBtn(),
           );
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("OK"));
   }
 }

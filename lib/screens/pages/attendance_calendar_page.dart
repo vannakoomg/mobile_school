@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:get/get.dart';
 import 'package:school/repos/calendar_attendance.dart';
+import 'package:school/utils/widgets/custom_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../models/CalendarAttendanceDB.dart';
@@ -232,12 +233,16 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             datasets.addAll({DateTime.parse(_format.format(element.date)): 3});
           });
         } catch (err) {
-          Get.defaultDialog(
-            title: "Error",
-            middleText: "$value",
-            barrierDismissible: true,
-            confirm: reloadBtn(),
-          );
+          CustomDialog.error(
+              title: "Error",
+              message: "${value}",
+              context: context,
+              bottonTitle: "Reload",
+              ontap: () {
+                Get.back();
+                _fetchCalendarAttendance(
+                    month: '${now.month}', year: '${now.year}');
+              });
         }
       });
     });
@@ -259,15 +264,6 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         }
       });
     });
-  }
-
-  Widget reloadBtn() {
-    return ElevatedButton(
-        onPressed: () {
-          Get.back();
-          _fetchCalendarAttendance(month: '${now.month}', year: '${now.year}');
-        },
-        child: Text("Reload"));
   }
 
   void viewCheckInOut(
